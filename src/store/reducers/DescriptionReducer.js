@@ -1,18 +1,18 @@
-import {GET_USERS,GET_DETAILS} from '../types'
+import {GET_DETAILS} from '../types'
 
 const initialState = {
-    users:[],
+    won:[],
     loading:true
 }
 
-export default function listreducer(state = initialState, action){
+export default function Descriptionreducer(state = initialState, action){
 
     switch(action.type){
 
-        case GET_USERS:
+        case GET_DETAILS:
         return {
             ...state,
-            users:action.payload,
+            won:action.payload,
             loading:false
 
         }
