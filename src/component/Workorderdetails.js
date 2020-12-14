@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux'
 import { getDetails } from '../store/actions/WorkorderlistAction'
 import axios from 'axios';
+
 class Workorderdetails extends Component {
   
   state = {
@@ -48,10 +49,21 @@ class Workorderdetails extends Component {
           <div style={{ marginTop: 30, marginLeft: 64 }}>
             Work Order Instructions
                    </div>
-          <div style={{ border: "2px solid #64B9E6", marginTop: 30, marginLeft: 10, width: 350 }}>
+          <div style={{ border: "2px solid #64B9E6", marginTop: 30, marginLeft: 10, width: 350,borderRadius: "7px",fontSize:"15px" }}>
             {this.state.won.instructions_full ? this.state.won.instructions_full[0].instruction : null}
           </div>
         </div>
+        <div style={{ border: "2px solid #64B9E6", marginTop: 30, marginLeft: 10, width: 350 ,flexDirection:"row",borderRadius: "7px",fontSize:"15px"}}>
+        <div style={{height: "1px", paddingLeft: 10}}>
+          {this.state.won.last_status_update?this.state.won.last_status_update.expected_upload_date:null}
+        </div>
+        <div style={{paddingLeft:193}}>
+        {this.state.won.last_status_update?this.state.won.last_status_update.explanation:null}
+
+        </div>
+       
+        </div>
+        
       </div>
     );
   }
