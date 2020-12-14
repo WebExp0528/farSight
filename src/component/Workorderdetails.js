@@ -53,7 +53,7 @@ class Workorderdetails extends Component {
             {this.state.won.instructions_full ? this.state.won.instructions_full[0].instruction : null}
           </div>
         </div>
-        <div style={{ border: "2px solid #64B9E6", marginTop: 30, marginLeft: 10, width: 350 ,flexDirection:"row",borderRadius: "7px",fontSize:"15px"}}>
+        {/* <div style={{ border: "2px solid #64B9E6", marginTop: 30, marginLeft: 10, width: 350 ,flexDirection:"row",borderRadius: "7px",fontSize:"15px"}}>
         <div style={{height: "1px", paddingLeft: 10}}>
           {this.state.won.last_status_update?this.state.won.last_status_update.expected_upload_date:null}
         </div>
@@ -62,7 +62,7 @@ class Workorderdetails extends Component {
 
         </div>
        
-        </div>
+        </div> */}
         
       </div>
     );
