@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:14.5
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -12,7 +12,9 @@ ARG DISABLE_OPENCOLLECTIVE=true
 
 RUN npm config set unsafe-perm true
 
-RUN npm install #--loglevel verbose
+RUN CI=true 
+
+RUN npm install --loglevel verbose
 # If you are building your code for production
 # RUN npm ci --only=production
 
