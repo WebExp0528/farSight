@@ -38,30 +38,30 @@ class Workorderlist extends Component {
             <div style={{ marginLeft: 30 }}>
               <h6>Welcome, Bob Burger</h6>
             </div>
-            <div class="form-group has-search" style={{ backgroundColor: "#DAF2FF", height: 86, marginTop: 10, width: 320 }}>
+            <div class="form-group has-search" style={{ backgroundColor: "#DAF2FF", height: 86, marginTop: 10, width: 367, marginLeft: -34, borderRadius: 5 }}>
               <span class="fa fa-search form-control-feedback"></span>
               <input type="text" class="form-control" placeholder="Search Work Orders" value={filter} onChange={this.handleChange} />
-            </div>          <h6 style={{ marginTop: 20, marginLeft: 10 }}>Work Orders</h6>
-            <span style={{ fontSize: 10, marginLeft: 10 }}>Select a work order to view details</span>
+            </div>          <h6 style={{ marginTop: 20, marginLeft: -30 }}>Work Orders</h6>
+            <span style={{ fontSize: 10, marginLeft: -30 }}>Select a work order to view details</span>
 
             {/* <Link to="/Workorderdetails" >Go to product</Link> */}
             {filteredData.map(item =>
               <div className="card">
                 <div className="card-body">
-                  <div style={{ height: 115, width: 300, border: '2px solid black', borderRadius: "7px", margin: 10 }} ><br />
+                  <div style={{ height: 100, width: 300, border: '2px solid black', borderRadius: "7px", margin: 10, width: 362, marginLeft: -30, }} ><br />
                     <div style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                       <div style={{ height: "1px", paddingLeft: 10 }}>
-                        <img src={item.image_url_small} width="100" height="80" />
+                        <img src={item.image_url_small} width="100" height="100" />
                       </div>
                       <div key={item.won}>
                         <Link to={'/Workorderdetails/' + item.won}>
                           <div>
-                            <h5 className="card-body" style={{ color: "black", paddingLeft: 130, fontSize: 15 }}>WO#{item.won}</h5>
-                            <h5 className="card-body" style={{ color: "#64B9E6", paddingLeft: 130, fontSize: 15 }}>{item.address_city}</h5>
+                            <h5 className="card-body" style={{ color: "black", paddingLeft: 162, fontSize: 15, marginTop: -17 }}>WO#{item.won}</h5>
+                            <h5 className="card-body" style={{ color: "#64B9E6", paddingLeft: 162, fontSize: 15 }}>{item.address_city}</h5>
                             {/* </Link> */}
-                            <h5 className="card-title" style={{ color: "#64B9E6", paddingLeft: 130, fontSize: 15 }}>{item.address_state}</h5>
-                            <h5 className="card-title" style={{ color: "black", paddingLeft: 130, fontSize: 15 }}>{item.work_ordered}</h5>
-                            <h5 className="card-title" style={{ color: "black", paddingLeft: 130, fontSize: 13 }}>{item.due_date}(On Time)</h5>
+                            <h5 className="card-title" style={{ color: "#64B9E6", paddingLeft: 162, fontSize: 15 }}>{item.address_state}</h5>
+                            <h5 className="card-title" style={{ color: "black", paddingLeft: 162, fontSize: 15 }}>{item.work_ordered}</h5>
+                            <h5 className="card-title" style={{ color: "black", paddingLeft: 162, fontSize: 13 }}>{item.due_date}(On Time)</h5>
                           </div>
                         </Link>
                       </div>
