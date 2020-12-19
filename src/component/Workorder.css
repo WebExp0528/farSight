@@ -6,15 +6,19 @@
 .has-search .form-control {
     padding-left: 5.375rem;
     height: 30px;
-    width :358px;
+    width :344px;
     margin-top: 30px;
     border-radius: 7px;
+    background-color: #EEF0F2;
+
 }
 
 .has-search .form-control-feedback {
     position: absolute;
     z-index: 2;
     display: block;
+    background-color: "#EEF0F2";
+
     width: 2.375rem;
     height: 2.375rem;
     line-height: 2.375rem;
