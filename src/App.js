@@ -9,6 +9,8 @@ import Workorderlist from './component/Workorderlist';
 import Workorderdetails from './component/Workorderdetails';
 import Createstatuscreen from './component/Createstatusscreen';
 import Navigation from './Navigationbar/Navigation'
+import StatusScreen from './component/StatusScreen'
+
 
 class App extends Component {
   render() {
@@ -24,6 +26,8 @@ class App extends Component {
             <Route path="/Workorderdetails/:won" component={Workorderdetails} />
             
             <Route path="/Createstatuscreen" component={Createstatuscreen} />
+            <Route path="/StatusScreen" component={StatusScreen} />
+
 
           </Switch>
         </Router>

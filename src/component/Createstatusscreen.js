@@ -6,18 +6,17 @@ import axios from 'axios';
 
 
 
-class Createstatusscreen extends React.Component {
+class Createstatusscreen extends Component {
     constructor() {
-        super()
-
+        super();
         this.state = {
             won: {},
             isOpen: false,
             statusdata: {
-                delay_reason: null,
-                expected_upload_date: null,
-                explanation: null,
-                order_status: null
+                delay_reason:null,
+                expected_upload_date:null,
+                explanation:null,
+                order_status:null
             }
         }
     }
@@ -50,7 +49,7 @@ class Createstatusscreen extends React.Component {
     //     console.log("dcc")
 
     // }
-    savestatus() {
+    savestatus =() => {
         // const {delay_reason,expected_upload_date,explanation,order_status} = this.state;
 
 
@@ -111,31 +110,38 @@ class Createstatusscreen extends React.Component {
                             <input type="date"
                                 style={{ marginTop: 4, height: 30, border: "2px solid #64B9E6", borderRadius: "5px" }}
                                 type="text"
-
-                                onChange={(event) => { this.setState({ delay_reason: event.target.value }) }}
+                                value={this.state.statusdata.delay_reason}
+                                name="delay_reason"
+                                onChange={(data) => { this.setState({ delay_reason: data.target.value }) }}
                             /><br />
                             <input
                                 type="text"
                                 style={{ marginTop: 30, height: 30, border: "2px solid #64B9E6", borderRadius: "4px" }}
                                 class="form-control"
                                 placeholder=""
+                                value={this.state.statusdata.expected_upload_date}
+                                name="expected_upload_date"
 
-                                onChange={(event) => { this.setState({ expected_upload_date: event.target.value }) }}
+                                onChange={(data) => { this.setState({ expected_upload_date: data.target.value }) }}
                             /> <br />
                             <input
                                 type="text"
                                 style={{ marginTop: 30, height: 30, border: "2px solid #64B9E6", borderRadius: "4px" }}
                                 class="form-control"
+                                value={this.state.statusdata.explanation}
+                                name="explanation"
                                 placeholder="Enter status updates notes"
-                                onChange={(event) => { this.setState({ [this.state.statusdata.explanation]: [event.target.value] }) }}
+                                onChange={(data) => { this.setState({explanation: data.target.value }) }}
                             /> <br />
 
                             <input
                                 type="text"
                                 style={{ marginTop: 30, height: 30, border: "2px solid #64B9E6", borderRadius: "4px" }}
                                 class="form-control"
+                                value={this.state.statusdata.order_status}
+                                name="order_status"
                                 placeholder=""
-                                onChange={(event) => { this.setState({ order_status: event.target.value }) }}
+                                onChange={(data) => { this.setState({order_status: data.target.value }) }}
                             /> <br />
 
                             <button
