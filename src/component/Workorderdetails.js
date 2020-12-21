@@ -46,22 +46,45 @@ class Workorderdetails extends Component {
     console.log("instructions", instructions_full);
     return (
 
-      <div>
+      <div style={{ backgroundColor: "#EEF0F2", height: 877 }}>
         {/* { ispageStatus && } */}
-        <div style={{ marginLeft: 30, marginTop: 30 }}>
-          <h6 style={{ fontSize: 15, marginLeft: 45 }}>WO #{this.state.won.won} Service Call</h6>
-        </div>
-        <div style={{ backgroundColor: "#DAF2FF", height: 116, marginTop: 34, width: 367, flexDirection: "row", paddingTop: 26, marginLeft: 4 }}>
-          <div style={{ height: "1px", paddingLeft: 10 }}>
-            <img src={this.state.won.image_url_small} width="120" height="80" />
+        <div style={{ height: 70, width: 414, marginTop: -59, backgroundColor: "#47A5CE", marginLeft: -39 }}>
+          <div style={{ marginLeft: 77, paddingTop: "27px", color: "white" }}>
+            <h6 style={{ marginTop: -3, marginLeft: 64 }}>Work Order Detail</h6>
           </div>
-          <h5 className="card-title" style={{ color: "black", paddingLeft: 180, fontSize: 15 }}>Scheduled Date : <br />{this.state.won.created_date}<br />(On Time)</h5>
+        </div>
+        {/* <div style={{ marginLeft: 30, marginTop: 30 }}>
+          <h6 style={{ fontSize: 15, marginLeft: 45 }}>WO #{this.state.won.won} Service Call</h6>
+        </div> */}
+        <div style={{ backgroundColor: "#FEFEFE", borderRadius: "13px", height: 180, marginTop: 34, width: 367, flexDirection: "row", paddingTop: 26, marginLeft: 4 }}>
+          <div style={{ height: "1px", paddingLeft: 17 }}>
+            <img src={this.state.won.image_url_small} width="120" height="80" style={{
+              width: 115,
+              height: 117,
+              borderRadius: 27,
+              overflow: "hidden",
+              borderWidth: 3,
+              borderColor: "red"
+            }} />
+          </div>
+          <div>
+            <div style={{ marginTop: 10 }}>
+              <h5 className="card-body" style={{ color: "#64B9E6", paddingLeft: 196, fontSize: 16, marginTop: -14 }}>WOrk Order<br />#
+                            {this.state.won.won}</h5>
+              <h5 className="card-body" style={{ color: "#777777", paddingLeft: 196, fontSize: 14 }}>{this.state.won.address_city}</h5>
+              {/* </Link> */}
+              <h5 className="card-title" style={{ color: "#777777", paddingLeft: 196, fontSize: 14 }}>{this.state.won.address_state}</h5>
+            </div>
+
+          </div><br />
+
+          <h5 className="card-title" style={{ color: "#777777", paddingLeft: 196, fontSize: 11 }}>Scheduled Date : <br />{this.state.won.created_date}<br />(On Time)</h5>
         </div>
         <div>
-          <div style={{ marginTop: 30, marginLeft: 64, fontSize: 17 }}>
+          <div style={{ marginTop: 10, marginLeft: 89, fontSize: 17 }}>
             Work Order Instructions
                    </div>
-          <div style={{ border: "2px solid #64B9E6", marginTop: 30, marginLeft: 10, width: 360, borderRadius: "7px", fontSize: "13px" }}>
+          <div style={{ backgroundColor: "#FEFEFE", borderRadius: "13px", height: 113, marginTop: 10, width: 363, flexDirection: "row", paddingTop: 10, marginLeft: 5, fontSize: 11, paddingLeft: 8, color: "#777777" }}>
             {this.state.won.instructions_full ? this.state.won.instructions_full[0].instruction : null}
           </div>
         </div>

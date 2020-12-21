@@ -13,10 +13,10 @@ class Createstatusscreen extends Component {
             won: {},
             isOpen: false,
             statusdata: {
-                delay_reason:null,
-                expected_upload_date:null,
-                explanation:null,
-                order_status:null
+                delay_reason: null,
+                expected_upload_date: null,
+                explanation: null,
+                order_status: null
             }
         }
     }
@@ -49,7 +49,7 @@ class Createstatusscreen extends Component {
     //     console.log("dcc")
 
     // }
-    savestatus =() => {
+    savestatus = () => {
         // const {delay_reason,expected_upload_date,explanation,order_status} = this.state;
 
 
@@ -80,12 +80,15 @@ class Createstatusscreen extends Component {
 
 
         return (
-            <div>
-                <div style={{ marginLeft: 30, marginTop: 30 }}>
-                    <h6 style={{ fontSize: 15, marginLeft: 45, marginTop: -46 }}>WO #{this.state.won.won} Service Call</h6>
+            <div style={{ backgroundColor: "#EEF0F2", height: 877 }}>
+                <div style={{ height: 68, width: 414, marginTop: -64, backgroundColor: "#47A5CE", marginLeft: -39 }}>
+                    <div style={{ marginLeft: 77, paddingTop: "27px", color: "white" }}>
+                        <h6 style={{ marginTop: 0, marginLeft: 90 }}>Status Update</h6>
+                    </div>
                 </div>
-                <div style={{ marginLeft: 10, marginTop: 20, color: "#1D1D1D", fontSize: 17 }}>Status Updates</div>
-                <div style={{ border: "2px solid #64B9E6", height: 100, marginTop: 30, marginLeft: 10, width: 350, flexDirection: "row", borderRadius: "7px", fontSize: "15px" }}>
+
+                <div style={{ marginLeft: 129, marginTop: 20, color: "#1D1D1D", fontSize: 17 }}>Status Updates</div>
+                <div style={{ backgroundColor: "#FEFEFE", borderRadius: "13px", height: 113, marginTop: 10, width: 363, flexDirection: "row", paddingTop: 10, marginLeft: 5, fontSize: 11, paddingLeft: 8, color: "#777777" }}>
                     <div style={{ height: "1px", paddingLeft: 10 }}>
                         <h5 style={{ fontSize: 14, marginTop: 25 }}>ECD : {this.state.won.last_status_update ? this.state.won.last_status_update.expected_upload_date : null}</h5>
                     </div>
@@ -97,7 +100,7 @@ class Createstatusscreen extends Component {
                 </div>
                 <input
                     type="button"
-                    style={{ marginLeft: 120, margin: 86, width:197, height: 30, border: "2px solid #64B9E6", borderRadius: "7px", backgroundColor: "#007ABC", color: "white" }}
+                    style={{ marginLeft: 120, margin: 86, width: 197, height: 30, border: "2px solid #64B9E6", borderRadius: "7px", backgroundColor: "#007ABC", color: "white" }}
                     value="New Status Update"
                     onClick={this.togglePopup}
                 />
@@ -131,7 +134,7 @@ class Createstatusscreen extends Component {
                                 value={this.state.statusdata.explanation}
                                 name="explanation"
                                 placeholder="Enter status updates notes"
-                                onChange={(data) => { this.setState({explanation: data.target.value }) }}
+                                onChange={(data) => { this.setState({ explanation: data.target.value }) }}
                             /> <br />
 
                             <input
@@ -141,7 +144,7 @@ class Createstatusscreen extends Component {
                                 value={this.state.statusdata.order_status}
                                 name="order_status"
                                 placeholder=""
-                                onChange={(data) => { this.setState({order_status: data.target.value }) }}
+                                onChange={(data) => { this.setState({ order_status: data.target.value }) }}
                             /> <br />
 
                             <button

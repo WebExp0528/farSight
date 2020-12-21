@@ -19,7 +19,7 @@ class App extends Component {
       <div>
         {/* <Navigation /> */}
         <Router>
-        {/* <Navigation /> */}
+        <Navigation />
           <Switch>
             <Route path="/" exact component={Workorderlist} />
             

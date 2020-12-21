@@ -54,11 +54,11 @@ class Workorderlist extends Component {
                   <div className="card-body">
                     <div style={{ height: 125, width: 354, borderRadius: "13px", margin: 21, marginLeft: -30, backgroundColor: "#FEFEFE" }} ><br />
                       <div style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
-                        <div style={{ height: "17px", paddingLeft: 34, marginTop: "-10px" }}>
+                        <div style={{ height: "12px", paddingLeft: 11, marginTop: "-10px" }}>
                           <img src={item.image_url_small} style={{
-                            width: 80,
-                            height: 80,
-                            borderRadius: 80 / 2,
+                            width: 86,
+                            height: 76,
+                            borderRadius: 27,
                             overflow: "hidden",
                             borderWidth: 3,
                             borderColor: "red"
@@ -68,15 +68,16 @@ class Workorderlist extends Component {
 
                           <div>
                             <div style={{ marginTop: 10 }}>
-                              <h5 className="card-body" style={{ color: "black", paddingLeft: 162, fontSize: 15, marginTop: -14 }}>Work Order #
+                              <h5 className="card-body" style={{ color: "#64B9E6", paddingLeft: 126, fontSize: 16, marginTop: -14 }}>WO#
                             {item.won}</h5>
-                              <h5 className="card-body" style={{ color: "#64B9E6", paddingLeft: 162, fontSize: 15 }}>{item.address_city}</h5>
+                              <h5 className="card-body" style={{ color: "#777777", paddingLeft: 126, fontSize: 14 }}>{item.address_city}</h5>
                               {/* </Link> */}
-                              <h5 className="card-title" style={{ color: "#64B9E6", paddingLeft: 162, fontSize: 15 }}>{item.address_state}</h5>
+                              <h5 className="card-title" style={{ color: "#777777", paddingLeft: 126, fontSize: 14 }}>{item.address_state}</h5>
                             </div>
-                            <div style={{ height: 27, width: 355, backgroundColor: "#F6F6F6", marginTop: 30, flexDirection: "row" }}>
-                              <h5 className="card-title" style={{ color: "#64B9E6", paddingLeft: 112, fontSize: 11, paddingTop: 7 }}>{item.work_ordered}</h5>
-                              <h5 className="card-title" style={{ color: "black", paddingLeft: 241, fontSize: 10, marginTop: -8 }}>{item.due_date} (On Time)</h5>
+                            <div style={{ height: 27, width: 355, backgroundColor: "#F6F6F6", marginTop: 37, flexDirection: "row" }}>
+                              <h5 className="card-title" style={{ color: "#64B9E6", paddingLeft: 134, fontSize: 11, paddingTop: 7 }}>{item.work_ordered}</h5>
+                              <h5 className="card-title" style={{ color: "black", paddingLeft: 285, fontSize: 10, marginTop: -8 }}>{item.due_date}</h5>
+                              <div style={{ height: 22, width: 63, backgroundColor: "#95C12C", fontSize: 10, marginTop: -103, marginLeft: 281, paddingLeft: 13, paddingTop: 6, borderRadius: "7px", color: "white" }}>On Time</div>
                             </div>
                           </div>
 

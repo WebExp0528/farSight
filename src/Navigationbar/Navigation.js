@@ -190,9 +190,9 @@ class Nav extends Component {
             <NavLink activeClassName="active" to="/Createstatuscreen">
               <li>Status Update</li>
             </NavLink>
-            <NavLink activeClassName="active" to="/StatusScreen">
+            {/* <NavLink activeClassName="active" to="/StatusScreen">
               <li>StatusScreen</li>
-            </NavLink>
+            </NavLink> */}
             {/* <NavLink activeClassName="active" to="/Uploadphotos">
               <li>Uploadphotos</li>
             </NavLink>
