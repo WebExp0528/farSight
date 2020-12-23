@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { getDetails } from '../store/actions/WorkorderlistAction'
 import axios from 'axios';
 import Popup from '../Comman/Popup';
+import { useHistory } from "react-router-dom";
+
 
 
 class Workorderdetails extends Component {
@@ -17,7 +19,7 @@ class Workorderdetails extends Component {
   componentDidMount() {
 
     let wonId = this.props.match.params.won
-    axios.get('https://cors-anywhere.herokuapp.com/http://dev.northsight.io/api/work_order' + "/" + wonId, {
+    axios.get('http://dev.northsight.io/api/work_order' + "/" + wonId, {
       method: 'GET',
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
@@ -50,6 +52,7 @@ class Workorderdetails extends Component {
         {/* { ispageStatus && } */}
         <div style={{ height: 70, width: 414, marginTop: -59, backgroundColor: "#47A5CE", marginLeft: -39 }}>
           <div style={{ marginLeft: 77, paddingTop: "27px", color: "white" }}>
+            {/* <img src={"https://static.thenounproject.com/png/344330-200.png"} onClick={this.props.history.push('/Workorderlist')} /> */}
             <h6 style={{ marginTop: -3, marginLeft: 64 }}>Work Order Detail</h6>
           </div>
         </div>

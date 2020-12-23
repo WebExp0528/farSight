@@ -10,6 +10,9 @@ import Workorderdetails from './component/Workorderdetails';
 import Createstatuscreen from './component/Createstatusscreen';
 import Navigation from './Navigationbar/Navigation'
 import StatusScreen from './component/StatusScreen'
+import Photosscreen from './component/UploadPhotos/Photosscreen'
+import PhotosDescriptionscreen from './component/UploadPhotos/PhotosDescriptionscreen'
+
 
 
 class App extends Component {
@@ -19,16 +22,14 @@ class App extends Component {
       <div>
         {/* <Navigation /> */}
         <Router>
-        <Navigation />
+          <Navigation />
           <Switch>
             <Route path="/" exact component={Workorderlist} />
-            
             <Route path="/Workorderdetails/:won" component={Workorderdetails} />
-            
             <Route path="/Createstatuscreen" component={Createstatuscreen} />
             <Route path="/StatusScreen" component={StatusScreen} />
-
-
+            <Route path="/Photosscreen" component={Photosscreen} />
+            <Route path="/PhotosDescriptionscreen" component={PhotosDescriptionscreen} />
           </Switch>
         </Router>
       </div>
