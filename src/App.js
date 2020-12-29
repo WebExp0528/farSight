@@ -12,6 +12,8 @@ import Navigation from './Navigationbar/Navigation'
 import StatusScreen from './component/StatusScreen'
 import Photosscreen from './component/UploadPhotos/Photosscreen'
 import PhotosDescriptionscreen from './component/UploadPhotos/PhotosDescriptionscreen'
+import Submitworkorder from './component/Submitworkorder/Submitworkorder'
+import Createbiditem   from './component/Bidsfeature/Createbiditem'
 
 
 
@@ -30,6 +32,9 @@ class App extends Component {
             <Route path="/StatusScreen" component={StatusScreen} />
             <Route path="/Photosscreen" component={Photosscreen} />
             <Route path="/PhotosDescriptionscreen" component={PhotosDescriptionscreen} />
+            <Route path="/Submitworkorder" component={Submitworkorder} />
+            <Route path="/Createbiditem" component={Createbiditem} />
+
           </Switch>
         </Router>
       </div>

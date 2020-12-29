@@ -193,12 +193,12 @@ class Nav extends Component {
             <NavLink activeClassName="active" to="/Photosscreen">
               <li>Photosscreen</li>
             </NavLink>
-            {/* <NavLink activeClassName="active" to="/Uploadphotos">
+           {/* <NavLink activeClassName="active" to="/Uploadphotos">
               <li>Uploadphotos</li>
-            </NavLink>
-            <NavLink activeClassName="active" to="/Submitorder">
-              <li>Submitorder</li>
             </NavLink> */}
+            <NavLink activeClassName="active" to="/Submitworkorder">
+              <li>Submitworkorder</li>
+            </NavLink> 
           </ul>
         </nav>
       </Navigation>

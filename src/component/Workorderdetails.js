@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { getDetails } from '../store/actions/WorkorderlistAction'
 import axios from 'axios';
 import Popup from '../Comman/Popup';
-import { useHistory } from "react-router-dom";
+import Bidsscreen from './Bidsfeature/Bidsscreen'
 
 
 
@@ -19,7 +19,7 @@ class Workorderdetails extends Component {
   componentDidMount() {
 
     let wonId = this.props.match.params.won
-    axios.get('http://dev.northsight.io/api/work_order' + "/" + wonId, {
+    axios.get('https://cors-anywhere.herokuapp.com/http://dev.northsight.io/api/work_order' + "/" + wonId, {
       method: 'GET',
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
@@ -48,7 +48,7 @@ class Workorderdetails extends Component {
     console.log("instructions", instructions_full);
     return (
 
-      <div style={{ backgroundColor: "#EEF0F2", height: 877 }}>
+      <div style={{ backgroundColor: "#EEF0F2", height: 1500 }}>
         {/* { ispageStatus && } */}
         <div style={{ height: 70, width: 414, marginTop: -59, backgroundColor: "#47A5CE", marginLeft: -39 }}>
           <div style={{ marginLeft: 77, paddingTop: "27px", color: "white" }}>
@@ -91,47 +91,10 @@ class Workorderdetails extends Component {
             {this.state.won.instructions_full ? this.state.won.instructions_full[0].instruction : null}
           </div>
         </div>
-        {/* <div style={{ border: "2px solid #64B9E6", marginTop: 30, marginLeft: 10, width: 350 ,flexDirection:"row",borderRadius: "7px",fontSize:"15px"}}>
-        <div style={{height: "1px", paddingLeft: 10}}>
-          {this.state.won.last_status_update?this.state.won.last_status_update.expected_upload_date:null}
-        </div>
-        <div style={{paddingLeft:193}}>
-        {this.state.won.last_status_update?this.state.won.last_status_update.explanation:null}
-
+        <div>
+          <Bidsscreen />
         </div>
        
-        </div> */}
-        {/* <div>
-         <div style={{ border: "2px solid #64B9E6", marginTop: 30, marginLeft: 10, width: 350 ,flexDirection:"row",borderRadius: "7px",fontSize:"15px"}}>
-        <div style={{height: "1px", paddingLeft: 10}}>
-        <h5 style={{ fontSize: 14 }}>ECD : 2020-12-14</h5>
-        </div>
-        <div style={{paddingLeft:193}}>
-        <h5 style={{ fontSize: 14 }}>My equipment is not waterproof.  I have to wait until it is dry.</h5>
-
-        </div><br />
-       
-        </div>
-        <input
-            type="button"
-            style={{ marginLeft: 120, margin:124,height: 30, border: "2px solid #64B9E6", borderRadius: "7px", color: "black" }}
-            value="New Status Update"
-            // onClick={togglePopup}
-        />
-        {isOpen && <Popup
-            content={<>
-                <h5 style={{ fontSize: 14 }}>New Status Update</h5><br />
-                <h5 style={{ fontSize: 14 }}>My equipment is not waterproof.  I have to wait until it is dry.</h5> <br />
-                <input type="date" data-date="" data-date-format="DD MMMM YYYY" value="2020-11-15" /><br />
-
-                <input type="text" style={{ marginTop: 30 ,height:30}} class="form-control" placeholder="Enter Status Updates notes" /> <br />
-             
-                <button style={{ marginTop: 30, height: 30, border: "2px solid #64B9E6", borderRadius: "7px", color: "black" }} >Save Status Update</button>
-              
-            </>}
-            // handleClose={togglePopup}
-        />}
-    </div> */}
 
       </div>
     );
@@ -141,4 +104,4 @@ class Workorderdetails extends Component {
 
 const mapStateToProps = (state) => ({ won: state.won })
 
-export default connect(mapStateToProps, { getDetails })(Workorderdetails)
+export default connect(mapStateToProps,getDetails )(Workorderdetails)
