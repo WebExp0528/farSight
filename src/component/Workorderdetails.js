@@ -5,6 +5,8 @@ import { getDetails } from '../store/actions/WorkorderlistAction'
 import axios from 'axios';
 import Popup from '../Comman/Popup';
 import Bidsscreen from './Bidsfeature/Bidsscreen'
+import Sidebar from '../Menubar/Sidebar'
+import Navigation from '../Navigationbar/Navigation'
 
 
 
@@ -49,6 +51,9 @@ class Workorderdetails extends Component {
     return (
 
       <div style={{ backgroundColor: "#EEF0F2", height: 1500 }}>
+        {/* <div style={{marginLeft:30,marg}}>
+         <Navigation />
+         </div> */}
         {/* { ispageStatus && } */}
         <div style={{ height: 70, width: 414, marginTop: -59, backgroundColor: "#47A5CE", marginLeft: -39 }}>
           <div style={{ marginLeft: 77, paddingTop: "27px", color: "white" }}>

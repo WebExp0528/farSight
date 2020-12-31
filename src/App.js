@@ -14,7 +14,8 @@ import Photosscreen from './component/UploadPhotos/Photosscreen'
 import PhotosDescriptionscreen from './component/UploadPhotos/PhotosDescriptionscreen'
 import Submitworkorder from './component/Submitworkorder/Submitworkorder'
 import Createbiditem   from './component/Bidsfeature/Createbiditem'
-
+import BidsDescriptionscreen from './component/Bidsfeature/BidsDescriptionscreen'
+import  Sidebar from './Menubar/Sidebar'
 
 
 class App extends Component {
@@ -34,7 +35,7 @@ class App extends Component {
             <Route path="/PhotosDescriptionscreen" component={PhotosDescriptionscreen} />
             <Route path="/Submitworkorder" component={Submitworkorder} />
             <Route path="/Createbiditem" component={Createbiditem} />
-
+            <Route path="/BidsDescriptionscreen" component={BidsDescriptionscreen} />
           </Switch>
         </Router>
       </div>

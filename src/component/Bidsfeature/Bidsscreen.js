@@ -47,7 +47,7 @@ class Bidsscreen extends Component {
                 </button>
                     </Link>
                 </div>
-                <div style={{ height: 122, width: 354, borderRadius: "13px", margin: 21, marginLeft: -30, backgroundColor: "#FEFEFE" }} ><br />
+                <div style={{ height: 122, width: 362, borderRadius: "13px", margin: 21, marginLeft: -30, backgroundColor: "#FEFEFE" }} ><br />
                     <div style={{ marginLeft: 10, color: "#6EADC8" }}>
                         Bid Items
                           </div>
@@ -69,9 +69,11 @@ class Bidsscreen extends Component {
                 </div>
 
                 {this.state.todos.map((todo) => (
+                                        <Link style={{ textDecoration: 'none' }} to={'/BidsDescriptionscreen/'}>
+
                     <div className="card">
                         <div className="card-body">
-                            <div style={{ height: 140, width: 354, borderRadius: "13px", margin: 21, marginLeft: -30, backgroundColor: "#FEFEFE" }} ><br />
+                            <div style={{ height: 140, width: 362, borderRadius: "13px", margin: 21, marginLeft: -30, backgroundColor: "#FEFEFE" }} ><br />
                                 <div style={{ height: 43, width: 355, backgroundColor: "#F6F6F6", flexDirection: "row", marginTop: -20 }}>
                                     <h5 className="card-body" style={{ color: "black", paddingTop: 11, paddingLeft: 32, fontSize: 15 }}>{todo.item_description}</h5>
                                 </div>
@@ -104,6 +106,7 @@ class Bidsscreen extends Component {
 
                         </div>
                     </div>
+                    </Link>
                 ))}
             </div>
 
