@@ -22,7 +22,7 @@ class Createstatusscreen extends Component {
     }
     componentDidMount() {
 
-        axios.get('https://cors-anywhere.herokuapp.com/http://dev.northsight.io/api/work_order/05881777', {
+         axios.get('https://cors-anywhere.herokuapp.com/http://dev.northsight.io/api/work_order/05881777', {
             method: 'GET',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',

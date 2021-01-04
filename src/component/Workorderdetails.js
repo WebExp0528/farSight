@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux'
-import { getDetails } from '../store/actions/WorkorderlistAction'
+//import { getDetails } from '../store/actions/WorkorderlistAction'
 import axios from 'axios';
 import Popup from '../Comman/Popup';
 import Bidsscreen from './Bidsfeature/Bidsscreen'
@@ -107,6 +107,6 @@ class Workorderdetails extends Component {
 }
 
 
-const mapStateToProps = (state) => ({ won: state.won })
+ const mapStateToProps = (state) => ({ won: state.won })
 
-export default connect(mapStateToProps,getDetails )(Workorderdetails)
+export default connect(mapStateToProps )(Workorderdetails)
