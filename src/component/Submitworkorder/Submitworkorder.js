@@ -11,19 +11,42 @@ class Submitworkorder extends Component {
                 </div>
 
                 <div style={{ height: 536, width: 339, backgroundColor: "white", marginLeft: 20, marginTop: 53 }}>
-                   
-                    {/* Work Completed
-                  
-                
-                    
-                    <select style={{height:25,width:175,marginLeft:148}}>
-  <option value="Orange">Orange</option>
-  <option value="Radish">Radish</option>
-  <option value="Cherry">Cherry</option>
-</select> */}
-</div>
 
-                
+                    <div style={{ flexDirection: "row", alignItems: "center", display: "flex" }}>
+                        <div style={{ fontSize: 16, marginLeft: 9, marginTop: 56 }}>
+                            Work Completed
+                    </div>
+
+
+                        <div>
+                            <select style={{ height: 25, width: 175, marginLeft: 16, marginTop: 56 }}>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style={{ flexDirection: "row", alignItems: "center", display: "flex" }}>
+                        <div style={{ fontSize: 16, marginLeft: 9, marginTop: 56 }}>
+                            Date Serviced
+                    </div>
+                        <div style={{ marginTop: 52, marginLeft: 33 }}>
+                            <input type="text" id="your-input" />
+                        </div>
+                    </div>
+                    <div style={{ fontSize: 16, marginLeft: 9, marginTop: 56 }}>
+                        Vendor Notes to Staff
+                    </div>
+                    <div>
+                        <input style={{ height: 120, width: 322, marginLeft: 10, marginTop: 30, borderRadius: 5, paddingLeft: 41 }} type="text" placeholder="Enter Notes" />
+                    </div>
+                    <div>
+                        <input style={{ height: 48, width: 164, marginLeft: 87, marginTop: 50, borderRadius: "7px", backgroundColor: "#007ABC", color: "white" }} type="submit" name="Submit" />
+                    </div>
+
+
+                </div>
+
+
             </div>
         )
     }

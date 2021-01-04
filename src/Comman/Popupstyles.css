@@ -10,10 +10,10 @@
    
   .box {
     position: relative;
-    width: 70%;
+    width: 95%;
     margin: 0 auto;
    
-    height: auto;
+    height: 475;
     max-height: 70vh;
     margin-top: calc(100vh - 85vh - 20px);
     background: #fff;

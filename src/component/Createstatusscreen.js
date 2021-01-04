@@ -22,7 +22,7 @@ class Createstatusscreen extends Component {
     }
     componentDidMount() {
 
-         axios.get('https://cors-anywhere.herokuapp.com/http://dev.northsight.io/api/work_order/05881777', {
+        axios.get('https://cors-anywhere.herokuapp.com/http://dev.northsight.io/api/work_order/05881777', {
             method: 'GET',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -107,49 +107,73 @@ class Createstatusscreen extends Component {
                 {isOpen && <Popup
                     content={<>
                         <div style={{ marginLeft: 10 }}>
-                            <h5 style={{ fontSize: 14 }}>New Status Update</h5><br />
-                            <h5 style={{ fontSize: 14 }}>Estimated Completion Date</h5><br />
+                            <h5 style={{ fontSize: 17, marginLeft: 77 }}>New Status Update</h5><br />
+                            <div style={{ flexDirection: "row", alignItems: "center", display: "flex" }}>
+                                <div style={{ fontSize: 16, marginLeft: -11, marginTop: 5 }}>
+                                    Delay Reason
+                    </div>
 
-                            <input type="date"
-                                style={{ marginTop: 4, height: 30, border: "2px solid #64B9E6", borderRadius: "5px" }}
-                                type="text"
-                                value={this.state.statusdata.delay_reason}
-                                name="delay_reason"
-                                onChange={(data) => { this.setState({ delay_reason: data.target.value }) }}
-                            /><br />
-                            <input
-                                type="text"
-                                style={{ marginTop: 30, height: 30, border: "2px solid #64B9E6", borderRadius: "4px" }}
-                                class="form-control"
-                                placeholder=""
-                                value={this.state.statusdata.expected_upload_date}
-                                name="expected_upload_date"
+                                <input type="date"
+                                    style={{ marginTop: 4, height: 30, border: "2px solid #64B9E6", borderRadius: "5px", marginLeft: 31 }}
+                                    type="text"
+                                    value={this.state.statusdata.delay_reason}
+                                    name="delay_reason"
+                                    onChange={(data) => { this.setState({ delay_reason: data.target.value }) }}
+                                />
+                            </div>
+                            <br />
+                            <div style={{ flexDirection: "row", alignItems: "center", display: "flex" }}>
+                                <div style={{ fontSize: 16, marginLeft: -11, marginTop: 5 }}>
+                                    Expected Upload date
+                    </div>
+                                <input
+                                    type="text"
+                                    style={{ marginTop: 6, height: 30, border: "2px solid #64B9E6", borderRadius: "4px", marginLeft: 31 }}
+                                    class="form-control"
+                                    placeholder=""
+                                    value={this.state.statusdata.expected_upload_date}
+                                    name="expected_upload_date"
 
-                                onChange={(data) => { this.setState({ expected_upload_date: data.target.value }) }}
-                            /> <br />
-                            <input
-                                type="text"
-                                style={{ marginTop: 30, height: 30, border: "2px solid #64B9E6", borderRadius: "4px" }}
-                                class="form-control"
-                                value={this.state.statusdata.explanation}
-                                name="explanation"
-                                placeholder="Enter status updates notes"
-                                onChange={(data) => { this.setState({ explanation: data.target.value }) }}
-                            /> <br />
+                                    onChange={(data) => { this.setState({ expected_upload_date: data.target.value }) }}
+                                />
+                            </div> <br />
+                            <div style={{ flexDirection: "row", alignItems: "center", display: "flex" }}>
+                                <div style={{ fontSize: 16, marginLeft: -11, marginTop: 5 }}>
+                                    Explanation
+                    </div>
+                                <input
+                                    type="text"
+                                    style={{ marginTop: 6, height: 30, border: "2px solid #64B9E6", borderRadius: "4px", marginLeft: 50 }}
+                                    class="form-control"
+                                    value={this.state.statusdata.explanation}
+                                    name="explanation"
 
-                            <input
-                                type="text"
-                                style={{ marginTop: 30, height: 30, border: "2px solid #64B9E6", borderRadius: "4px" }}
-                                class="form-control"
-                                value={this.state.statusdata.order_status}
-                                name="order_status"
-                                placeholder=""
-                                onChange={(data) => { this.setState({ order_status: data.target.value }) }}
-                            /> <br />
+                                    onChange={(data) => { this.setState({ explanation: data.target.value }) }}
+                                />
+                            </div><br />
+                            <div style={{ flexDirection: "row", alignItems: "center", display: "flex" }}>
+                                <div style={{ fontSize: 16, marginLeft: -11, marginTop: 5 }}>
+                                    Order Status
+                    </div>
+
+                                <input
+                                    type="text"
+                                    style={{ marginTop: 6, height: 30, border: "2px solid #64B9E6", borderRadius: "4px", marginLeft: 41 }}
+                                    class="form-control"
+                                    value={this.state.statusdata.order_status}
+                                    name="order_status"
+                                    placeholder=""
+                                    onChange={(data) => { this.setState({ order_status: data.target.value }) }}
+                                />
+                            </div><br />
 
                             <button
                                 style={{ marginTop: 30, height: 30, border: "2px solid #64B9E6", borderRadius: "4px", backgroundColor: "#007ABC", color: "white" }}
                                 onClick={() => { this.savestatus() }} >Save Status Update
+                        </button>
+                            <button
+                                style={{ marginTop: 30, height: 30, border: "2px solid #64B9E6", borderRadius: "4px", backgroundColor: "#007ABC", color: "white", marginLeft: 47, width: 134 }}
+                                onClick={() => { this.togglePopup() }} >Cancel
                         </button>
                         </div>
 
