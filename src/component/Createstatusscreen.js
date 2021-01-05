@@ -22,7 +22,7 @@ class Createstatusscreen extends Component {
     }
     componentDidMount() {
 
-        axios.get('http://dev.northsight.io/api/work_order/05881777', {
+        axios.get('/api/work_order/05881777', {
             method: 'GET',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -57,7 +57,7 @@ class Createstatusscreen extends Component {
         console.log("kk", this.state.statusdata)
 
 
-        // fetch('https://cors-anywhere.herokuapp.com/http://dev.northsight.io/api/work_order/05881777',this.state.statusdata,{
+        // fetch('/api/work_order/05881777',this.state.statusdata,{
         //     method: 'POST',
         //     headers: {
         //         Accept: 'application/json',

@@ -7,7 +7,7 @@ class Bidsscreen extends Component {
         todos: []
     }
     componentDidMount() {
-        var url = 'http://dev.northsight.io/api/work_order/05881777/bid';
+        var url = '/api/work_order/05881777/bid';
         fetch(url, {
             method: 'GET',
             headers: {

@@ -6,7 +6,7 @@ const StatusScreen = props => {
   
     const submit = e => {
       e.preventDefault()
-      fetch('/work_order/05881777', {
+      fetch('/api/work_order/05881777', {
         method: 'POST',
         body: JSON.stringify({ user }),
         headers: { 'Content-Type': 'application/json',

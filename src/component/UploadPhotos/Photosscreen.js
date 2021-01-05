@@ -61,7 +61,7 @@ export default function Upload() {
                 name: "imagename.jpg",
             });
 
-            await fetch(' http://dev.northsight.io/api/work_order/05881779/photo', {
+            await fetch('/api/work_order/05881779/photo', {
                 method: 'POST',
                 mode: 'no-cors',
                 body: JSON.stringify({ data: base64EncodedImage }),
