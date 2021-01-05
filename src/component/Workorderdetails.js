@@ -21,7 +21,7 @@ class Workorderdetails extends Component {
   componentDidMount() {
 
     let wonId = this.props.match.params.won
-    axios.get('https://cors-anywhere.herokuapp.com/http://dev.northsight.io/api/work_order' + "/" + wonId, {
+    axios.get('http://dev.northsight.io/api/work_order' + "/" + wonId, {
       method: 'GET',
       headers: {
         'X-Requested-With': 'XMLHttpRequest',

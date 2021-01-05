@@ -4,11 +4,11 @@ import axios from 'axios'
 export const getUsers = () => async dispatch => {
 
     try {
-        const res = await axios.get('https://cors-anywhere.herokuapp.com/http://dev.northsight.io/api/work_order/list', {
+        const res = await axios.get('http://dev.northsight.io/api/work_order/list', {
             method: 'GET',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/json',
+               
                 "X-USER-ID": "00903200-EQ00-QUY1-UAA3-1EQUY1EQ1EQU",
                 "X-APP-ID": "4010f312-fd81-4049-a482-9f2f4af24947"
             }
