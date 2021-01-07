@@ -1,5 +1,5 @@
 const {createProxyMiddleware} = require("http-proxy-middleware");
-//const morgan = require("morgan");
+const morgan = require("morgan");
 //const port = process.env.PORT || 3000;
 
 module.exports = app => {
@@ -10,5 +10,5 @@ module.exports = app => {
       changeOrigin: true,
     })
   );
-  //app.use(morgan('combined'));
+  app.use(morgan('combined'));
 };

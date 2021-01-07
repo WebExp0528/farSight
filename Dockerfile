@@ -22,10 +22,10 @@ RUN npm ci --only=production
 COPY . .
 RUN npm run build
 
-RUN npm install -g serve
+#RUN npm install -g serve
 
 #serve runs on port 3000 and EB will map port 80 to any exposed port here. 
 EXPOSE 3000
 
 #command to run by default when starting the container.  
-CMD [ "serve", "-s","build","-l","3000"]
+CMD [ "node", "server.js"]
