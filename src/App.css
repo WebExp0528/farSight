@@ -22,17 +22,4 @@ object {
   -webkit-font-smoothing: antialiased;
 }
 
-body {
-  font-family: "Poppins", sans-serif;
-  font-size: 1.3rem;
-  background: #fefefe;
-}
 
-.container {
-  width: 80%;
-  margin: 60px auto;
-}
-h1 {
-  font-size: 3em;
-  font-weight: 600;
-}

@@ -38,7 +38,7 @@ class Bidsscreen extends Component {
                 </button>
                 </div>
                 <div style={{ marginTop: -39 }}>
-                    <Link style={{ textDecoration: 'none' }} to={'/Createbiditem/'}>
+                    <Link style={{ textDecoration: 'none' }} to={'/Createbiditem/'} >
                         <button style={{
                             height: 39,
                             width: 152, backgroundColor: "#9BC53F", marginLeft: 169, color: "white", borderRadius: 3
@@ -68,27 +68,27 @@ class Bidsscreen extends Component {
                           </div>
                 </div>
 
-                {this.state.todos.map((todo) => (
-                                        <Link style={{ textDecoration: 'none' }} to={'/BidsDescriptionscreen/'}>
+                {this.state.todos.map((bid_item) => (
+                                        <Link style={{ textDecoration: 'none' }} to={'/BidsDescriptionscreen/'} key={bid_item.bid_item_number}>
 
                     <div className="card">
                         <div className="card-body">
                             <div style={{ height: 140, width: 362, borderRadius: "13px", margin: 21, marginLeft: -30, backgroundColor: "#FEFEFE" }} ><br />
                                 <div style={{ height: 43, width: 355, backgroundColor: "#F6F6F6", flexDirection: "row", marginTop: -20 }}>
-                                    <h5 className="card-body" style={{ color: "black", paddingTop: 11, paddingLeft: 32, fontSize: 15 }}>{todo.item_description}</h5>
+                                    <h5 className="card-body" style={{ color: "black", paddingTop: 11, paddingLeft: 32, fontSize: 15 }}>{bid_item.item_description}</h5>
                                 </div>
                                 <div style={{ height: 31, width: 183, backgroundColor: "#9BC53F", color: "white", borderRadius: 2, marginTop: 30, marginLeft: 10, paddingTop: 7, paddingLeft: 5, fontSize: 13 }}>
-                                    {todo.status}
+                                    {bid_item.status}
                                 </div>
                                 <div style={{ flexDirection: "row" }}>
                                     <div style={{ marginLeft: 213, marginTop: -33 }}>
-                                        {todo.number_of_units}
+                                        {bid_item.number_of_units}
                                     </div>
                                     <div style={{ marginLeft: 252, marginTop: -20 }}>
-                                        {todo.unit_of_measure}
+                                        {bid_item.unit_of_measure}
                                     </div>
                                     <div style={{ marginLeft: 301, marginTop: -20 }}>
-                                        {todo.usd_unit_price}
+                                        {bid_item.usd_unit_price}
                                     </div>
                                 </div>
 
@@ -96,7 +96,7 @@ class Bidsscreen extends Component {
                                     marginTop: 23, marginLeft: 193, color
                                         : "#6EADC8", fontSize: 17
                                 }}>
-                                    Line Total : {todo.total_price}
+                                    Line Total : {bid_item.total_price}
                                 </div>
 
 

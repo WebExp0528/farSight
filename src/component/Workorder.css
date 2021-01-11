@@ -7,10 +7,9 @@
     padding-left: 5.375rem;
     height: 30px;
     width :344px;
-    margin-top: 30px;
-    border-radius: 7px;
+    margin-top: 10px;
+    border-radius: 5px;
     background-color: #EEF0F2;
-
 }
 
 .has-search .form-control-feedback {

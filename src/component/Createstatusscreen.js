@@ -129,7 +129,7 @@ class Createstatusscreen extends Component {
                                 <input
                                     type="text"
                                     style={{ marginTop: 6, height: 30, border: "2px solid #64B9E6", borderRadius: "4px", marginLeft: 31 }}
-                                    class="form-control"
+                                    className="form-control"
                                     placeholder=""
                                     value={this.state.statusdata.expected_upload_date}
                                     name="expected_upload_date"
@@ -144,7 +144,7 @@ class Createstatusscreen extends Component {
                                 <input
                                     type="text"
                                     style={{ marginTop: 6, height: 30, border: "2px solid #64B9E6", borderRadius: "4px", marginLeft: 50 }}
-                                    class="form-control"
+                                    className="form-control"
                                     value={this.state.statusdata.explanation}
                                     name="explanation"
 
@@ -159,7 +159,7 @@ class Createstatusscreen extends Component {
                                 <input
                                     type="text"
                                     style={{ marginTop: 6, height: 30, border: "2px solid #64B9E6", borderRadius: "4px", marginLeft: 41 }}
-                                    class="form-control"
+                                    className="form-control"
                                     value={this.state.statusdata.order_status}
                                     name="order_status"
                                     placeholder=""

@@ -3,6 +3,6 @@ import listreducer from './WorkorderlistReducer'
 import Descriptionreducer from './DescriptionReducer'
 
 export default combineReducers({
-  users: listreducer,
+  workOrders: listreducer,
   won:Descriptionreducer
 })

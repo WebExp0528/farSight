@@ -1,7 +1,7 @@
-import {GET_USERS,GET_DETAILS} from '../types'
+import {GET_DETAILS, GET_WORK_ORDERS} from '../types'
 
 const initialState = {
-    users:[],
+    workOrders:[],
     loading:true
 }
 
@@ -9,10 +9,10 @@ export default function listreducer(state = initialState, action){
 
     switch(action.type){
 
-        case GET_USERS:
+        case GET_WORK_ORDERS:
         return {
             ...state,
-            users:action.payload,
+            workOrders:action.payload,
             loading:false
 
         }

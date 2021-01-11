@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import './App.css';
+import './bootstrap.min.css';
+//import './App.css';
 import {
   BrowserRouter as Router,
   Route,
@@ -25,7 +26,6 @@ class App extends Component {
       <div>
         {/* <Navigation /> */}
         <Router>
-          <Navigation />
           <Switch>
             <Route path="/" exact component={Workorderlist} />
             <Route path="/Workorderdetails/:won" component={Workorderdetails} />

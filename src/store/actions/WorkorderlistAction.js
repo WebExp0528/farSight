@@ -1,8 +1,7 @@
-import { GET_USERS, USERS_ERROR, GET_DETAILS, DETAILS_ERROR } from '../types'
+import { GET_WORK_ORDERS, WORK_ORDERS_ERROR, GET_DETAILS, DETAILS_ERROR } from '../types'
 import axios from 'axios'
 
-export const getUsers = () => async dispatch => {
-
+export const getWorkOrders = () => async dispatch => {
     try {
         const res = await axios.get('/api/work_order/list', {
             method: 'GET',
@@ -14,13 +13,13 @@ export const getUsers = () => async dispatch => {
             }
         })
         dispatch({
-            type: GET_USERS,
+            type: GET_WORK_ORDERS,
             payload: res.data
         })
     }
     catch (e) {
         dispatch({
-            type: USERS_ERROR,
+            type: WORK_ORDERS_ERROR,
             payload: console.log(e),
         })
     }

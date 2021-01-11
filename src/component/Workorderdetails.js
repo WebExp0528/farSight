@@ -77,7 +77,7 @@ class Workorderdetails extends Component {
           </div>
           <div>
             <div style={{ marginTop: 10 }}>
-              <h5 className="card-body" style={{ color: "#64B9E6", paddingLeft: 196, fontSize: 16, marginTop: -14 }}>WOrk Order<br />#
+              <h5 className="card-body" style={{ color: "#64B9E6", paddingLeft: 196, fontSize: 16, marginTop: -14 }}>Work Order<br />#
                             {this.state.won.won}</h5>
               <h5 className="card-body" style={{ color: "#777777", paddingLeft: 196, fontSize: 14 }}>{this.state.won.address_city}</h5>
               {/* </Link> */}
