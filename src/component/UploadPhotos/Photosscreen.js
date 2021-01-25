@@ -68,8 +68,6 @@ export default function Upload() {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
 
-                    "X-USER-ID": "00903200-EQ00-QUY1-UAA3-1EQUY1EQ1EQU",
-                    "X-APP-ID": "4010f312-fd81-4049-a482-9f2f4af24947"
                 },
             });
             setFileInputState('');

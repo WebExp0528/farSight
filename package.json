@@ -14,9 +14,13 @@
     "bootstrap": "^4.5.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-mysql-session": "^2.1.5",
     "express-session": "^1.17.1",
     "http-proxy-middleware": "^1.0.6",
+    "moment": "^2.29.1",
     "morgan": "^1.10.0",
+    "node-fetch": "^2.6.1",
+    "node-mysql": "^0.4.2",
     "react": "^16.13.1",
     "react-bootstrap": "^1.4.0",
     "react-burger-menu": "^3.0.2",
@@ -29,10 +33,11 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "semantic-ui-react": "^2.0.1",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "uuid": "^8.3.2"
   },
   "scripts": {
-    "server": "node-env-run server --exec nodemon | pino-colada",
+    "server": "node server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

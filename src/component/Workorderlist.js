@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch,faHistory } from '@fortawesome/free-solid-svg-icons';
+import { faSearch,faHistory,faEye, faChessRook } from '@fortawesome/free-solid-svg-icons';
 import {Badge, Card, Container,Form, Image, InputGroup, Row, Spinner, Navbar} from 'react-bootstrap';
 import { getWorkOrders } from '../store/actions/WorkorderlistAction';
 //import './Workorder.css';
@@ -17,7 +17,7 @@ class Workorderlist extends Component {
   }
 
   componentDidMount() {
-    this.props.getWorkOrders()
+    this.props.getWorkOrders();
     this.isLoading = false;
   }
   handleChange = event => {
@@ -78,22 +78,29 @@ class Workorderlist extends Component {
     return (
       
         
-          <div>
-            <Navbar bg="primary" variant="dark">
-                <Navbar.Brand>Welcome</Navbar.Brand>
+            <div style={{color:"whitesmoke"}}>
+            <Navbar style={{paddingBottom:0,paddingTop:5}} bg="primary" variant="dark">
+            
+              <div style={{textAlign:"center", margin:-10,padding:0,boxSize:0}}>
+                <div style={{margin:-5,padding:-5}}>
+                  <FontAwesomeIcon icon={faEye} size="lg" style={{margin:0,padding:0}}/>
+                </div>
+                <div style={{margin:0,padding:0}}>
+                  <FontAwesomeIcon icon={faChessRook} size="2x" style={{margin:0,padding:0}}/>
+                </div>
+              </div>
+              <Navbar.Brand style={{marginLeft:15}}>FarSight™<div style={{marginTop:-8,paddingTop:0,fontSize:"0.75em"}}>by Northsight</div></Navbar.Brand>
             </Navbar>
-            <br/>
-            <Container>
-    <Form.Group>          
+            <Container style={{marginTop:"0.5em",marginBottom:"0.5em"}}>
           <InputGroup>
           <InputGroup.Prepend>
             <InputGroup.Text>
-            <FontAwesomeIcon icon={faSearch} style={{borderRight:0}}/>
+              <FontAwesomeIcon icon={faSearch} style={{borderRight:0}}/>
             </InputGroup.Text>
           </InputGroup.Prepend>
           <Form.Control type="text" placeholder="Search Work Orders..." value={filter} onChange={this.handleChange} />
           </InputGroup>
-    </Form.Group>  
+    
     </Container>
     <div style={{backgroundColor:"#e5e5e5"}}>    
 <Container>

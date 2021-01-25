@@ -11,8 +11,7 @@ const StatusScreen = props => {
         body: JSON.stringify({ user }),
         headers: { 'Content-Type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
-                "X-USER-ID": "00903200-EQ00-QUY1-UAA3-1EQUY1EQ1EQU",
-                "X-APP-ID": "4010f312-fd81-4049-a482-9f2f4af24947" },
+        },
       })
         .then(res => res.json())
         .then(json => setUser(json.user))

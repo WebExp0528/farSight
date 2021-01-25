@@ -5,8 +5,6 @@ import { connect } from 'react-redux'
 import axios from 'axios';
 import Popup from '../Comman/Popup';
 import Bidsscreen from './Bidsfeature/Bidsscreen'
-import Sidebar from '../Menubar/Sidebar'
-import Navigation from '../Navigationbar/Navigation'
 
 
 
@@ -21,12 +19,10 @@ class Workorderdetails extends Component {
   componentDidMount() {
 
     let wonId = this.props.match.params.won
-    axios.get('/api/work_order' + "/" + wonId, {
+    axios.get('/api/work_order/' + wonId, {
       method: 'GET',
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
-        "X-USER-ID": "00903200-EQ00-QUY1-UAA3-1EQUY1EQ1EQU",
-        "X-APP-ID": "4010f312-fd81-4049-a482-9f2f4af24947"
       }
     }).then(res => {
       console.log('success-->', res)

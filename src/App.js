@@ -9,14 +9,13 @@ import {
 import Workorderlist from './component/Workorderlist';
 import Workorderdetails from './component/Workorderdetails';
 import Createstatuscreen from './component/Createstatusscreen';
-import Navigation from './Navigationbar/Navigation'
 import StatusScreen from './component/StatusScreen'
 import Photosscreen from './component/UploadPhotos/Photosscreen'
 import PhotosDescriptionscreen from './component/UploadPhotos/PhotosDescriptionscreen'
 import Submitworkorder from './component/Submitworkorder/Submitworkorder'
 import Createbiditem   from './component/Bidsfeature/Createbiditem'
 import BidsDescriptionscreen from './component/Bidsfeature/BidsDescriptionscreen'
-import  Sidebar from './Menubar/Sidebar'
+import LogIn from './component/LogIn'
 
 
 class App extends Component {
@@ -28,6 +27,7 @@ class App extends Component {
         <Router>
           <Switch>
             <Route path="/" exact component={Workorderlist} />
+            <Route path="/magicLink/:token" component={LogIn} />
             <Route path="/Workorderdetails/:won" component={Workorderdetails} />
             <Route path="/Createstatuscreen" component={Createstatuscreen} />
             <Route path="/StatusScreen" component={StatusScreen} />
