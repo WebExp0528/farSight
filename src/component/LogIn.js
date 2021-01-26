@@ -69,18 +69,6 @@ class LogIn extends Component {
       render() {
         return (  
                 <div style={{color:"grey"}}>
-                <Navbar style={{color:"whitesmoke",paddingBottom:0,paddingTop:5}} bg="primary" variant="dark">
-                
-                  <div style={{textAlign:"center", margin:-10,padding:0,boxSize:0}}>
-                    <div style={{margin:-5,padding:-5}}>
-                      <FontAwesomeIcon icon={faEye} size="lg" style={{margin:0,padding:0}}/>
-                    </div>
-                    <div style={{margin:0,padding:0}}>
-                      <FontAwesomeIcon icon={faChessRook} size="2x" style={{margin:0,padding:0}}/>
-                    </div>
-                  </div>
-                  <Navbar.Brand style={{marginLeft:15}}>FarSight™<div style={{marginTop:-8,paddingTop:0,fontSize:"0.75em"}}>by Northsight</div></Navbar.Brand>
-                </Navbar>
                 <div style={{backgroundColor:"#e5e5e5"}}>    
                     <Container>
                         {

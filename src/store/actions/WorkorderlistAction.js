@@ -1,25 +1,30 @@
-import { GET_WORK_ORDERS, WORK_ORDERS_ERROR, GET_DETAILS, DETAILS_ERROR } from '../types'
-import axios from 'axios'
+import {
+  GET_WORK_ORDERS,
+  WORK_ORDERS_ERROR,
+  GET_DETAILS,
+  DETAILS_ERROR,
+} from "../types";
+import axios from "axios";
 
-export const getWorkOrders = () => async dispatch => {
-    
-        axios.get('/api/work_order/list', {
-            method: 'GET',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-            }
-        }).then(res=>{
-        dispatch({type: GET_WORK_ORDERS,payload: res.data})
-    }).catch(err=>{
-        if(err.response.status === 401)
-        {
-            window.location.href = "/requestMagicLink";
-            return;
-        }
-        dispatch({type: WORK_ORDERS_ERROR,payload: console.log(err)});
+export const getWorkOrders = () => async (dispatch) => {
+  axios
+    .get("/api/work_order/list", {
+      method: "GET",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+    })
+    .then((res) => {
+      dispatch({ type: GET_WORK_ORDERS, payload: res.data });
+    })
+    .catch((err) => {
+      if (err.response.status === 401) {
+        window.location.href = "/requestMagicLink";
+        return;
+      }
+      dispatch({ type: WORK_ORDERS_ERROR, payload: console.log(err) });
     });
-
-}
+};
 // export const getDetails = () => async dispatch => {
 
 //     try {

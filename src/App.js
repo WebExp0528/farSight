@@ -15,7 +15,11 @@ import PhotosDescriptionscreen from './component/UploadPhotos/PhotosDescriptions
 import Submitworkorder from './component/Submitworkorder/Submitworkorder'
 import Createbiditem   from './component/Bidsfeature/Createbiditem'
 import BidsDescriptionscreen from './component/Bidsfeature/BidsDescriptionscreen'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch,faHistory,faEye, faChessRook } from '@fortawesome/free-solid-svg-icons';
+import {Badge, Card, Container,Form, Image, InputGroup, Row, Spinner, Navbar} from 'react-bootstrap';
 import LogIn from './component/LogIn'
+import NewLinkSent from './component/NewLinkSent'
 
 
 class App extends Component {
@@ -23,10 +27,22 @@ class App extends Component {
 
     return (
       <div>
-        {/* <Navigation /> */}
+                        <Navbar style={{color:"whitesmoke",paddingBottom:0,paddingTop:5}} bg="primary" variant="dark">
+                
+                <div style={{textAlign:"center", margin:-10,padding:0,boxSize:0}}>
+                  <div style={{margin:-5,padding:-5}}>
+                    <FontAwesomeIcon icon={faEye} size="lg" style={{margin:0,padding:0}}/>
+                  </div>
+                  <div style={{margin:0,padding:0}}>
+                    <FontAwesomeIcon icon={faChessRook} size="2x" style={{margin:0,padding:0}}/>
+                  </div>
+                </div>
+                <Navbar.Brand style={{marginLeft:15}}>FarSight™<div style={{marginTop:-8,paddingTop:0,fontSize:"0.75em"}}>by Northsight</div></Navbar.Brand>
+              </Navbar>
         <Router>
           <Switch>
             <Route path="/" exact component={Workorderlist} />
+            <Route path="/requestMagicLink" component={NewLinkSent} />
             <Route path="/magicLink/:token" component={LogIn} />
             <Route path="/Workorderdetails/:won" component={Workorderdetails} />
             <Route path="/Createstatuscreen" component={Createstatuscreen} />
