@@ -10,14 +10,14 @@ export default function Descriptionreducer(state = initialState, action){
     switch(action.type){
 
         case GET_DETAILS:
-        return {
+        return {//State modified.  must copy.  (... operator)
             ...state,
             won:action.payload,
             loading:false
 
         }
        
-        default: return state
+        default: return state//no modification.  return original state
     }
 
 }

@@ -1,4 +1,4 @@
-const NS_FS_API = "http://dev.northsight.io";
+require('dotenv').config();
 const express = require("express"); //Simple Node HTML webserver
 const uuid = require("uuid");
 const moment = require("moment");
@@ -9,20 +9,21 @@ const morgan = require("morgan");
 const { createProxyMiddleware } = require("http-proxy-middleware"); //proxy middleware for routing our back-end API requests to the API server, so we can keep things simple.
 const path = require("path"); //path and directory tools.
 const fetch = require("node-fetch");
+const { Provider } = require('react-redux');
 const app = express(); //create the server.
 
-const appId = "4010f312-fd81-4049-a482-9f2f4af24947"; //HARD CODED APP ID FOR FARSIGHT.
-var apiKey = ""; //set from session.
+const appId = process.env.APP_ID;
+const NS_FS_API = process.env.NS_FS_API;
 
 var options = {
-  host: "nsmysql1.cebomn8yzntr.us-east-1.rds.amazonaws.com",
-  port: 3306,
-  user: "nsadmin",
-  password: "nsadmin1",
-  database: "nsFarsightAppDB",
+  host: process.env.NS_DB_HOST,
+  port: process.env.NS_DB_PORT,
+  user: process.env.NS_DB_USER,
+  password: process.env.NS_DB_PWD,
+  database: process.env.NS_DB_DATABASE,
   clearExpired: true,
-  checkExpirationInterval: moment.duration(1, "hours").asMilliseconds(),
-  expiration: moment.duration(1, "days").asMilliseconds(),
+  checkExpirationInterval: moment.duration(1, "day").asMilliseconds(),
+  expiration: moment.duration(1, "day").asMilliseconds(),
 };
 var sessionStore = new MySQLStore(options);
 
@@ -34,7 +35,7 @@ app.use(
       return req.session ? req.session.id : uuid.v4();
     },
     key: "farsight_session_cookie",
-    secret: "temp_secret",
+    secret: process.env.NS_FS_SESSION_SECRET,
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
@@ -42,11 +43,15 @@ app.use(
       path: "/",
       httpOnly: true,
       secure: false,
-      maxAge: moment.duration(1, "days").asMilliseconds(),
+      maxAge: moment.duration(1000, "years").asMilliseconds(),
     },
   })
 );
-
+app.use("/demo",function(req,res,next){
+  req.session.apiKey = "00903200-EQ00-QUY1-UAA3-1EQUY1EQ1EQU";
+  console.warn("STARTING DEMO");
+  return res.redirect("/");
+})
 app.use("/error", function (req, res, next) {
   res.send("Unexpected Response");
 });
@@ -79,28 +84,18 @@ app.use("/auth/magicLink/:token", async function (req, res, next) {
         if (data && data.APIKey) {
           req.session.apiKey = data.APIKey;
           req.session.save();
-          res.redirect("/");
+          console.log("redirecting to / (HOME)");
+          return res.redirect("/");
         } else {
-          fetch(NS_FS_API + "/api/utility/create_token", {
-            method: "POST",
-            headers: {
-              "X-APP-ID": appId,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              user_email: "don.kotter+bobBurger@northsight.com",
-              user_type: "vendor",
-              send_message: true,
-            }),
-          });
-          return res.status(403).send(data.message);
+          console.log("redirecting to /requestMagicLink");
+          return res.redirect("/requestMagicLink");
         }
-        return next();
+        //return next();
       }
     }
   } else {
-    res.redirect("/");
-    return next();
+    console.log("Session exists and API KEY FOUND : redirecting to / (HOME)");
+    return res.redirect("/");
   }
 });
 //Use Custom Middleware to look up session-related data after session is established.
@@ -124,28 +119,33 @@ app.use(async function (req, res, next) {
         return next();
       }
     } else {
-      if (req.path.startsWith("/magicLink/")) {
+      if (req.path.startsWith("/auth/magicLink/")) {
+        console.warn("RESOLVING MAGIC LINK");
         return next();
       }
       if (req.path.startsWith("/requestMagicLink")) {
+        console.warn("NEED MAGIC LINK");
         return next();
       }
-      console.warn("NO SESSION");
+      console.warn("NO API KEY");
+      console.warn("Session:" + req.sessionID)
       return res.status(401).send("No Access");
     }
   } else {
+    console.warn("NO SESSION AT ALL");
     return res.status(401).send("Missing Session");
   }
 });
+
 
 var proxyOptions = {
   target: NS_FS_API,
   changeOrigin: true,
   onProxyReq(proxyReq, req, res) {
     console.warn("PROXYING API CALL");
-    proxyReq.setHeader("X-USER-ID", apiKey); // add new header to response
+    proxyReq.setHeader("X-USER-ID", req.session.apiKey); // add new header to response
     proxyReq.setHeader("X-APP-ID", appId);
-  },
+  }
 };
 var proxy = createProxyMiddleware(proxyOptions);
 app.use("/api", proxy);
@@ -153,5 +153,6 @@ app.use("/api", proxy);
 app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
+console.log("APP ID "+process.env.NS_DB_DATABASE);
 app.use(morgan("combined"));
 app.listen(3000);

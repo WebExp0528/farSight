@@ -18,7 +18,7 @@ export const getWorkOrders = () => async (dispatch) => {
       dispatch({ type: GET_WORK_ORDERS, payload: res.data });
     })
     .catch((err) => {
-      if (err.response.status === 401) {
+      if (err && err.response && err.response.status === 401) {
         window.location.href = "/requestMagicLink";
         return;
       }
