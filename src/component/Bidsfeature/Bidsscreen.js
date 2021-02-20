@@ -26,15 +26,18 @@ class Bidsscreen extends Component {
   state = {
     todos: [],
   };
-  componentDidMount() {
-    var url = "/api/work_order/"+this.props.won+"/bid";
-    fetch(url, {
+  async componentDidMount() {
+    var url = "/api/work_order/" + this.props.won + "/bid";
+    await fetch(url, {
       method: "GET",
       headers: {
         "X-Requested-With": "XMLHttpRequest",
       },
     })
-      .then((res) => res.json())
+      .then(async (res) => {
+        let bodyText = await res.text();
+        return JSON.parse(bodyText);
+      })
       .then((data) => {
         this.isLoading = false;
         this.setState({ todos: data });
@@ -75,7 +78,7 @@ class Bidsscreen extends Component {
                     <Button
                       className="float-right"
                       size="sm"
-                      onClick={()=>this.props.tabChange("createBid")}
+                      onClick={() => this.props.tabChange("createBid")}
                     >
                       <FontAwesomeIcon icon={faPencilRuler} />
                       &nbsp;Add&nbsp;Bid&nbsp;Item

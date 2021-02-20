@@ -14,7 +14,7 @@ const app = express(); //create the server.
 
 const appId = process.env.APP_ID;
 const NS_FS_API = process.env.NS_FS_API;
-
+//const NS_FS_API = "http://localhost:5000";//local testing only
 var options = {
   host: process.env.NS_DB_HOST,
   port: process.env.NS_DB_PORT,
@@ -145,7 +145,11 @@ var proxyOptions = {
     console.warn("PROXYING API CALL");
     proxyReq.setHeader("X-USER-ID", req.session.apiKey); // add new header to response
     proxyReq.setHeader("X-APP-ID", appId);
+  },
+  onProxyRes(proxyRes, req,res){
+    //console.log(proxyRes);
   }
+  
 };
 var proxy = createProxyMiddleware(proxyOptions);
 app.use("/api", proxy);

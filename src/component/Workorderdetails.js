@@ -9,7 +9,9 @@ import {
   faChessRook,
   faPaperPlane,
   faBackward,
-  faHamburger,
+  faBars,
+  faCompass,
+
 } from "@fortawesome/free-solid-svg-icons";
 import {
   Badge,
@@ -63,7 +65,7 @@ class Workorderdetails extends Component {
     });
   };
 
-  componentDidMount() {
+  componentDidMount = ()=> {
     this.wonId = this.props.match.params.won;
 
     axios
@@ -91,6 +93,11 @@ class Workorderdetails extends Component {
     let dueDate = new Date(item.due_date);
     let today = new Date();
     let statusMessage = "Unknown";
+    if(item.approval_status === 'Pre-Pending'|| item.approval_status === 'Pending')
+    {
+      statusMessage = "Pending";
+      return statusMessage;
+    }
     if (dueDate.getDate() > today) {
       statusMessage = "On Time";
     }
@@ -117,37 +124,43 @@ class Workorderdetails extends Component {
         break;
       default:
         itemClass = "secondary";
-        break;
     }
 
     return itemClass;
   };
+  renderHeader = (item) => {
+   return(<Card style={{ marginBottom: "0.5em" }}>
+    <Card.Body style={{ padding: "0.25em" }}>
+      <Image
+        src={item.image_url_small}
+        style={{
+          float: "left",
+          width: "20%",
+          height: "100%",
+          margin: "0.25em",
+          marginRight: "2em",
+        }}
+        float="left"
+        thumbnail
+        roundedCircle
+      />
+      <Card.Title>
+        <Link to={"/Workorderdetails/" + item.won}>
+          {item.work_ordered}
+        </Link>
+      </Card.Title>
+      <Card.Subtitle className="mb-2 text-muted">
+        {item.address_street} {item.address_city}, {item.address_state}
+      </Card.Subtitle>
+      </Card.Body>
+      </Card>);
+  }
   renderCard = (item) => {
     return (
       <div key={"WO" + item.won}>
+        <Container>
         <Card style={{ marginBottom: "0.5em" }}>
           <Card.Body style={{ padding: "0.25em" }}>
-            <Image
-              src={item.image_url_small}
-              style={{
-                float: "left",
-                width: "20%",
-                height: "100%",
-                margin: "0.25em",
-                marginRight: "2em",
-              }}
-              float="left"
-              thumbnail
-              roundedCircle
-            />
-            <Card.Title>
-              <Link to={"/Workorderdetails/" + item.won}>
-                {item.work_ordered}
-              </Link>
-            </Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">
-              {item.address_street} {item.address_city}, {item.address_state}
-            </Card.Subtitle>
             <Card.Text style={{ padding: "0.25em" }}>
               {item.instructions_full
                 ? item.instructions_full[0].instruction
@@ -155,18 +168,18 @@ class Workorderdetails extends Component {
             </Card.Text>
             <Container>
               <Row>
-                <Col xs={5}>
+                <Col>
                   <Button
                     variant="success"
                     onClick={() => {
                       this.navSelected("survey");
                     }}
+                    block
                   >
                     <FontAwesomeIcon icon={faPaperPlane} />
                     &nbsp;&nbsp;Submit&nbsp;Work
                   </Button>
                 </Col>
-                <Col xs={2}></Col>
                 
               </Row>
             </Container>
@@ -190,30 +203,45 @@ class Workorderdetails extends Component {
             </Badge>
           </Card.Footer>
         </Card>
-        <Container>
+        
           <Card>
           <Card.Header>
-            Last Status Update
+            <Row>
+            <Col>
+            <b>Last Status Update</b>
+            </Col>
+            <Col>
+              <Button className="float-right" onClick={()=>{this.navSelected("update");}}>
+                <FontAwesomeIcon icon={faHistory} flip="horizontal" />
+                &nbsp;&nbsp;New&nbsp;Status
+                
+              </Button>
+              </Col>
+              </Row>
           </Card.Header>
           <Card.Body>
           {item.last_status_update ? (
             <>
               <Row>
-                <Col>Order Status</Col>
+                <Col><b>Status</b></Col>
                 <Col>{item.last_status_update.order_status}</Col>
                 </Row>
+                <hr/>
                 <Row>
-                <Col>Delay Reason : </Col>
+                <Col><b>Delay Reason</b></Col>
                 <Col>{item.last_status_update.delay_reason}</Col>
               </Row>
+              <hr/>
               <Row>
-                <Col>Expected Completion Date : </Col>
+                <Col><b>Expected Completion Date</b></Col>
               </Row>
+              <hr/>
               <Row>
-                <Col>{item.last_status_update.expected_completion_date}</Col>
+                <Col>{item.last_status_update.expected_completion_date?item.last_status_update.expected_completion_date:item.due_date}</Col>
               </Row>
+              <hr/>
               <Row>
-                <Col>Explanation:</Col>
+                <Col><b>Explanation</b></Col>
               </Row>
               <Row>
                 <Col>{item.last_status_update.explanation}</Col>
@@ -225,15 +253,12 @@ class Workorderdetails extends Component {
           </Card.Body>
           <Card.Footer>
           <Row>
-            <Col >
-              <Button className="float-right" onClick={()=>{this.navSelected("update");}}>
-                <FontAwesomeIcon icon={faHistory} flip="horizontal" />
-                &nbsp;&nbsp;New&nbsp;Status
-              </Button>
-            </Col>
           </Row>
           </Card.Footer>
           </Card>
+          <Row><br/></Row>
+          <Row><br/></Row>
+          <Row><br/></Row>
         </Container>
       </div>
     );
@@ -256,6 +281,7 @@ class Workorderdetails extends Component {
           <FontAwesomeIcon icon={faBackward} />
           Back
         </Button>
+        {this.renderHeader(this.state.won)}
         <Tab.Container
           id="woTabs"
           defaultActiveKey="details"
@@ -293,10 +319,10 @@ class Workorderdetails extends Component {
               <Createbiditem won={this.wonId} />
             </Tab.Pane>
             <Tab.Pane eventKey="photos">
-              <PhotoScreen />
+              <PhotoScreen won={this.wonId}/>
             </Tab.Pane>
             <Tab.Pane eventKey="survey">
-              <Submitworkorder won={this.wonId} />
+              <Submitworkorder won={this.wonId} surveyName={this.state.won.survey_name} />
             </Tab.Pane>
           </Tab.Content>
           <Navbar fixed="bottom" className="justify-content-center">
@@ -308,7 +334,10 @@ class Workorderdetails extends Component {
                 this.buttonRef = ref;
               }}
             >
+              <FontAwesomeIcon icon={faBars} size="lg" className="float-left"/>
               {this.state.key}
+              <FontAwesomeIcon icon={faCompass} size="lg" className="float-right"/>
+              
             </Button>
             <Overlay
               placement="top"
@@ -327,7 +356,6 @@ class Workorderdetails extends Component {
                     variant="pills"
                     style={{ fontSize: "2em", width: "250px" }}
                   >
-                    <FontAwesomeIcon icon={{ faHamburger }} />
                     <Nav.Item>
                       <Nav.Link eventKey="details">Review Details</Nav.Link>
                     </Nav.Item>
@@ -338,7 +366,7 @@ class Workorderdetails extends Component {
                       <Nav.Link eventKey="bids">Add Bids</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="photos">Add Photos</Nav.Link>
+                      <Nav.Link eventKey="photos">Add/Review Photos</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                       <Nav.Link eventKey="survey">Submit Work</Nav.Link>

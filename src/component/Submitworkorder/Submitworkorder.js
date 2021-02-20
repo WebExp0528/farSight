@@ -12,38 +12,30 @@ import {
   Navbar,
   Toast,
 } from "react-bootstrap";
+import BasicSurvey from "./BasicSurvey";
+import PoolSurvey from "./PoolSurvey";
 class Submitworkorder extends Component {
   toastMessage = null;
   toggleShowToast = () => {this.setState((state, props) => {return {showToast: !state.showToast}})};
   setShowToast = (val) =>{this.setState((state, props) => {return{showToast: val}})};
   state = {
     showToast : false,
-    survey: {
-      meta: {
-        surveyTemplateId: "FarSightMinimal",
-        version: 3.1,
-        name: "NS Work Survey FarSight Minimal",
-      },
-      answers: [
-        {
-          id: "Work_Completed__c",
-          answer: "Yes",
-        },
-        {
-          id: "Vendor_Notes_To_Staff__c",
-          answer: "",
-        },
-        {
-          id: "Date_Serviced__c",
-          answer: new Date().toISOString().slice(0,10),
-        },
-      ],
-    },
+    survey: {answers:[]},
   };
   getAnswerFromState = (id) => {
-    return this.state.survey.answers.find((a) => {
-      return a.id === id;
-    }).answer;
+    let question = this.state.survey.answers.find((a) => {
+      return (a && a.id === id);
+    });
+    if(question)
+    {
+      return question.answer;
+    }else{
+      return null;
+    }
+
+  }
+  setupSurvey = (surveyTemplate) =>{
+    this.setState({survey:surveyTemplate});
   }
   updateAnswer = (event) => {
     this.state.survey.answers.find((a) => {
@@ -78,6 +70,21 @@ class Submitworkorder extends Component {
         this.setShowToast(true);  
       });
   };
+  renderSurvey = () => {
+    const surveyName = this.props.surveyName;
+    let survey = {};
+    switch(surveyName)
+    {
+      case "NS_FSAPI_Pool_Beta-v1":
+       survey = (<PoolSurvey parent = {this} />);
+       break;
+      case "FarSightBasic":
+      default:
+        survey = (<BasicSurvey parent={this}/>);
+        break;
+    }
+    return survey;
+  }
   render() {
     return (
       <Container>
@@ -87,42 +94,7 @@ class Submitworkorder extends Component {
           </Toast.Header>
           <Toast.Body>{this.toastMessage}</Toast.Body>
         </Toast>
-        <Form onSubmit={this.submitSurvey} id="SurveyForm">
-          <Form.Group controlId="Work_Completed__c">
-            <Form.Label>Was Work Completed?</Form.Label>
-            <Form.Control
-              as="select"
-              id="Work_Completed__c"
-              onChange={this.updateAnswer}
-            >
-              <option>Yes</option>
-              <option>No</option>
-            </Form.Control>
-          </Form.Group>
-          <Form.Group controlId="Date_Serviced__c">
-            <Form.Label>Date Serviced:</Form.Label>
-            <Form.Control
-              type="date"
-              value={this.getAnswerFromState("Date_Serviced__c")}
-              id="Date_Serviced__c"
-              min="1900-01-01"
-              max={new Date().toISOString().slice(0,10)}
-              onChange={this.updateAnswer}
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group controlId="Vendor_Notes_To_Staff__c">
-            <Form.Label>Notes to Staff:</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              id="Vendor_Notes_To_Staff__c"
-              onChange={this.updateAnswer}
-            ></Form.Control>
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
+        {this.renderSurvey()}
       </Container>
     );
   }

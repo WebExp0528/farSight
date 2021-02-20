@@ -40,6 +40,11 @@ class Workorderlist extends Component {
     let dueDate = new Date(item.due_date);
     let today = new Date();
     let statusMessage = "Unknown";
+    if(item.approval_status === 'Pre-Pending'|| item.approval_status === 'Pending')
+    {
+      statusMessage = "Pending";
+      return statusMessage;
+    }
     if (dueDate.getDate() > today) {
       statusMessage = "On Time";
     }
