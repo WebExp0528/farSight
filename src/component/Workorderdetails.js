@@ -150,7 +150,9 @@ class Workorderdetails extends Component {
         </Link>
       </Card.Title>
       <Card.Subtitle className="mb-2 text-muted">
-        {item.address_street} {item.address_city}, {item.address_state}
+        <address>
+        <a href ={"geo://"+item.gps_latitude+","+item.gps_longitude}>{item.address_street} {item.address_city}, {item.address_state}</a>
+        </address>
       </Card.Subtitle>
       </Card.Body>
       </Card>);

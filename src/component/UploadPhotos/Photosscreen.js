@@ -144,7 +144,7 @@ class Photoscreen extends Component {
     if (!this.state.selectedFiles) return;
 
     const allFiles = [...this.state.selectedFiles];
-    const maxUploadTasks = 6;//Max allowed by browsers anyway.
+    const maxUploadTasks = 6; //Max allowed by browsers anyway.
     const numFileSegments = Math.min(allFiles.length, maxUploadTasks);
     const segmentLength = Math.ceil(allFiles.length / numFileSegments); //
     const filelistSegments = this.chunkArray(allFiles, segmentLength);
@@ -313,26 +313,21 @@ class Photoscreen extends Component {
             <Alert msg={successMsg} type="success" /> */}
                 <Row style={{ color: "lightgray" }}>
                   <Col xs={3}>
-                    <FontAwesomeIcon icon={faCamera} size="3x" />
+                    <FontAwesomeIcon icon={faCamera} size="2x" />
                   </Col>
                   <Col>
                     <h3>Upload Photos</h3>
+                    <div>for each stage of work.</div>
                   </Col>
                 </Row>
-
-                <Row style={{ color: "lightgray" }}>
-                  <Col>
-                    Please use the buttons below to upload photos for each stage
-                    of work.
-                  </Col>
-                </Row>
+                
 
                 <Accordion>
                   <Card>
                     <Card.Header>
                       <Row>
                         <Button
-                          size="lg"
+                          size="md"
                           onClick={() => {
                             this.selectFile("before");
                           }}
@@ -341,7 +336,7 @@ class Photoscreen extends Component {
                           BEFORE
                           <FontAwesomeIcon
                             icon={faUpload}
-                            size="2x"
+                            size="lg"
                             className="float-right"
                           />
                         </Button>
@@ -353,7 +348,8 @@ class Photoscreen extends Component {
                           variant="link"
                           eventKey="0"
                         >
-                          View {this.state.uploadedBeforeImages.length} Uploaded Images...
+                          View {this.state.uploadedBeforeImages.length} Uploaded
+                          Images...
                         </Accordion.Toggle>
                       </Row>
                     </Card.Header>
@@ -396,16 +392,27 @@ class Photoscreen extends Component {
                                   };
                                 })
                               }
-                              block>
+                              block
+                            >
                               &lt;Prev.
                             </Button>
                           </Col>
-                          <Col>Page {this.state.reviewUploadedBeforePage+1}/{Math.ceil(this.state.uploadedBeforeImages.length/previewPageSize)}</Col>
+                          <Col>
+                            Page {this.state.reviewUploadedBeforePage + 1}/
+                            {Math.ceil(
+                              this.state.uploadedBeforeImages.length /
+                                previewPageSize
+                            )}
+                          </Col>
                           <Col>
                             <Button
                               hidden={
                                 this.state.reviewUploadedBeforePage >=
-                                Math.ceil(this.state.uploadedBeforeImages.length/previewPageSize) - 1
+                                Math.ceil(
+                                  this.state.uploadedBeforeImages.length /
+                                    previewPageSize
+                                ) -
+                                  1
                               }
                               onClick={() =>
                                 this.setState((state, props) => {
@@ -415,7 +422,8 @@ class Photoscreen extends Component {
                                   };
                                 })
                               }
-                              block>
+                              block
+                            >
                               Next &gt;
                             </Button>
                           </Col>
@@ -429,7 +437,7 @@ class Photoscreen extends Component {
                       <Row>
                         <Button
                           variant="warning"
-                          size="lg"
+                          size="md"
                           onClick={() => {
                             this.selectFile("during");
                           }}
@@ -438,7 +446,7 @@ class Photoscreen extends Component {
                           DURING
                           <FontAwesomeIcon
                             icon={faUpload}
-                            size="2x"
+                            size="lg"
                             className="float-right"
                           />
                         </Button>
@@ -450,7 +458,8 @@ class Photoscreen extends Component {
                           variant="link"
                           eventKey="1"
                         >
-                          View {this.state.uploadedDuringImages.length} Uploaded Images...
+                          View {this.state.uploadedDuringImages.length} Uploaded
+                          Images...
                         </Accordion.Toggle>
                       </Row>
                     </Card.Header>
@@ -491,17 +500,29 @@ class Photoscreen extends Component {
                                     reviewUploadedDuringPage:
                                       state.reviewUploadedDuringPage - 1,
                                   };
-                                })}
-                              block >
+                                })
+                              }
+                              block
+                            >
                               &lt;Prev.
                             </Button>
                           </Col>
-                          <Col>Page {this.state.reviewUploadedDuringPage+1}/{Math.ceil(this.state.uploadedDuringImages.length/previewPageSize)}</Col>
+                          <Col>
+                            Page {this.state.reviewUploadedDuringPage + 1}/
+                            {Math.ceil(
+                              this.state.uploadedDuringImages.length /
+                                previewPageSize
+                            )}
+                          </Col>
                           <Col>
                             <Button
                               hidden={
                                 this.state.reviewUploadedDuringPage >=
-                                Math.ceil(this.state.uploadedDuringImages.length/previewPageSize) - 1
+                                Math.ceil(
+                                  this.state.uploadedDuringImages.length /
+                                    previewPageSize
+                                ) -
+                                  1
                               }
                               onClick={() =>
                                 this.setState((state, props) => {
@@ -525,8 +546,8 @@ class Photoscreen extends Component {
                     <Card.Header>
                       <Row>
                         <Button
-                          variant="success"
-                          size="lg"
+                          variant="dark"
+                          size="md"
                           onClick={() => {
                             this.selectFile("after");
                           }}
@@ -535,7 +556,7 @@ class Photoscreen extends Component {
                           AFTER
                           <FontAwesomeIcon
                             icon={faUpload}
-                            size="2x"
+                            size="lg"
                             className="float-right"
                           />
                         </Button>
@@ -547,7 +568,8 @@ class Photoscreen extends Component {
                           variant="link"
                           eventKey="2"
                         >
-                          View {this.state.uploadedAfterImages.length} Uploaded Images...
+                          View {this.state.uploadedAfterImages.length} Uploaded
+                          Images...
                         </Accordion.Toggle>
                       </Row>
                     </Card.Header>
@@ -595,12 +617,22 @@ class Photoscreen extends Component {
                               &lt;Prev.
                             </Button>
                           </Col>
-                          <Col>Page {this.state.reviewUploadedAfterPage+1}/{Math.ceil(this.state.uploadedAfterImages.length/previewPageSize)}</Col>
+                          <Col>
+                            Page {this.state.reviewUploadedAfterPage + 1}/
+                            {Math.ceil(
+                              this.state.uploadedAfterImages.length /
+                                previewPageSize
+                            )}
+                          </Col>
                           <Col>
                             <Button
                               hidden={
                                 this.state.reviewUploadedAfterPage >=
-                                Math.ceil(this.state.uploadedAfterImages.length/previewPageSize)-1
+                                Math.ceil(
+                                  this.state.uploadedAfterImages.length /
+                                    previewPageSize
+                                ) -
+                                  1
                               }
                               onClick={() =>
                                 this.setState((state, props) => {
@@ -620,6 +652,20 @@ class Photoscreen extends Component {
                     </Accordion.Collapse>
                   </Card>
                 </Accordion>
+                <Row>
+                <Col>
+                  <Button
+                    variant="success"
+                    onClick={() => {
+                      this.navSelected("survey");
+                    }}
+                    block
+                  >
+                    Continue to Survey...
+                    <FontAwesomeIcon icon={faPaperPlane} className="float-right" />
+                  </Button>
+                </Col>
+                </Row>
               </Container>
             </Tab.Pane>
             <Tab.Pane eventKey="preview">

@@ -88,6 +88,9 @@ class App extends Component {
                 Start Demo >
               </Button>
             </Navbar.Brand>
+            <Navbar.Brand>
+              {navigator.platform}
+            </Navbar.Brand>
           </Navbar>
           <Switch>
             <Route path="/" exact component={Workorderlist} />
