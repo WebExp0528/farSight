@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import renderHTML from "react-render-html";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
@@ -102,6 +103,11 @@ class Workorderlist extends Component {
             <Card.Subtitle className="mb-2 text-muted">
               {item.address_street} {item.address_city}, {item.address_state}
             </Card.Subtitle>
+            <Card.Text>
+            {
+            item.description?renderHTML(item.description):null
+            }
+            </Card.Text>
           </Card.Body>
           <Card.Footer
             style={{

@@ -23,4 +23,6 @@ object {
   -webkit-font-smoothing: antialiased;
 }
 */
-
+ body {
+   padding-top : 60px;
+ }

@@ -55,7 +55,7 @@ class Photoscreen extends Component {
       selectedFiles: [],
       successMsg: "",
       errMsg: "",
-      key: "main",
+      key: props.category,
       isUploading: false,
     };
     this.fileInputRef = React.createRef();
@@ -303,11 +303,11 @@ class Photoscreen extends Component {
         </Form>
         <Tab.Container
           id="photoTabs"
-          defaultActiveKey="main"
+          defaultActiveKey={this.props.category}
           activeKey={this.state.key}
         >
           <Tab.Content>
-            <Tab.Pane eventKey="main">
+            <Tab.Pane eventKey="before">
               <Container>
                 {/* <Alert msg={errMsg} type="danger" />
             <Alert msg={successMsg} type="success" /> */}
@@ -317,10 +317,8 @@ class Photoscreen extends Component {
                   </Col>
                   <Col>
                     <h3>Upload Photos</h3>
-                    <div>for each stage of work.</div>
                   </Col>
                 </Row>
-                
 
                 <Accordion>
                   <Card>
@@ -431,7 +429,22 @@ class Photoscreen extends Component {
                       </Card.Body>
                     </Accordion.Collapse>
                   </Card>
-
+                </Accordion>
+              </Container>
+            </Tab.Pane>
+            <Tab.Pane eventKey="during">
+              <Container>
+                {/* <Alert msg={errMsg} type="danger" />
+            <Alert msg={successMsg} type="success" /> */}
+                <Row style={{ color: "lightgray" }}>
+                  <Col xs={3}>
+                    <FontAwesomeIcon icon={faCamera} size="2x" />
+                  </Col>
+                  <Col>
+                    <h3>Upload Photos</h3>
+                  </Col>
+                </Row>
+                <Accordion>
                   <Card>
                     <Card.Header>
                       <Row>
@@ -541,7 +554,24 @@ class Photoscreen extends Component {
                       </Card.Body>
                     </Accordion.Collapse>
                   </Card>
+                </Accordion>
+              </Container>
+            </Tab.Pane>
 
+            <Tab.Pane eventKey="after">
+              <Container>
+                {/* <Alert msg={errMsg} type="danger" />
+            <Alert msg={successMsg} type="success" /> */}
+                <Row style={{ color: "lightgray" }}>
+                  <Col xs={3}>
+                    <FontAwesomeIcon icon={faCamera} size="2x" />
+                  </Col>
+                  <Col>
+                    <h3>Upload Photos</h3>
+                  </Col>
+                </Row>
+
+                <Accordion>
                   <Card>
                     <Card.Header>
                       <Row>
@@ -652,20 +682,6 @@ class Photoscreen extends Component {
                     </Accordion.Collapse>
                   </Card>
                 </Accordion>
-                <Row>
-                <Col>
-                  <Button
-                    variant="success"
-                    onClick={() => {
-                      this.navSelected("survey");
-                    }}
-                    block
-                  >
-                    Continue to Survey...
-                    <FontAwesomeIcon icon={faPaperPlane} className="float-right" />
-                  </Button>
-                </Col>
-                </Row>
               </Container>
             </Tab.Pane>
             <Tab.Pane eventKey="preview">

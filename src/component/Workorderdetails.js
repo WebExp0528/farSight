@@ -2,6 +2,7 @@ import React, { Component, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import renderHTML from "react-render-html";
 import {
   faSearch,
   faHistory,
@@ -11,7 +12,9 @@ import {
   faBackward,
   faBars,
   faCompass,
-
+  faCaretRight,
+  faCaretDown,
+  faAngleDoubleDown,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   Badge,
@@ -27,9 +30,11 @@ import {
   Nav,
   NavDropdown,
   Tabs,
+  Alert,
   Tab,
   Popover,
   Overlay,
+  Accordion,
   Button,
 } from "react-bootstrap";
 import { getWorkOrders } from "../store/actions/WorkorderlistAction";
@@ -46,28 +51,22 @@ import PhotoScreen from "./UploadPhotos/Photosscreen";
 class Workorderdetails extends Component {
   isLoading = true;
   wonId = null;
+
   state = {
     key: "details",
     showNav: false,
     won: {},
     isOpen: false,
     ispageStatus: false,
+    menuCaret: faCaretRight,
+    showScroll: true,
+    hideScroll:false,
   };
   constructor(props) {
     super(props);
 
     this.buttonRef = React.createRef();
-  }
-
-  navSelected = (selectedKey) => {
-    this.setState((state, props) => {
-      return { key: selectedKey, showNav: false };
-    });
-  };
-
-  componentDidMount = ()=> {
-    this.wonId = this.props.match.params.won;
-
+    this.wonId = props.match.params.won;
     axios
       .get("/api/work_order/" + this.wonId, {
         method: "GET",
@@ -85,7 +84,35 @@ class Workorderdetails extends Component {
         }));
       });
   }
+  toggleMenuCaret = (eventKey) => {
+    if (this.state.menuCaret === faCaretRight) {
+      this.setState({ menuCaret: faCaretDown });
+    } else {
+      this.setState({ menuCaret: faCaretRight });
+    }
+  };
+  navSelected = (selectedKey) => {
+    this.setState((state, props) => {
+      return { key: selectedKey, showNav: false };
+    });
+  };
 
+  componentDidMount = () => {
+    window.addEventListener("scroll", this.handleScroll);
+  };
+  componentDidUpdate = () => {
+    let shouldShowScroll = this.showScroll();
+    if(this.state.showScroll!==shouldShowScroll)
+    {
+      this.setState({showScroll : shouldShowScroll});
+    }
+  }
+  showScroll = () => {
+    return document.body.scrollHeight > window.innerHeight && !this.state.hideScroll;
+  };
+  handleScroll = (event) => {
+    this.setState({ hideScroll: true });
+  };
   togglePopup = (isOpen) => {
     this.setState(!isOpen);
   };
@@ -93,8 +120,10 @@ class Workorderdetails extends Component {
     let dueDate = new Date(item.due_date);
     let today = new Date();
     let statusMessage = "Unknown";
-    if(item.approval_status === 'Pre-Pending'|| item.approval_status === 'Pending')
-    {
+    if (
+      item.approval_status === "Pre-Pending" ||
+      item.approval_status === "Pending"
+    ) {
       statusMessage = "Pending";
       return statusMessage;
     }
@@ -129,139 +158,141 @@ class Workorderdetails extends Component {
     return itemClass;
   };
   renderHeader = (item) => {
-   return(<Card style={{ marginBottom: "0.5em" }}>
-    <Card.Body style={{ padding: "0.25em" }}>
-      <Image
-        src={item.image_url_small}
-        style={{
-          float: "left",
-          width: "20%",
-          height: "100%",
-          margin: "0.25em",
-          marginRight: "2em",
-        }}
-        float="left"
-        thumbnail
-        roundedCircle
-      />
-      <Card.Title>
-        <Link to={"/Workorderdetails/" + item.won}>
-          {item.work_ordered}
-        </Link>
-      </Card.Title>
-      <Card.Subtitle className="mb-2 text-muted">
-        <address>
-        <a href ={"geo://"+item.gps_latitude+","+item.gps_longitude}>{item.address_street} {item.address_city}, {item.address_state}</a>
-        </address>
-      </Card.Subtitle>
-      </Card.Body>
-      </Card>);
-  }
-  renderCard = (item) => {
     return (
-      <div key={"WO" + item.won}>
-        <Container>
+      <>
         <Card style={{ marginBottom: "0.5em" }}>
-          <Card.Body style={{ padding: "0.25em" }}>
-            <Card.Text style={{ padding: "0.25em" }}>
-              {item.instructions_full
-                ? item.instructions_full[0].instruction
-                : null}
-            </Card.Text>
-            <Container>
-              <Row>
-                <Col>
-                  <Button
-                    variant="success"
-                    onClick={() => {
-                      this.navSelected("survey");
-                    }}
-                    block
-                  >
-                    <FontAwesomeIcon icon={faPaperPlane} />
-                    &nbsp;&nbsp;Submit&nbsp;Work
-                  </Button>
-                </Col>
-                
-              </Row>
-            </Container>
-          </Card.Body>
-          <Card.Footer
-            style={{
-              padding: "0.5em",
-              textAlign: "justify",
-            }}
-          >
-            <span style={{ color: "grey" }}>
-              Work&nbsp;Order&nbsp;#{item.won}
-            </span>{" "}
-            &nbsp;&nbsp;&nbsp;&nbsp;
+          <Card.Img
+            style={{ maxHeight: "200px" }}
+            variant="top"
+            src={item.image_url_small}
+          />
+          <Card.ImgOverlay style={{ paddingTop: "160px" }}>
             <Badge variant="primary">
               Due: {new Date(item.due_date).toDateString()}
-            </Badge>{" "}
+            </Badge>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <Badge variant={this.getItemStatusBadgeClass(item)}>
               {this.getItemStatus(item)}
             </Badge>
-          </Card.Footer>
+          </Card.ImgOverlay>
         </Card>
-        
-          <Card>
+
+        <Row>
+          <Col>
+            <h5>
+              <Link to={"/Workorderdetails/" + item.won}>
+                {item.work_ordered}
+              </Link>
+            </h5>
+          </Col>
+          <Col>
+            <div>
+              <h6 style={{ color: "grey" }}>
+                Work&nbsp;Order&nbsp;#{item.won}
+              </h6>
+            </div>
+            <div>
+              {" "}
+              <h6>
+                <a
+                  href={"geo://" + item.gps_latitude + "," + item.gps_longitude}
+                >
+                  {item.address_street}
+                  <br />
+                  {item.address_city}, {item.address_state}
+                </a>
+              </h6>
+            </div>
+          </Col>
+        </Row>
+      </>
+    );
+  };
+  renderCard = (item) => {
+    return (
+      <div key={"WO" + item.won}>
+        <Card style={{ marginBottom: "0.5em" }}>
+          <Card.Header style={{ padding: "0.25em" }}>INSTRUCTIONS</Card.Header>
+          <Card.Body style={{ padding: "0.25em" }}>
+            <Card.Text style={{ padding: "0.25em" }}>
+              {item.instructions_full
+                ? item.instructions_full.map((i) => {
+                    return (
+                      <>
+                        <h4>
+                          {i.action} - {i.type}
+                        </h4>
+                        <div>{i.instruction}</div>
+                        <br />
+                      </>
+                    );
+                  })
+                : null}
+            </Card.Text>
+          </Card.Body>
+        </Card>
+        <Card>
           <Card.Header>
             <Row>
-            <Col>
-            <b>Last Status Update</b>
-            </Col>
-            <Col>
-              <Button className="float-right" onClick={()=>{this.navSelected("update");}}>
-                <FontAwesomeIcon icon={faHistory} flip="horizontal" />
-                &nbsp;&nbsp;New&nbsp;Status
-                
-              </Button>
+              <Col>
+                <b>Last Status Update</b>
               </Col>
-              </Row>
+            </Row>
           </Card.Header>
           <Card.Body>
-          {item.last_status_update ? (
-            <>
-              <Row>
-                <Col><b>Status</b></Col>
-                <Col>{item.last_status_update.order_status}</Col>
-                </Row>
-                <hr/>
+            {item.last_status_update ? (
+              <>
                 <Row>
-                <Col><b>Delay Reason</b></Col>
-                <Col>{item.last_status_update.delay_reason}</Col>
-              </Row>
-              <hr/>
-              <Row>
-                <Col><b>Expected Completion Date</b></Col>
-              </Row>
-              <hr/>
-              <Row>
-                <Col>{item.last_status_update.expected_completion_date?item.last_status_update.expected_completion_date:item.due_date}</Col>
-              </Row>
-              <hr/>
-              <Row>
-                <Col><b>Explanation</b></Col>
-              </Row>
-              <Row>
-                <Col>{item.last_status_update.explanation}</Col>
-              </Row>
-            </>
-          ) : (
-            <h6>This work order has not been updated.</h6>
-          )}
+                  <Col>
+                    <b>Status</b>
+                  </Col>
+                  <Col>{item.last_status_update.order_status}</Col>
+                </Row>
+                <hr />
+                <Row>
+                  <Col>
+                    <b>Delay Reason</b>
+                  </Col>
+                  <Col>{item.last_status_update.delay_reason}</Col>
+                </Row>
+                <hr />
+                <Row>
+                  <Col>
+                    <b>Expected Completion Date</b>
+                  </Col>
+                </Row>
+                <hr />
+                <Row>
+                  <Col>
+                    {item.last_status_update.expected_completion_date
+                      ? item.last_status_update.expected_completion_date
+                      : item.due_date}
+                  </Col>
+                </Row>
+                <hr />
+                <Row>
+                  <Col>
+                    <b>Explanation</b>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>{item.last_status_update.explanation}</Col>
+                </Row>
+              </>
+            ) : (
+              <h6>This work order has not been updated.</h6>
+            )}
           </Card.Body>
-          <Card.Footer>
-          <Row>
-          </Row>
-          </Card.Footer>
-          </Card>
-          <Row><br/></Row>
-          <Row><br/></Row>
-          <Row><br/></Row>
-        </Container>
+        </Card>
+        <Row>
+          <br />
+        </Row>
+        <Row>
+          <br />
+        </Row>
+        <Row>
+          <br />
+        </Row>
       </div>
     );
   };
@@ -278,11 +309,7 @@ class Workorderdetails extends Component {
     };
     console.log("workOrder", this.state.won);
     return (
-      <div>
-        <Button variant="secondary" href="/">
-          <FontAwesomeIcon icon={faBackward} />
-          Back
-        </Button>
+      <Container>
         {this.renderHeader(this.state.won)}
         <Tab.Container
           id="woTabs"
@@ -320,66 +347,164 @@ class Workorderdetails extends Component {
             <Tab.Pane eventKey="createBid">
               <Createbiditem won={this.wonId} />
             </Tab.Pane>
-            <Tab.Pane eventKey="photos">
-              <PhotoScreen won={this.wonId}/>
+            <Tab.Pane eventKey="before-photos">
+              <PhotoScreen won={this.wonId} category="before" />
             </Tab.Pane>
+            <Tab.Pane eventKey="during-photos">
+              <PhotoScreen won={this.wonId} category="during" />
+            </Tab.Pane>
+            <Tab.Pane eventKey="after-photos">
+              <PhotoScreen won={this.wonId} category="after" />
+            </Tab.Pane>
+
             <Tab.Pane eventKey="survey">
-              <Submitworkorder won={this.wonId} surveyName={this.state.won.survey_name} />
+              <Submitworkorder
+                won={this.wonId}
+                surveyName={this.state.won.survey_name}
+              />
+            </Tab.Pane>
+            <Tab.Pane eventKey="submit">
+              <Submitworkorder
+                won={this.wonId}
+                surveyName="FinalCheck"
+              />
             </Tab.Pane>
           </Tab.Content>
-          <Navbar fixed="bottom" className="justify-content-center">
-            <Button
-              variant="primary"
-              style={{ width: "100%" }}
-              onClick={navClick}
-              ref={(ref) => {
-                this.buttonRef = ref;
-              }}
-            >
-              <FontAwesomeIcon icon={faBars} size="lg" className="float-left"/>
-              {this.state.key}
-              <FontAwesomeIcon icon={faCompass} size="lg" className="float-right"/>
-              
-            </Button>
-            <Overlay
-              placement="top"
-              target={this.buttonRef}
-              show={this.state.showNav}
-              onHide={() => console.log("hideNav")}
-            >
-              <Popover id="nav-popover">
-                <Popover.Title>Select a section...</Popover.Title>
-                <Popover.Content>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+
+          <Accordion defaultActiveKey="orderActions">
+            <Card className="fixed-bottom" bg="secondary" block fill>
+              <Accordion.Toggle
+                as={Button}
+                block
+                eventKey="orderActions"
+                onClick={this.toggleMenuCaret}
+                variant="dark-outline"
+                ref={(ref) => {
+                  this.buttonRef = ref;
+                }}
+              >
+                Actions Menu...
+                <FontAwesomeIcon
+                  className="float-right"
+                  icon={this.state.menuCaret}
+                />
+              </Accordion.Toggle>
+
+              <Accordion.Collapse eventKey="orderActions">
+                <Card.Footer>
                   <Nav
-                    fill
-                    className="justify-content-center"
+                    justify
                     activeKey={this.state.key}
                     onSelect={this.navSelected}
                     variant="pills"
-                    style={{ fontSize: "2em", width: "250px" }}
                   >
-                    <Nav.Item>
-                      <Nav.Link eventKey="details">Review Details</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="update">Update Status</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="bids">Add Bids</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="photos">Add/Review Photos</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="survey">Submit Work</Nav.Link>
-                    </Nav.Item>
+                    <Container>
+                      <Row>
+                        <Col>
+                          <Nav.Item>
+                            <Nav.Link
+                              as={Button}
+                              size="sm"
+                              block
+                              eventKey="before-photos"
+                            >
+                              Before Photos
+                            </Nav.Link>
+                          </Nav.Item>
+                        </Col>
+                        <Col>
+                          <Nav.Item>
+                            <Nav.Link
+                              as={Button}
+                              size="sm"
+                              block
+                              eventKey="survey"
+                            >
+                              Submit Survey
+                            </Nav.Link>
+                          </Nav.Item>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <Nav.Item>
+                            <Nav.Link
+                              as={Button}
+                              size="sm"
+                              block
+                              eventKey="during-photos"
+                            >
+                              During Photos
+                            </Nav.Link>
+                          </Nav.Item>
+                        </Col>
+                        <Col>
+                          <Nav.Item>
+                            <Nav.Link
+                              as={Button}
+                              size="sm"
+                              block
+                              eventKey="bids"
+                            >
+                              Add Bids
+                            </Nav.Link>
+                          </Nav.Item>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <Nav.Item>
+                            <Nav.Link
+                              as={Button}
+                              size="sm"
+                              block
+                              eventKey="after-photos"
+                            >
+                              After Photos
+                            </Nav.Link>
+                          </Nav.Item>
+                        </Col>
+                        <Col>
+                          <Nav.Item>
+                            <Nav.Link
+                              as={Button}
+                              size="sm"
+                              block
+                              eventKey="submit"
+                            >
+                              Review &amp; Submit
+                            </Nav.Link>
+                          </Nav.Item>
+                        </Col>
+                      </Row>
+                    </Container>
                   </Nav>
-                </Popover.Content>
-              </Popover>
-            </Overlay>
-          </Navbar>
+                </Card.Footer>
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
+          <Overlay
+              placement="top"
+              target={this.buttonRef}
+              show={this.state.showScroll}
+              onHide={() => console.log("hideNav")}
+            >
+              <Popover id="nav-popover" className="alert-info" >
+                <Popover.Content>
+                  <FontAwesomeIcon icon={faAngleDoubleDown} size="2x" />&nbsp;&nbsp;Scroll down to read all instructions.
+                  </Popover.Content>
+                  </Popover>
+          </Overlay>
         </Tab.Container>
-      </div>
+      </Container>
     );
   }
 }

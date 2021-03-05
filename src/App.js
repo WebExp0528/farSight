@@ -34,10 +34,10 @@ import LogIn from "./component/LogIn";
 import NewLinkSent from "./component/NewLinkSent";
 
 class App extends Component {
-  //TODO: Update folder structure.  Create "components" and "pages" folders. 
+  //TODO: Update folder structure.  Create "components" and "pages" folders.
   //Only Component Folders (containing a single component definition) should start with upper case
-  //REcommended folders to add (perhaps): 
-  //containers, models, constants, pages, forms, etc. 
+  //REcommended folders to add (perhaps):
+  //containers, models, constants, pages, forms, etc.
   //TODO: Move divs to Layout Component (research)
   //TODO: Move NavBar into a new Content Component (as stateless Functional Component)
   render() {
@@ -48,6 +48,7 @@ class App extends Component {
             style={{ color: "whitesmoke", paddingBottom: 0, paddingTop: 5 }}
             bg="primary"
             variant="dark"
+            fixed="top"
           >
             <div
               style={{
@@ -88,9 +89,7 @@ class App extends Component {
                 Start Demo >
               </Button>
             </Navbar.Brand>
-            <Navbar.Brand>
-              {navigator.platform}
-            </Navbar.Brand>
+            <Navbar.Brand>{navigator.platform}</Navbar.Brand>
           </Navbar>
           <Switch>
             <Route path="/" exact component={Workorderlist} />
