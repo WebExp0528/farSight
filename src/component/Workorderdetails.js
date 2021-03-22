@@ -186,13 +186,6 @@ class Workorderdetails extends Component {
             </h5>
           </Col>
           <Col>
-            <div>
-              <h6 style={{ color: "grey" }}>
-                Work&nbsp;Order&nbsp;#{item.won}
-              </h6>
-            </div>
-            <div>
-              {" "}
               <h6>
                 <a
                   href={"geo://" + item.gps_latitude + "," + item.gps_longitude}
@@ -202,7 +195,7 @@ class Workorderdetails extends Component {
                   {item.address_city}, {item.address_state}
                 </a>
               </h6>
-            </div>
+            
           </Col>
         </Row>
       </>
@@ -219,9 +212,9 @@ class Workorderdetails extends Component {
                 ? item.instructions_full.map((i) => {
                     return (
                       <>
-                        <h4>
+                        <h5>
                           {i.action} - {i.type}
-                        </h4>
+                        </h5>
                         <div>{i.instruction}</div>
                         <br />
                       </>

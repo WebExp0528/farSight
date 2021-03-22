@@ -17,6 +17,7 @@ import {
   faHistory,
   faEye,
   faChessRook,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   Badge,
@@ -27,6 +28,7 @@ import {
   InputGroup,
   Row,
   Spinner,
+  Nav,
   Navbar,
   Button,
 } from "react-bootstrap";
@@ -50,6 +52,20 @@ class App extends Component {
             variant="dark"
             fixed="top"
           >
+             <Nav className="mr-auto">
+      <Nav.Link as={Button}><FontAwesomeIcon icon={faArrowLeft}></FontAwesomeIcon>Back</Nav.Link>
+      </Nav>
+            <Navbar.Brand>
+              <Button
+                float="right"
+                size="sm"
+                variant="outline-info"
+                href="/demo"
+              >
+                Start Demo >
+              </Button>
+            </Navbar.Brand>
+            <Navbar.Brand>{navigator.platform}</Navbar.Brand>
             <div
               style={{
                 textAlign: "center",
@@ -79,17 +95,6 @@ class App extends Component {
                 by Northsight
               </div>
             </Navbar.Brand>
-            <Navbar.Brand>
-              <Button
-                float="right"
-                size="sm"
-                variant="outline-info"
-                href="/demo"
-              >
-                Start Demo >
-              </Button>
-            </Navbar.Brand>
-            <Navbar.Brand>{navigator.platform}</Navbar.Brand>
           </Navbar>
           <Switch>
             <Route path="/" exact component={Workorderlist} />

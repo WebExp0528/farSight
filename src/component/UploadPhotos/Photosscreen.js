@@ -1,6 +1,5 @@
 import CryptoJS from "crypto-js";
 import React, { useState, Component } from "react";
-// import Alert from '../components/Alert';
 import { connect } from "react-redux";
 import {
   Alert,
@@ -38,6 +37,13 @@ import {
   faCog,
 } from "@fortawesome/free-solid-svg-icons";
 import { Prev } from "react-bootstrap/esm/PageItem";
+import  ImageResizer from "./ImageResizer";
+const imageResizeConfig = {
+  quality: 0.5,
+  maxWidth: 640,
+  maxHeight: 640,
+  autoRotate: true,
+};
 const previewPageSize = 10;
 class Photoscreen extends Component {
   constructor(props) {
@@ -45,21 +51,20 @@ class Photoscreen extends Component {
     this.state = {
       progress: 0,
       fileInputState: null,
-      reviewUploadedBeforePage: 0,
-      reviewUploadedDuringPage: 0,
-      reviewUploadedAfterPage: 0,
-      uploadedBeforeImages: [],
-      uploadedDuringImages: [],
-      uploadedAfterImages: [],
+      reviewUploadedPage: { before: 0, during: 0, after: 0 },
+      uploadedImages: { before: [], during: [], after: [] },
       previewSources: [],
       selectedFiles: [],
       successMsg: "",
       errMsg: "",
       key: props.category,
       isUploading: false,
+      
     };
+    this.uploadedCount = 0;
     this.fileInputRef = React.createRef();
     this.uploadFormRef = React.createRef();
+    this.imageResizers = [new ImageResizer(),new ImageResizer(),new ImageResizer(),new ImageResizer(),new ImageResizer(),new ImageResizer()];
   }
 
   getUploadedPhotos = () => {
@@ -78,34 +83,17 @@ class Photoscreen extends Component {
           return;
         }
         data.forEach((item) => {
-          if (item.label === "before") {
-            this.setState((state, props) => {
-              return {
-                uploadedBeforeImages: [
-                  ...state.uploadedBeforeImages,
-                  item.image_url_full,
-                ],
-              };
-            });
-          } else if (item.label === "during") {
-            this.setState((state, props) => {
-              return {
-                uploadedDuringImages: [
-                  ...state.uploadedDuringImages,
-                  item.image_url_full,
-                ],
-              };
-            });
-          } else {
-            this.setState((state, props) => {
-              return {
-                uploadedAfterImages: [
-                  ...state.uploadedAfterImages,
-                  item.image_url_full,
-                ],
-              };
-            });
-          }
+          this.setState((state, props) => {
+            let myuploadedImages = state.uploadedImages;
+
+            myuploadedImages[item.label] = [
+              ...state.uploadedImages[item.label],
+              item.image_url_full,
+            ];
+            return {
+              uploadedImages: myuploadedImages,
+            };
+          });
         });
       })
       .catch((err) => console.error(err));
@@ -113,11 +101,12 @@ class Photoscreen extends Component {
 
   componentDidMount = () => {
     this.getUploadedPhotos();
+    
   };
 
   handleFileInputChange = (e) => {
-    const files = e.target.files;
-    this.previewFiles([...files]); //convert non-array FileList to Array by deconstruction
+    const files = [...e.target.files];
+    this.previewFiles(files); //convert non-array FileList to Array by deconstruction
     this.setState({ selectedFiles: files });
     this.setState({ fileInputState: e.target.value });
   };
@@ -143,44 +132,80 @@ class Photoscreen extends Component {
     e.preventDefault();
     if (!this.state.selectedFiles) return;
 
-    const allFiles = [...this.state.selectedFiles];
+    console.log("All Files");
+    console.log(this.state.selectedFiles);
     const maxUploadTasks = 6; //Max allowed by browsers anyway.
-    const numFileSegments = Math.min(allFiles.length, maxUploadTasks);
-    const segmentLength = Math.ceil(allFiles.length / numFileSegments); //
-    const filelistSegments = this.chunkArray(allFiles, segmentLength);
+    const numFileSegments = Math.min(
+      this.state.selectedFiles.length,
+      maxUploadTasks
+    );
+    const segmentLength = Math.ceil(
+      this.state.selectedFiles.length / numFileSegments
+    ); //
+    const filelistSegments = this.chunkArray(
+      this.state.selectedFiles,
+      segmentLength
+    );
+    console.log("Segments");
+    console.log(filelistSegments);
     console.log("UPLOADING WITH LABEL" + category);
     this.setState({ isUploading: true });
-    let uploadedCount = 0;
-    const uploadNextFile = async (files) => {
-      let currentFile = files.pop();
-      this.uploadImage(currentFile, category, currentFile.name)
-        .then(() => {
-          uploadedCount++;
-          let currentProgress = Math.floor(
-            (uploadedCount / allFiles.length) * 100.0
-          );
-          this.setState({ progress: currentProgress });
-          if (uploadedCount === allFiles.length) {
-            this.setState({
-              progress: 0,
-              fileInputState: "",
-              previewSources: "",
-              successMsg: "Image uploaded successfully",
-              key: "main",
-            });
-            this.getUploadedPhotos();
-          } else if (files.length > 0) {
-            uploadNextFile(files);
-          }
-        })
-        .catch((err) => {});
-    };
+    this.uploadedCount = 0;
+
     //Start number of tasks = numFileSegments
     for (let i = 0; i < numFileSegments; i++) {
-      uploadNextFile(filelistSegments[i]);
+      if (filelistSegments[i]) {
+        console.log("starting segment : " + i);
+        this.uploadNextFile(filelistSegments[i], category, i);
+      } else {
+        console.log("skipping empty segment : " + i);
+      }
     }
   };
-  async readFileAsync(file) {
+  uploadNextFile = async (files, category, pipeId) => {
+    console.log(
+      "files left in pipe " + pipeId + " before Upload " + files.length
+    );
+    let currentFile = files.pop();
+
+    this.imageResizers[pipeId].readAndCompressImage(currentFile, imageResizeConfig)
+      .then((resizedImage) => {
+        console.log("image compressed in pipeId " + pipeId);
+        this.uploadImage(resizedImage, category, currentFile.name, pipeId)
+          .then(() => {
+            console.log("UPLOAD DONE");
+            console.log(
+              "files left in pipe  " + pipeId + " after Upload " + files.length
+            );
+            this.uploadedCount++;
+            let currentProgress = Math.floor(
+              (this.uploadedCount / this.state.selectedFiles.length) * 100.0
+            );
+            this.setState({ progress: currentProgress });
+            if (this.uploadedCount === this.state.selectedFiles.length) {
+              this.setState({
+                progress: 0,
+                fileInputState: "",
+                previewSources: "",
+                successMsg: "Image uploaded successfully",
+                key: "main",
+              });
+              this.getUploadedPhotos();
+            } else if (files.length > 0) {
+              console.log("uploading next file in pipe " + pipeId + ".");
+              this.uploadNextFile(files, category, pipeId);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  readFileAsync = async (file) => {
     return new Promise((resolve, reject) => {
       let reader = new FileReader();
 
@@ -195,10 +220,11 @@ class Photoscreen extends Component {
 
       reader.readAsArrayBuffer(file);
     });
-  }
-  uploadImage = async (blobImage, label, filename) => {
-    return new Promise((resolve, reject) => {
-      this.readFileAsync(blobImage).then((buffer) => {
+  };
+
+  uploadImage = async (imageFile, label, filename, pipeId) => {
+    return new Promise(async (resolve, reject) => {
+      this.readFileAsync(imageFile).then((buffer) => {
         let checksum = CryptoJS.MD5(buffer).toString();
         let fileId = checksum.toString();
         console.log(filename + ":" + fileId);
@@ -218,7 +244,7 @@ class Photoscreen extends Component {
         };
         let formData = new FormData();
         formData.append("payload", JSON.stringify(data));
-        formData.append("file", blobImage, filename);
+        formData.append("file", imageFile, filename);
         let options = {
           method: "POST",
           mode: "no-cors",
@@ -235,21 +261,28 @@ class Photoscreen extends Component {
             if (!resp.ok) {
               throw resp;
             }
-
+            console.log("upload response OK in pipeId " + pipeId);
             return resp;
           })
           .then((data) => {
             console.log(data);
+            console.log("resolving: true in pipeId " + pipeId);
             resolve(true);
           })
           .catch((err) => {
             console.error(err);
-            this.setState({ errMsg: "Something went wrong!" });
+            this.setState({
+              errMsg: "Something went wrong in pipe! pipeId " + pipeId,
+            });
+            console.log("rejecting");
             reject(err);
           });
       });
     });
   };
+
+  
+
   selectFile = (category) => {
     this.uploadFormRef.name = category;
     this.forceUpdate();
@@ -276,9 +309,127 @@ class Photoscreen extends Component {
     }
     return tempArray;
   };
-  render() {
+  renderPhotoControl = (category) => {
+    return (
+      <Accordion defaultActiveKey="0">
+        <Card>
+          <Card.Header className="alert-info">
+            <FontAwesomeIcon icon={faCamera} size="lg" className="float-left" />
+            <h5>{category.toUpperCase()} PHOTOS</h5>
+          </Card.Header>
+          <Card.Header>
+            <Row>
+              <Button
+                size="md"
+                onClick={() => {
+                  this.selectFile(category);
+                }}
+                block
+              >
+                UPLOAD IMAGES
+                <FontAwesomeIcon
+                  icon={faUpload}
+                  size="lg"
+                  className="float-right"
+                />
+              </Button>
+            </Row>
+            <Row>
+              <Accordion.Toggle as={Button} block variant="link" eventKey="0">
+                View {this.state.uploadedImages[category].length} Uploaded
+                Images...
+              </Accordion.Toggle>
+            </Row>
+          </Card.Header>
+          <Accordion.Collapse eventKey="0">
+            <Card.Footer>
+              {this.chunkArray(
+                this.getPageOfArray(
+                  this.state.uploadedImages[category],
+                  this.state.reviewUploadedPage[category]
+                ),
+                2
+              ).map((chunk) => {
+                return (
+                  <Row>
+                    {chunk.map((imageSource) => {
+                      return (
+                        <Col>
+                          <Image
+                            src={imageSource}
+                            alt="chosen"
+                            thumbnail
+                            fluid
+                          />
+                        </Col>
+                      );
+                    })}
+                    {chunk.length === 1 ? <Col /> : null}
+                  </Row>
+                );
+              })}
+              <Row className="justify-content-md-center">
+                <Col>
+                  <Button
+                    hidden={this.state.reviewUploadedPage[category] === 0}
+                    onClick={() =>
+                      this.setState((state, props) => {
+                        let reviewUploadedPage = this.state.reviewUploadedPage;
+                        reviewUploadedPage[category] =
+                          reviewUploadedPage[category] - 1;
+                        return {
+                          reviewUploadedPage: reviewUploadedPage,
+                        };
+                      })
+                    }
+                    block
+                  >
+                    &lt;Prev.
+                  </Button>
+                </Col>
+                <Col>
+                  Page {this.state.reviewUploadedPage[category] + 1}/
+                  {Math.ceil(
+                    this.state.uploadedImages[category].length / previewPageSize
+                  )}
+                </Col>
+                <Col>
+                  <Button
+                    hidden={
+                      this.state.reviewUploadedPage[category] >=
+                      Math.ceil(
+                        this.state.uploadedImages[category].length /
+                          previewPageSize
+                      ) -
+                        1
+                    }
+                    onClick={() =>
+                      this.setState((state, props) => {
+                        let reviewUploadedPage = this.state.reviewUploadedPage;
+                        reviewUploadedPage[category] =
+                          reviewUploadedPage[category] + 1;
+                        return {
+                          reviewUploadedPage: reviewUploadedPage,
+                        };
+                      })
+                    }
+                    block
+                  >
+                    Next &gt;
+                  </Button>
+                </Col>
+              </Row>
+            </Card.Footer>
+          </Accordion.Collapse>
+        </Card>
+      </Accordion>
+    );
+  };
+  render = () => {
+    if(loading)
     return (
       <>
+        
         <Form
           onSubmit={this.handleSubmitFile}
           ref={(ref) => {
@@ -308,381 +459,14 @@ class Photoscreen extends Component {
         >
           <Tab.Content>
             <Tab.Pane eventKey="before">
-              <Container>
-                {/* <Alert msg={errMsg} type="danger" />
-            <Alert msg={successMsg} type="success" /> */}
-                <Row style={{ color: "lightgray" }}>
-                  <Col xs={3}>
-                    <FontAwesomeIcon icon={faCamera} size="2x" />
-                  </Col>
-                  <Col>
-                    <h3>Upload Photos</h3>
-                  </Col>
-                </Row>
-
-                <Accordion>
-                  <Card>
-                    <Card.Header>
-                      <Row>
-                        <Button
-                          size="md"
-                          onClick={() => {
-                            this.selectFile("before");
-                          }}
-                          block
-                        >
-                          BEFORE
-                          <FontAwesomeIcon
-                            icon={faUpload}
-                            size="lg"
-                            className="float-right"
-                          />
-                        </Button>
-                      </Row>
-                      <Row>
-                        <Accordion.Toggle
-                          as={Button}
-                          block
-                          variant="link"
-                          eventKey="0"
-                        >
-                          View {this.state.uploadedBeforeImages.length} Uploaded
-                          Images...
-                        </Accordion.Toggle>
-                      </Row>
-                    </Card.Header>
-                    <Accordion.Collapse eventKey="0">
-                      <Card.Body>
-                        {this.chunkArray(
-                          this.getPageOfArray(
-                            this.state.uploadedBeforeImages,
-                            this.state.reviewUploadedBeforePage
-                          ),
-                          2
-                        ).map((chunk) => {
-                          return (
-                            <Row>
-                              {chunk.map((imageSource) => {
-                                return (
-                                  <Col>
-                                    <Image
-                                      src={imageSource}
-                                      alt="chosen"
-                                      thumbnail
-                                      fluid
-                                    />
-                                  </Col>
-                                );
-                              })}
-                              {chunk.length === 1 ? <Col /> : null}
-                            </Row>
-                          );
-                        })}
-                        <Row className="justify-content-md-center">
-                          <Col>
-                            <Button
-                              hidden={this.state.reviewUploadedBeforePage === 0}
-                              onClick={() =>
-                                this.setState((state, props) => {
-                                  return {
-                                    reviewUploadedBeforePage:
-                                      state.reviewUploadedBeforePage - 1,
-                                  };
-                                })
-                              }
-                              block
-                            >
-                              &lt;Prev.
-                            </Button>
-                          </Col>
-                          <Col>
-                            Page {this.state.reviewUploadedBeforePage + 1}/
-                            {Math.ceil(
-                              this.state.uploadedBeforeImages.length /
-                                previewPageSize
-                            )}
-                          </Col>
-                          <Col>
-                            <Button
-                              hidden={
-                                this.state.reviewUploadedBeforePage >=
-                                Math.ceil(
-                                  this.state.uploadedBeforeImages.length /
-                                    previewPageSize
-                                ) -
-                                  1
-                              }
-                              onClick={() =>
-                                this.setState((state, props) => {
-                                  return {
-                                    reviewUploadedBeforePage:
-                                      state.reviewUploadedBeforePage + 1,
-                                  };
-                                })
-                              }
-                              block
-                            >
-                              Next &gt;
-                            </Button>
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                    </Accordion.Collapse>
-                  </Card>
-                </Accordion>
-              </Container>
+              <Container>{this.renderPhotoControl("before")}</Container>
             </Tab.Pane>
             <Tab.Pane eventKey="during">
-              <Container>
-                {/* <Alert msg={errMsg} type="danger" />
-            <Alert msg={successMsg} type="success" /> */}
-                <Row style={{ color: "lightgray" }}>
-                  <Col xs={3}>
-                    <FontAwesomeIcon icon={faCamera} size="2x" />
-                  </Col>
-                  <Col>
-                    <h3>Upload Photos</h3>
-                  </Col>
-                </Row>
-                <Accordion>
-                  <Card>
-                    <Card.Header>
-                      <Row>
-                        <Button
-                          variant="warning"
-                          size="md"
-                          onClick={() => {
-                            this.selectFile("during");
-                          }}
-                          block
-                        >
-                          DURING
-                          <FontAwesomeIcon
-                            icon={faUpload}
-                            size="lg"
-                            className="float-right"
-                          />
-                        </Button>
-                      </Row>
-                      <Row>
-                        <Accordion.Toggle
-                          as={Button}
-                          block
-                          variant="link"
-                          eventKey="1"
-                        >
-                          View {this.state.uploadedDuringImages.length} Uploaded
-                          Images...
-                        </Accordion.Toggle>
-                      </Row>
-                    </Card.Header>
-                    <Accordion.Collapse eventKey="1">
-                      <Card.Body>
-                        {this.chunkArray(
-                          this.getPageOfArray(
-                            this.state.uploadedDuringImages,
-                            this.state.reviewUploadedDuringPage
-                          ),
-                          2
-                        ).map((chunk) => {
-                          return (
-                            <Row>
-                              {chunk.map((imageSource) => {
-                                return (
-                                  <Col>
-                                    <Image
-                                      src={imageSource}
-                                      alt="chosen"
-                                      thumbnail
-                                      fluid
-                                    />
-                                  </Col>
-                                );
-                              })}
-                              {chunk.length === 1 ? <Col /> : null}
-                            </Row>
-                          );
-                        })}
-                        <Row className="justify-content-md-center">
-                          <Col>
-                            <Button
-                              hidden={this.state.reviewUploadedDuringPage === 0}
-                              onClick={() =>
-                                this.setState((state, props) => {
-                                  return {
-                                    reviewUploadedDuringPage:
-                                      state.reviewUploadedDuringPage - 1,
-                                  };
-                                })
-                              }
-                              block
-                            >
-                              &lt;Prev.
-                            </Button>
-                          </Col>
-                          <Col>
-                            Page {this.state.reviewUploadedDuringPage + 1}/
-                            {Math.ceil(
-                              this.state.uploadedDuringImages.length /
-                                previewPageSize
-                            )}
-                          </Col>
-                          <Col>
-                            <Button
-                              hidden={
-                                this.state.reviewUploadedDuringPage >=
-                                Math.ceil(
-                                  this.state.uploadedDuringImages.length /
-                                    previewPageSize
-                                ) -
-                                  1
-                              }
-                              onClick={() =>
-                                this.setState((state, props) => {
-                                  return {
-                                    reviewUploadedDuringPage:
-                                      state.reviewUploadedDuringPage + 1,
-                                  };
-                                })
-                              }
-                              block
-                            >
-                              Next &gt;
-                            </Button>
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                    </Accordion.Collapse>
-                  </Card>
-                </Accordion>
-              </Container>
+              <Container>{this.renderPhotoControl("during")}</Container>
             </Tab.Pane>
 
             <Tab.Pane eventKey="after">
-              <Container>
-                {/* <Alert msg={errMsg} type="danger" />
-            <Alert msg={successMsg} type="success" /> */}
-                <Row style={{ color: "lightgray" }}>
-                  <Col xs={3}>
-                    <FontAwesomeIcon icon={faCamera} size="2x" />
-                  </Col>
-                  <Col>
-                    <h3>Upload Photos</h3>
-                  </Col>
-                </Row>
-
-                <Accordion>
-                  <Card>
-                    <Card.Header>
-                      <Row>
-                        <Button
-                          variant="dark"
-                          size="md"
-                          onClick={() => {
-                            this.selectFile("after");
-                          }}
-                          block
-                        >
-                          AFTER
-                          <FontAwesomeIcon
-                            icon={faUpload}
-                            size="lg"
-                            className="float-right"
-                          />
-                        </Button>
-                      </Row>
-                      <Row>
-                        <Accordion.Toggle
-                          as={Button}
-                          block
-                          variant="link"
-                          eventKey="2"
-                        >
-                          View {this.state.uploadedAfterImages.length} Uploaded
-                          Images...
-                        </Accordion.Toggle>
-                      </Row>
-                    </Card.Header>
-                    <Accordion.Collapse eventKey="2">
-                      <Card.Body>
-                        {this.chunkArray(
-                          this.getPageOfArray(
-                            this.state.uploadedAfterImages,
-                            this.state.reviewUploadedAfterPage
-                          ),
-                          2
-                        ).map((chunk) => {
-                          return (
-                            <Row>
-                              {chunk.map((imageSource) => {
-                                return (
-                                  <Col>
-                                    <Image
-                                      src={imageSource}
-                                      alt="chosen"
-                                      thumbnail
-                                      fluid
-                                    />
-                                  </Col>
-                                );
-                              })}
-                              {chunk.length === 1 ? <Col /> : null}
-                            </Row>
-                          );
-                        })}
-                        <Row className="justify-content-md-center">
-                          <Col>
-                            <Button
-                              hidden={this.state.reviewUploadedAfterPage === 0}
-                              block
-                              onClick={() =>
-                                this.setState((state, props) => {
-                                  return {
-                                    reviewUploadedAfterPage:
-                                      state.reviewUploadedAfterPage - 1,
-                                  };
-                                })
-                              }
-                            >
-                              &lt;Prev.
-                            </Button>
-                          </Col>
-                          <Col>
-                            Page {this.state.reviewUploadedAfterPage + 1}/
-                            {Math.ceil(
-                              this.state.uploadedAfterImages.length /
-                                previewPageSize
-                            )}
-                          </Col>
-                          <Col>
-                            <Button
-                              hidden={
-                                this.state.reviewUploadedAfterPage >=
-                                Math.ceil(
-                                  this.state.uploadedAfterImages.length /
-                                    previewPageSize
-                                ) -
-                                  1
-                              }
-                              onClick={() =>
-                                this.setState((state, props) => {
-                                  return {
-                                    reviewUploadedAfterPage:
-                                      state.reviewUploadedAfterPage + 1,
-                                  };
-                                })
-                              }
-                              block
-                            >
-                              Next &gt;
-                            </Button>
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                    </Accordion.Collapse>
-                  </Card>
-                </Accordion>
-              </Container>
+              <Container>{this.renderPhotoControl("after")}</Container>
             </Tab.Pane>
             <Tab.Pane eventKey="preview">
               <Container>
@@ -756,7 +540,7 @@ class Photoscreen extends Component {
         </Tab.Container>
       </>
     );
-  }
+  };
 }
 
 export default Photoscreen;
