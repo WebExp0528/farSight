@@ -426,7 +426,6 @@ class Photoscreen extends Component {
     );
   };
   render = () => {
-    if(loading)
     return (
       <>
         
