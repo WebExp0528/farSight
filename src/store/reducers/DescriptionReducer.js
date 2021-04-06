@@ -1,8 +1,8 @@
-import { GET_DETAILS } from "../types";
+import { GET_DETAILS } from '../types';
 
 const initialState = {
   won: [],
-  loading: true,
+  loading: true
 };
 
 /**
@@ -19,7 +19,7 @@ export default function Descriptionreducer(state = initialState, action) {
         //State modified.  must copy.  (... operator)
         ...state,
         won: action.payload,
-        loading: false,
+        loading: false
       };
 
     default:

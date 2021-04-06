@@ -1,13 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 class BidsDescriptionscreen extends Component {
-    render() {
-        return (
-            <div>
-            Bid BidsDescriptionscreen
-            </div>
-        )
-    }
-
+  render() {
+    return <div>Bid BidsDescriptionscreen</div>;
+  }
 }
-export default  BidsDescriptionscreen;
+export default BidsDescriptionscreen;

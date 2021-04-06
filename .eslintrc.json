@@ -44,7 +44,7 @@
     ]
   },
   "rules": {
-    "compat/compat": "error",
+    "compat/compat": "warn",
     "linebreak-style": ["error", "unix"],
     "quotes": [
       "error",
@@ -54,23 +54,12 @@
         "allowTemplateLiterals": true
       }
     ],
-    "no-restricted-imports": [
-      "error",
-      {
-        "name": "react-router",
-        "message": "Please use @react-router instead."
-      },
-      {
-        "name": "react-router-dom",
-        "message": "Please use @react-router instead."
-      }
-    ],
     "no-unused-vars": "off",
     "no-undef": "off",
     "no-console": [1, { "allow": ["warn", "error"] }],
     "react/prop-types": [0],
     "react/display-name": [0],
-    "react/prefer-stateless-function": [2],
+    "react/prefer-stateless-function": [1],
     "react/jsx-no-target-blank": [2],
     "react/jsx-pascal-case": [2],
     "react-hooks/rules-of-hooks": [2],
@@ -79,6 +68,7 @@
       {
         "additionalHooks": "(useIsomorphicLayoutEffect|useStyleApplicator)"
       }
-    ]
+    ],
+    "react/no-unescaped-entities": [1]
   }
 }

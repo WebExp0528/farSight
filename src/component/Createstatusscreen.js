@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import Popup from "../Comman/Popup";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import React, { Component } from 'react';
+import Popup from '../Comman/Popup';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class Createstatusscreen extends Component {
   constructor() {
@@ -13,24 +13,24 @@ class Createstatusscreen extends Component {
         delay_reason: null,
         expected_upload_date: null,
         explanation: null,
-        order_status: null,
-      },
+        order_status: null
+      }
     };
   }
   componentDidMount() {
     axios
-      .get("/api/work_order/05881777", {
-        method: "GET",
+      .get('/api/work_order/05881777', {
+        method: 'GET',
         headers: {
-          "X-Requested-With": "XMLHttpRequest",
-        },
+          'X-Requested-With': 'XMLHttpRequest'
+        }
       })
-      .then((res) => {
-        console.log("success-->", res);
+      .then(res => {
+        console.log('success-->', res);
         let obj = res.data;
-        this.setState((prevState) => ({
+        this.setState(prevState => ({
           ...prevState,
-          won: obj,
+          won: obj
         }));
       });
   }
@@ -46,7 +46,7 @@ class Createstatusscreen extends Component {
   savestatus = () => {
     // const {delay_reason,expected_upload_date,explanation,order_status} = this.state;
 
-    console.log("kk", this.state.statusdata);
+    console.log('kk', this.state.statusdata);
 
     // fetch('/api/work_order/05881777',this.state.statusdata,{
     //     method: 'POST',
@@ -70,17 +70,17 @@ class Createstatusscreen extends Component {
     const { isOpen, ispageStatus } = this.state;
 
     return (
-      <div style={{ backgroundColor: "#EEF0F2", height: 877 }}>
+      <div style={{ backgroundColor: '#EEF0F2', height: 877 }}>
         <div
           style={{
             height: 68,
             width: 414,
             marginTop: -64,
-            backgroundColor: "#47A5CE",
-            marginLeft: -39,
+            backgroundColor: '#47A5CE',
+            marginLeft: -39
           }}
         >
-          <div style={{ marginLeft: 77, paddingTop: "27px", color: "white" }}>
+          <div style={{ marginLeft: 77, paddingTop: '27px', color: 'white' }}>
             <h6 style={{ marginTop: 0, marginLeft: 90 }}>Status Update</h6>
           </div>
         </div>
@@ -89,40 +89,35 @@ class Createstatusscreen extends Component {
           style={{
             marginLeft: 129,
             marginTop: 20,
-            color: "#1D1D1D",
-            fontSize: 17,
+            color: '#1D1D1D',
+            fontSize: 17
           }}
         >
           Status Updates
         </div>
         <div
           style={{
-            backgroundColor: "#FEFEFE",
-            borderRadius: "13px",
+            backgroundColor: '#FEFEFE',
+            borderRadius: '13px',
             height: 113,
             marginTop: 10,
             width: 363,
-            flexDirection: "row",
+            flexDirection: 'row',
             paddingTop: 10,
             marginLeft: 5,
             fontSize: 11,
             paddingLeft: 8,
-            color: "#777777",
+            color: '#777777'
           }}
         >
-          <div style={{ height: "1px", paddingLeft: 10 }}>
+          <div style={{ height: '1px', paddingLeft: 10 }}>
             <h5 style={{ fontSize: 14, marginTop: 25 }}>
-              ECD :{" "}
-              {this.state.won.last_status_update
-                ? this.state.won.last_status_update.expected_upload_date
-                : null}
+              ECD : {this.state.won.last_status_update ? this.state.won.last_status_update.expected_upload_date : null}
             </h5>
           </div>
           <div style={{ paddingLeft: 193 }}>
             <h5 style={{ fontSize: 14 }}>
-              {this.state.won.last_status_update
-                ? this.state.won.last_status_update.explanation
-                : null}
+              {this.state.won.last_status_update ? this.state.won.last_status_update.explanation : null}
             </h5>
           </div>
           <br />
@@ -134,10 +129,10 @@ class Createstatusscreen extends Component {
             margin: 86,
             width: 197,
             height: 30,
-            border: "2px solid #64B9E6",
-            borderRadius: "7px",
-            backgroundColor: "#007ABC",
-            color: "white",
+            border: '2px solid #64B9E6',
+            borderRadius: '7px',
+            backgroundColor: '#007ABC',
+            color: 'white'
           }}
           value="New Status Update"
           onClick={this.togglePopup}
@@ -147,36 +142,30 @@ class Createstatusscreen extends Component {
             content={
               <>
                 <div style={{ marginLeft: 10 }}>
-                  <h5 style={{ fontSize: 17, marginLeft: 77 }}>
-                    New Status Update
-                  </h5>
+                  <h5 style={{ fontSize: 17, marginLeft: 77 }}>New Status Update</h5>
                   <br />
                   <div
                     style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      display: "flex",
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      display: 'flex'
                     }}
                   >
-                    <div
-                      style={{ fontSize: 16, marginLeft: -11, marginTop: 5 }}
-                    >
-                      Delay Reason
-                    </div>
+                    <div style={{ fontSize: 16, marginLeft: -11, marginTop: 5 }}>Delay Reason</div>
 
                     <input
-                      type="date"
+                      // type="date"
                       style={{
                         marginTop: 4,
                         height: 30,
-                        border: "2px solid #64B9E6",
-                        borderRadius: "5px",
-                        marginLeft: 31,
+                        border: '2px solid #64B9E6',
+                        borderRadius: '5px',
+                        marginLeft: 31
                       }}
                       type="text"
                       value={this.state.statusdata.delay_reason}
                       name="delay_reason"
-                      onChange={(data) => {
+                      onChange={data => {
                         this.setState({ delay_reason: data.target.value });
                       }}
                     />
@@ -184,62 +173,54 @@ class Createstatusscreen extends Component {
                   <br />
                   <div
                     style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      display: "flex",
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      display: 'flex'
                     }}
                   >
-                    <div
-                      style={{ fontSize: 16, marginLeft: -11, marginTop: 5 }}
-                    >
-                      Expected Upload date
-                    </div>
+                    <div style={{ fontSize: 16, marginLeft: -11, marginTop: 5 }}>Expected Upload date</div>
                     <input
                       type="text"
                       style={{
                         marginTop: 6,
                         height: 30,
-                        border: "2px solid #64B9E6",
-                        borderRadius: "4px",
-                        marginLeft: 31,
+                        border: '2px solid #64B9E6',
+                        borderRadius: '4px',
+                        marginLeft: 31
                       }}
                       className="form-control"
                       placeholder=""
                       value={this.state.statusdata.expected_upload_date}
                       name="expected_upload_date"
-                      onChange={(data) => {
+                      onChange={data => {
                         this.setState({
-                          expected_upload_date: data.target.value,
+                          expected_upload_date: data.target.value
                         });
                       }}
                     />
-                  </div>{" "}
+                  </div>{' '}
                   <br />
                   <div
                     style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      display: "flex",
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      display: 'flex'
                     }}
                   >
-                    <div
-                      style={{ fontSize: 16, marginLeft: -11, marginTop: 5 }}
-                    >
-                      Explanation
-                    </div>
+                    <div style={{ fontSize: 16, marginLeft: -11, marginTop: 5 }}>Explanation</div>
                     <input
                       type="text"
                       style={{
                         marginTop: 6,
                         height: 30,
-                        border: "2px solid #64B9E6",
-                        borderRadius: "4px",
-                        marginLeft: 50,
+                        border: '2px solid #64B9E6',
+                        borderRadius: '4px',
+                        marginLeft: 50
                       }}
                       className="form-control"
                       value={this.state.statusdata.explanation}
                       name="explanation"
-                      onChange={(data) => {
+                      onChange={data => {
                         this.setState({ explanation: data.target.value });
                       }}
                     />
@@ -247,31 +228,27 @@ class Createstatusscreen extends Component {
                   <br />
                   <div
                     style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      display: "flex",
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      display: 'flex'
                     }}
                   >
-                    <div
-                      style={{ fontSize: 16, marginLeft: -11, marginTop: 5 }}
-                    >
-                      Order Status
-                    </div>
+                    <div style={{ fontSize: 16, marginLeft: -11, marginTop: 5 }}>Order Status</div>
 
                     <input
                       type="text"
                       style={{
                         marginTop: 6,
                         height: 30,
-                        border: "2px solid #64B9E6",
-                        borderRadius: "4px",
-                        marginLeft: 41,
+                        border: '2px solid #64B9E6',
+                        borderRadius: '4px',
+                        marginLeft: 41
                       }}
                       className="form-control"
                       value={this.state.statusdata.order_status}
                       name="order_status"
                       placeholder=""
-                      onChange={(data) => {
+                      onChange={data => {
                         this.setState({ order_status: data.target.value });
                       }}
                     />
@@ -281,10 +258,10 @@ class Createstatusscreen extends Component {
                     style={{
                       marginTop: 30,
                       height: 30,
-                      border: "2px solid #64B9E6",
-                      borderRadius: "4px",
-                      backgroundColor: "#007ABC",
-                      color: "white",
+                      border: '2px solid #64B9E6',
+                      borderRadius: '4px',
+                      backgroundColor: '#007ABC',
+                      color: 'white'
                     }}
                     onClick={() => {
                       this.savestatus();
@@ -296,12 +273,12 @@ class Createstatusscreen extends Component {
                     style={{
                       marginTop: 30,
                       height: 30,
-                      border: "2px solid #64B9E6",
-                      borderRadius: "4px",
-                      backgroundColor: "#007ABC",
-                      color: "white",
+                      border: '2px solid #64B9E6',
+                      borderRadius: '4px',
+                      backgroundColor: '#007ABC',
+                      color: 'white',
                       marginLeft: 47,
-                      width: 134,
+                      width: 134
                     }}
                     onClick={() => {
                       this.togglePopup();

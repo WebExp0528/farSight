@@ -1,8 +1,8 @@
-import React, { Component, useState, useRef } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import renderHTML from "react-render-html";
+import React, { Component, useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import renderHTML from 'react-render-html';
 import {
   faSearch,
   faHistory,
@@ -14,8 +14,8 @@ import {
   faCompass,
   faCaretRight,
   faCaretDown,
-  faAngleDoubleDown,
-} from "@fortawesome/free-solid-svg-icons";
+  faAngleDoubleDown
+} from '@fortawesome/free-solid-svg-icons';
 import {
   Badge,
   Card,
@@ -35,32 +35,32 @@ import {
   Popover,
   Overlay,
   Accordion,
-  Button,
-} from "react-bootstrap";
-import { getWorkOrders } from "../store/actions/WorkorderlistAction";
+  Button
+} from 'react-bootstrap';
+import { getWorkOrders } from '../store/actions/WorkorderlistAction';
 //import './Workorder.css';
-import axios from "axios";
-import Popup from "../Comman/Popup";
+import axios from 'axios';
+import Popup from '../Comman/Popup';
 
-import Bidsscreen from "./Bidsfeature/Bidsscreen";
-import Submitworkorder from "./Submitworkorder/Submitworkorder";
-import { Body } from "node-fetch";
-import Createbiditem from "./Bidsfeature/Createbiditem";
-import StatusScreen from "./StatusScreen";
-import PhotoScreen from "./UploadPhotos/Photosscreen";
+import Bidsscreen from './Bidsfeature/Bidsscreen';
+import Submitworkorder from './Submitworkorder/Submitworkorder';
+import { Body } from 'node-fetch';
+import Createbiditem from './Bidsfeature/Createbiditem';
+import StatusScreen from './StatusScreen';
+import PhotoScreen from './UploadPhotos/Photosscreen';
 class Workorderdetails extends Component {
   isLoading = true;
   wonId = null;
 
   state = {
-    key: "details",
+    key: 'details',
     showNav: false,
     won: {},
     isOpen: false,
     ispageStatus: false,
     menuCaret: faCaretRight,
     showScroll: true,
-    hideScroll:false,
+    hideScroll: false
   };
   constructor(props) {
     super(props);
@@ -68,148 +68,131 @@ class Workorderdetails extends Component {
     this.buttonRef = React.createRef();
     this.wonId = props.match.params.won;
     axios
-      .get("/api/work_order/" + this.wonId, {
-        method: "GET",
+      .get('/api/work_order/' + this.wonId, {
+        method: 'GET',
         headers: {
-          "X-Requested-With": "XMLHttpRequest",
-        },
+          'X-Requested-With': 'XMLHttpRequest'
+        }
       })
-      .then((res) => {
-        console.log("success-->", res);
+      .then(res => {
+        console.log('success-->', res);
         let obj = res.data;
         this.isLoading = false;
-        this.setState((prevState) => ({
+        this.setState(prevState => ({
           ...prevState,
-          won: obj,
+          won: obj
         }));
       });
   }
-  toggleMenuCaret = (eventKey) => {
+  toggleMenuCaret = eventKey => {
     if (this.state.menuCaret === faCaretRight) {
       this.setState({ menuCaret: faCaretDown });
     } else {
       this.setState({ menuCaret: faCaretRight });
     }
   };
-  navSelected = (selectedKey) => {
+  navSelected = selectedKey => {
     this.setState((state, props) => {
       return { key: selectedKey, showNav: false };
     });
   };
 
   componentDidMount = () => {
-    window.addEventListener("scroll", this.handleScroll);
+    window.addEventListener('scroll', this.handleScroll);
   };
   componentDidUpdate = () => {
     let shouldShowScroll = this.showScroll();
-    if(this.state.showScroll!==shouldShowScroll)
-    {
-      this.setState({showScroll : shouldShowScroll});
+    if (this.state.showScroll !== shouldShowScroll) {
+      this.setState({ showScroll: shouldShowScroll });
     }
-  }
+  };
   showScroll = () => {
     return document.body.scrollHeight > window.innerHeight && !this.state.hideScroll;
   };
-  handleScroll = (event) => {
+  handleScroll = event => {
     this.setState({ hideScroll: true });
   };
-  togglePopup = (isOpen) => {
+  togglePopup = isOpen => {
     this.setState(!isOpen);
   };
-  getItemStatus = (item) => {
+  getItemStatus = item => {
     let dueDate = new Date(item.due_date);
     let today = new Date();
-    let statusMessage = "Unknown";
-    if (
-      item.approval_status === "Pre-Pending" ||
-      item.approval_status === "Pending"
-    ) {
-      statusMessage = "Pending";
+    let statusMessage = 'Unknown';
+    if (item.approval_status === 'Pre-Pending' || item.approval_status === 'Pending') {
+      statusMessage = 'Pending';
       return statusMessage;
     }
     if (dueDate.getDate() > today) {
-      statusMessage = "On Time";
+      statusMessage = 'On Time';
     }
     if (dueDate.getDate() === today) {
-      statusMessage = "Due Today";
+      statusMessage = 'Due Today';
     }
     if (dueDate < today) {
-      statusMessage = "Past Due";
+      statusMessage = 'Past Due';
     }
     return statusMessage;
   };
-  getItemStatusBadgeClass = (item) => {
+  getItemStatusBadgeClass = item => {
     let status = this.getItemStatus(item);
-    let itemClass = "primary";
+    let itemClass = 'primary';
     switch (status) {
-      case "On Time":
-        itemClass = "success";
+      case 'On Time':
+        itemClass = 'success';
         break;
-      case "Due Today":
-        itemClass = "warning";
+      case 'Due Today':
+        itemClass = 'warning';
         break;
-      case "Past Due":
-        itemClass = "danger";
+      case 'Past Due':
+        itemClass = 'danger';
         break;
       default:
-        itemClass = "secondary";
+        itemClass = 'secondary';
     }
 
     return itemClass;
   };
-  renderHeader = (item) => {
+  renderHeader = item => {
     return (
       <>
-        <Card style={{ marginBottom: "0.5em" }}>
-          <Card.Img
-            style={{ maxHeight: "200px" }}
-            variant="top"
-            src={item.image_url_small}
-          />
-          <Card.ImgOverlay style={{ paddingTop: "160px" }}>
-            <Badge variant="primary">
-              Due: {new Date(item.due_date).toDateString()}
-            </Badge>
+        <Card style={{ marginBottom: '0.5em' }}>
+          <Card.Img style={{ maxHeight: '200px' }} variant="top" src={item.image_url_small} />
+          <Card.ImgOverlay style={{ paddingTop: '160px' }}>
+            <Badge variant="primary">Due: {new Date(item.due_date).toDateString()}</Badge>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <Badge variant={this.getItemStatusBadgeClass(item)}>
-              {this.getItemStatus(item)}
-            </Badge>
+            <Badge variant={this.getItemStatusBadgeClass(item)}>{this.getItemStatus(item)}</Badge>
           </Card.ImgOverlay>
         </Card>
 
         <Row>
           <Col>
             <h5>
-              <Link to={"/Workorderdetails/" + item.won}>
-                {item.work_ordered}
-              </Link>
+              <Link to={'/Workorderdetails/' + item.won}>{item.work_ordered}</Link>
             </h5>
           </Col>
           <Col>
-              <h6>
-                <a
-                  href={"geo://" + item.gps_latitude + "," + item.gps_longitude}
-                >
-                  {item.address_street}
-                  <br />
-                  {item.address_city}, {item.address_state}
-                </a>
-              </h6>
-            
+            <h6>
+              <a href={'geo://' + item.gps_latitude + ',' + item.gps_longitude}>
+                {item.address_street}
+                <br />
+                {item.address_city}, {item.address_state}
+              </a>
+            </h6>
           </Col>
         </Row>
       </>
     );
   };
-  renderCard = (item) => {
+  renderCard = item => {
     return (
-      <div key={"WO" + item.won}>
-        <Card style={{ marginBottom: "0.5em" }}>
-          <Card.Header style={{ padding: "0.25em" }}>INSTRUCTIONS</Card.Header>
-          <Card.Body style={{ padding: "0.25em" }}>
-            <Card.Text style={{ padding: "0.25em" }}>
+      <div key={'WO' + item.won}>
+        <Card style={{ marginBottom: '0.5em' }}>
+          <Card.Header style={{ padding: '0.25em' }}>INSTRUCTIONS</Card.Header>
+          <Card.Body style={{ padding: '0.25em' }}>
+            <Card.Text style={{ padding: '0.25em' }}>
               {item.instructions_full
-                ? item.instructions_full.map((i) => {
+                ? item.instructions_full.map(i => {
                     return (
                       <>
                         <h5>
@@ -295,20 +278,16 @@ class Workorderdetails extends Component {
     const { won } = this.props.won;
     const { instructions_full } = won;
     const dueDate = won.due_date;
-    const navClick = (e) => {
+    const navClick = e => {
       return this.setState((state, props) => {
         return { showNav: !state.showNav };
       });
     };
-    console.log("workOrder", this.state.won);
+    console.log('workOrder', this.state.won);
     return (
       <Container>
         {this.renderHeader(this.state.won)}
-        <Tab.Container
-          id="woTabs"
-          defaultActiveKey="details"
-          activeKey={this.state.key}
-        >
+        <Tab.Container id="woTabs" defaultActiveKey="details" activeKey={this.state.key}>
           <Tab.Content>
             <Tab.Pane eventKey="details">
               {this.isLoading ? (
@@ -324,15 +303,12 @@ class Workorderdetails extends Component {
               )}
             </Tab.Pane>
             <Tab.Pane eventKey="update">
-              <StatusScreen
-                won={this.wonId}
-                dueDate={dueDate ? dueDate.toISOString().slice(0, 10) : null}
-              />
+              <StatusScreen won={this.wonId} dueDate={dueDate ? dueDate.toISOString().slice(0, 10) : null} />
             </Tab.Pane>
             <Tab.Pane eventKey="bids">
               <Bidsscreen
                 won={this.wonId}
-                tabChange={(key) => {
+                tabChange={key => {
                   this.navSelected(key);
                 }}
               />
@@ -351,16 +327,10 @@ class Workorderdetails extends Component {
             </Tab.Pane>
 
             <Tab.Pane eventKey="survey">
-              <Submitworkorder
-                won={this.wonId}
-                surveyName={this.state.won.survey_name}
-              />
+              <Submitworkorder won={this.wonId} surveyName={this.state.won.survey_name} />
             </Tab.Pane>
             <Tab.Pane eventKey="submit">
-              <Submitworkorder
-                won={this.wonId}
-                surveyName="FinalCheck"
-              />
+              <Submitworkorder won={this.wonId} surveyName="FinalCheck" />
             </Tab.Pane>
           </Tab.Content>
           <br />
@@ -380,47 +350,29 @@ class Workorderdetails extends Component {
                 eventKey="orderActions"
                 onClick={this.toggleMenuCaret}
                 variant="dark-outline"
-                ref={(ref) => {
+                ref={ref => {
                   this.buttonRef = ref;
                 }}
               >
                 Actions Menu...
-                <FontAwesomeIcon
-                  className="float-right"
-                  icon={this.state.menuCaret}
-                />
+                <FontAwesomeIcon className="float-right" icon={this.state.menuCaret} />
               </Accordion.Toggle>
 
               <Accordion.Collapse eventKey="orderActions">
                 <Card.Footer>
-                  <Nav
-                    justify
-                    activeKey={this.state.key}
-                    onSelect={this.navSelected}
-                    variant="pills"
-                  >
+                  <Nav justify activeKey={this.state.key} onSelect={this.navSelected} variant="pills">
                     <Container>
                       <Row>
                         <Col>
                           <Nav.Item>
-                            <Nav.Link
-                              as={Button}
-                              size="sm"
-                              block
-                              eventKey="before-photos"
-                            >
+                            <Nav.Link as={Button} size="sm" block eventKey="before-photos">
                               Before Photos
                             </Nav.Link>
                           </Nav.Item>
                         </Col>
                         <Col>
                           <Nav.Item>
-                            <Nav.Link
-                              as={Button}
-                              size="sm"
-                              block
-                              eventKey="survey"
-                            >
+                            <Nav.Link as={Button} size="sm" block eventKey="survey">
                               Submit Survey
                             </Nav.Link>
                           </Nav.Item>
@@ -429,24 +381,14 @@ class Workorderdetails extends Component {
                       <Row>
                         <Col>
                           <Nav.Item>
-                            <Nav.Link
-                              as={Button}
-                              size="sm"
-                              block
-                              eventKey="during-photos"
-                            >
+                            <Nav.Link as={Button} size="sm" block eventKey="during-photos">
                               During Photos
                             </Nav.Link>
                           </Nav.Item>
                         </Col>
                         <Col>
                           <Nav.Item>
-                            <Nav.Link
-                              as={Button}
-                              size="sm"
-                              block
-                              eventKey="bids"
-                            >
+                            <Nav.Link as={Button} size="sm" block eventKey="bids">
                               Add Bids
                             </Nav.Link>
                           </Nav.Item>
@@ -455,24 +397,14 @@ class Workorderdetails extends Component {
                       <Row>
                         <Col>
                           <Nav.Item>
-                            <Nav.Link
-                              as={Button}
-                              size="sm"
-                              block
-                              eventKey="after-photos"
-                            >
+                            <Nav.Link as={Button} size="sm" block eventKey="after-photos">
                               After Photos
                             </Nav.Link>
                           </Nav.Item>
                         </Col>
                         <Col>
                           <Nav.Item>
-                            <Nav.Link
-                              as={Button}
-                              size="sm"
-                              block
-                              eventKey="submit"
-                            >
+                            <Nav.Link as={Button} size="sm" block eventKey="submit">
                               Review &amp; Submit
                             </Nav.Link>
                           </Nav.Item>
@@ -485,16 +417,17 @@ class Workorderdetails extends Component {
             </Card>
           </Accordion>
           <Overlay
-              placement="top"
-              target={this.buttonRef}
-              show={this.state.showScroll}
-              onHide={() => console.log("hideNav")}
-            >
-              <Popover id="nav-popover" className="alert-info" >
-                <Popover.Content>
-                  <FontAwesomeIcon icon={faAngleDoubleDown} size="2x" />&nbsp;&nbsp;Scroll down to read all instructions.
-                  </Popover.Content>
-                  </Popover>
+            placement="top"
+            target={this.buttonRef}
+            show={this.state.showScroll}
+            onHide={() => console.log('hideNav')}
+          >
+            <Popover id="nav-popover" className="alert-info">
+              <Popover.Content>
+                <FontAwesomeIcon icon={faAngleDoubleDown} size="2x" />
+                &nbsp;&nbsp;Scroll down to read all instructions.
+              </Popover.Content>
+            </Popover>
           </Overlay>
         </Tab.Container>
       </Container>
@@ -502,6 +435,6 @@ class Workorderdetails extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({ won: state.won });
+const mapStateToProps = state => ({ won: state.won });
 
 export default connect(mapStateToProps)(Workorderdetails);

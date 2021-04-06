@@ -1,23 +1,20 @@
-import {GET_DETAILS, GET_WORK_ORDERS} from '../types'
+import { GET_DETAILS, GET_WORK_ORDERS } from '../types';
 
 const initialState = {
-    workOrders:[],
-    loading:true
-}
+  workOrders: [],
+  loading: true
+};
 
-export default function listreducer(state = initialState, action){
+export default function listreducer(state = initialState, action) {
+  switch (action.type) {
+    case GET_WORK_ORDERS:
+      return {
+        ...state,
+        workOrders: action.payload,
+        loading: false
+      };
 
-    switch(action.type){
-
-        case GET_WORK_ORDERS:
-        return {
-            ...state,
-            workOrders:action.payload,
-            loading:false
-
-        }
-       
-        default: return state
-    }
-
+    default:
+      return state;
+  }
 }

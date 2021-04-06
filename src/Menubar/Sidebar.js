@@ -2,20 +2,18 @@ import React from 'react';
 import { slide as Menu } from 'react-burger-menu';
 import './Sidebar.css';
 
-
 export default props => {
   return (
     <Menu>
       <a className="menu-item" href="/Createstatuscreen">
-      Status Update
+        Status Update
       </a>
       <a className="menu-item" href="/Photosscreen">
-      Photosscreen
+        Photosscreen
       </a>
       <a className="menu-item" href="/Submitworkorder">
-      Submitworkorder
+        Submitworkorder
       </a>
-  
     </Menu>
   );
 };
