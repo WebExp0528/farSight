@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { NavLink, Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { NavLink, Link } from 'react-router-dom';
 
 // import { BurgerIcon } from './'
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Navigation = styled.header`
   width: 100%;
@@ -172,33 +172,25 @@ class Nav extends Component {
       <Navigation>
         <div>
           <div className="logo">
-            <Link to="/">
-            </Link>
-           
+            <Link to="/"></Link>
           </div>
-
         </div>
         <nav className="nav">
-          <i
-            className="fa fa-bars"
-            aria-hidden="true"
-            onClick={e => this.handleToggle(e)}
-          />
-          
+          <i className="fa fa-bars" aria-hidden="true" onClick={e => this.handleToggle(e)} />
 
-          <ul className={`collapsed ${isExpanded ? "is-expanded" : ""}`}>
+          <ul className={`collapsed ${isExpanded ? 'is-expanded' : ''}`}>
             <NavLink activeClassName="active" to="/Createstatuscreen">
               <li>Status Update</li>
             </NavLink>
             <NavLink activeClassName="active" to="/Photosscreen">
               <li>Photosscreen</li>
             </NavLink>
-           {/* <NavLink activeClassName="active" to="/Uploadphotos">
+            {/* <NavLink activeClassName="active" to="/Uploadphotos">
               <li>Uploadphotos</li>
             </NavLink> */}
             <NavLink activeClassName="active" to="/Submitworkorder">
               <li>Submitworkorder</li>
-            </NavLink> 
+            </NavLink>
           </ul>
         </nav>
       </Navigation>
