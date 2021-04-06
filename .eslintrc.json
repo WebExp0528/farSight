@@ -1,0 +1,84 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:compat/recommended",
+    "plugin:testing-library/react",
+    "plugin:prettier/recommended"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2020, // Allows for the parsing of modern ECMAScript features
+    "sourceType": "module" // Allows for use of imports
+  },
+  "plugins": ["prettier", "react", "react-hooks", "compat", "jsx-a11y"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "polyfills": [
+      "Promise",
+      "fetch",
+      "Array.prototype.find",
+      "Array.prototype.includes",
+      "Array.prototype.fill",
+      "Array.from",
+      "Number.parseInt",
+      "Number.parseFloat",
+      "Object.entries",
+      "Object.assign",
+      "Object.values",
+      "URL"
+    ]
+  },
+  "rules": {
+    "compat/compat": "error",
+    "linebreak-style": ["error", "unix"],
+    "quotes": [
+      "error",
+      "single",
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "name": "react-router",
+        "message": "Please use @react-router instead."
+      },
+      {
+        "name": "react-router-dom",
+        "message": "Please use @react-router instead."
+      }
+    ],
+    "no-unused-vars": "off",
+    "no-undef": "off",
+    "no-console": [1, { "allow": ["warn", "error"] }],
+    "react/prop-types": [0],
+    "react/display-name": [0],
+    "react/prefer-stateless-function": [2],
+    "react/jsx-no-target-blank": [2],
+    "react/jsx-pascal-case": [2],
+    "react-hooks/rules-of-hooks": [2],
+    "react-hooks/exhaustive-deps": [
+      1,
+      {
+        "additionalHooks": "(useIsomorphicLayoutEffect|useStyleApplicator)"
+      }
+    ]
+  }
+}

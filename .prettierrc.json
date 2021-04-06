@@ -11,19 +11,19 @@
   "tabWidth": 2,
   "trailingComma": "none",
   "useTabs": false,
-  "printWidth": 180,
-	"overrides": [
-		{
-			"files": "**/*.json",
-			"options": {
-				"parser": "json"
-			}
+  "printWidth": 120,
+  "overrides": [
+    {
+      "files": "**/*.json",
+      "options": {
+        "parser": "json"
+      }
     },
-		{
-			"files": "**/*.md",
-			"options": {
-				"parser": "markdown"
-			}
+    {
+      "files": "**/*.md",
+      "options": {
+        "parser": "markdown"
+      }
     },
     {
       "files": "**/*.css",
@@ -31,5 +31,5 @@
         "parser": "css"
       }
     }
-	]
+  ]
 }
