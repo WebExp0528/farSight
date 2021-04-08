@@ -26,6 +26,7 @@
     "express": "^4.17.1",
     "express-mysql-session": "^2.1.5",
     "express-session": "^1.17.1",
+    "history": "^5.0.0",
     "http-proxy-middleware": "^1.1.0",
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
