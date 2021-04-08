@@ -39,7 +39,7 @@ import {
 } from 'react-bootstrap';
 import { getWorkOrders } from '../store/actions/WorkorderlistAction';
 //import './Workorder.css';
-import axios from 'axios';
+import axios from 'utils/axios';
 import Popup from '../Comman/Popup';
 
 import Bidsscreen from './Bidsfeature/Bidsscreen';

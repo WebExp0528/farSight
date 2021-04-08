@@ -31,5 +31,6 @@
         "parser": "css"
       }
     }
-  ]
+  ],
+  "endOfLine": "lf"
 }
