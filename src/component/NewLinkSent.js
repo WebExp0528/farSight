@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faHistory, faEye, faChessRook } from '@fortawesome/free-solid-svg-icons';
 import { Badge, Card, Container, Form, Image, InputGroup, Row, Spinner, Navbar } from 'react-bootstrap';
-import axios from 'axios';
+import axios from 'utils/axios';
 
 class NewLinkSent extends Component {
   isLoading = true;
