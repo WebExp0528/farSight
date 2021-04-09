@@ -37,17 +37,17 @@ import {
   Accordion,
   Button
 } from 'react-bootstrap';
-import { getWorkOrders } from '../store/actions/WorkorderlistAction';
+import { getWorkOrders } from 'store/actions/WorkorderlistAction';
 //import './Workorder.css';
 import axios from 'utils/axios';
-import Popup from '../Comman/Popup';
+import Popup from 'Comman/Popup';
 
-import Bidsscreen from './Bidsfeature/Bidsscreen';
-import Submitworkorder from './Submitworkorder/Submitworkorder';
+import Bidsscreen from '../Bidsfeature/Bidsscreen';
+import Submitworkorder from '../Submitworkorder/Submitworkorder';
 import { Body } from 'node-fetch';
-import Createbiditem from './Bidsfeature/Createbiditem';
-import StatusScreen from './StatusScreen';
-import PhotoScreen from './UploadPhotos/Photosscreen';
+import Createbiditem from '../Bidsfeature/Createbiditem';
+import StatusScreen from '../StatusScreen';
+import PhotoScreen from '../UploadPhotos/Photosscreen';
 class Workorderdetails extends Component {
   isLoading = true;
   wonId = null;

@@ -5,7 +5,7 @@ import renderHTML from 'react-render-html';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faHistory, faEye, faChessRook } from '@fortawesome/free-solid-svg-icons';
 import { Badge, Card, Container, Form, Image, InputGroup, Row, Spinner, Navbar } from 'react-bootstrap';
-import { getWorkOrders } from '../store/actions/WorkorderlistAction';
+import { getWorkOrders } from 'store/actions/WorkorderlistAction';
 
 class Workorderlist extends Component {
   isLoading = true;
