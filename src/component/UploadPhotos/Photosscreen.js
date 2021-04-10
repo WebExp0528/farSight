@@ -1,49 +1,19 @@
 import CryptoJS from 'crypto-js';
 import React, { useState, Component } from 'react';
-import { connect } from 'react-redux';
-import {
-  Alert,
-  Badge,
-  Button,
-  Card,
-  Container,
-  Form,
-  Image,
-  InputGroup,
-  Row,
-  Col,
-  Spinner,
-  Navbar,
-  Toast,
-  FormControl,
-  Tab,
-  ProgressBar,
-  Accordion
-} from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faSearch,
-  faHistory,
-  faEye,
-  faChessRook,
-  faPaperPlane,
-  faBackward,
-  faBars,
-  faCompass,
-  faCamera,
-  faUpload,
-  faHammer,
-  faWrench,
-  faCog
-} from '@fortawesome/free-solid-svg-icons';
 import { Prev } from 'react-bootstrap/esm/PageItem';
+import { Button, Card, Container, Form, Image, Row, Col, Tab, ProgressBar, Accordion } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane, faCamera, faUpload } from '@fortawesome/free-solid-svg-icons';
+
 import ImageResizer from './ImageResizer';
+
 const imageResizeConfig = {
   quality: 0.5,
   maxWidth: 640,
   maxHeight: 640,
   autoRotate: true
 };
+
 const previewPageSize = 10;
 class Photoscreen extends Component {
   constructor(props) {
@@ -212,7 +182,7 @@ class Photoscreen extends Component {
   };
 
   uploadImage = async (imageFile, label, filename, pipeId) => {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.readFileAsync(imageFile).then(buffer => {
         let checksum = CryptoJS.MD5(buffer).toString();
         let fileId = checksum.toString();

@@ -55,7 +55,9 @@ class ImageResizer {
             try {
               const Result = ExifReader.load(buffer);
               Orientation = Result.Orientation || {};
-            } catch (err) {}
+            } catch (err) {
+              console.log(err);
+            }
             if (config.debug) {
               console.log('browser-image-resizer: image orientation from EXIF tag = ' + Orientation);
             }
@@ -103,7 +105,7 @@ class ImageResizer {
     let mWidth = Math.min(canvas.width, config.maxWidth, ratio * config.maxHeight);
     if (config.maxSize > 0 && config.maxSize < (canvas.width * canvas.height) / 1000)
       mWidth = Math.min(mWidth, Math.floor((config.maxSize * 1000) / canvas.height));
-    if (!!config.scaleRatio) mWidth = Math.min(mWidth, Math.floor(config.scaleRatio * canvas.width));
+    if (config.scaleRatio) mWidth = Math.min(mWidth, Math.floor(config.scaleRatio * canvas.width));
 
     if (config.debug) {
       console.log(
