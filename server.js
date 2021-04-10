@@ -66,6 +66,7 @@ app.use('/demo', function (req, res, next) {
   console.warn('STARTING DEMO');
   return res.redirect('/');
 });
+
 app.use('/error', function (req, res, next) {
   res.send('Unexpected Response');
 });
@@ -162,9 +163,23 @@ var proxyOptions = {
 var proxy = createProxyMiddleware(proxyOptions);
 app.use('/api', proxy);
 //Pass back to client side router in the REACT app.
-// app.get('*', function (req, res) {
-//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
+
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 console.log('APP ID ' + process.env.NS_DB_DATABASE);
 app.use(morgan('combined'));
-app.listen(5000);
+app.listen(3000);
+
+process.on('SIGINT', () => {
+  console.info('SIGINT signal received.');
+
+  // Stops the server from accepting new connections and finishes existing connections.
+  server.close(function (err) {
+    if (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+});

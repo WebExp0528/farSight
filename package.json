@@ -13,6 +13,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "crypto-js": "^4.0.0",
     "exifreader": "^3.14.1",
     "express": "^4.17.1",
@@ -25,6 +26,7 @@
     "node-fetch": "^2.6.1",
     "node-mysql": "^0.4.2",
     "node-sass": "^5.0.0",
+    "pm2": "^4.5.6",
     "react": "^17.0.2",
     "react-bootstrap": "^1.5.2",
     "react-burger-menu": "^3.0.6",
@@ -43,10 +45,12 @@
     "uuid": "^8.3.2"
   },
   "scripts": {
-    "server:start": "node server.js",
-    "client:start": "react-scripts start",
-    "dev": "npm run server:start & npm run client:start",
+    "start": "npm-run-all -p build server",
+    "dev": "npm-run-all -p build:watch server",
+    "server": "pm2 start",
+    "server:log": "pm2 logs farSight",
     "build": "react-scripts build",
+    "build:watch": "cra-build-watch",
     "test": "react-scripts test",
     "lint": "eslint --ext .jsx --ext .js src/.",
     "lint:fix": "eslint --fix --ext .jsx --ext .js src/.",
@@ -59,6 +63,7 @@
     "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
   },
   "devDependencies": {
+    "cra-build-watch": "^3.4.0",
     "eslint": "^7.24.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
@@ -67,14 +72,12 @@
     "husky": "^6.0.0",
     "lint-staged": "^10.5.4",
     "node-env-run": "^4.0.2",
-    "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
     "pino-colada": "^2.1.0",
     "prettier": "^2.2.1"
   },
   "lint-staged": {
-    "*.+(js|jsx)": ["npm run lint:fix"],
-    "*.+(json|yml|yaml|css|md)": "npm run format",
-    "*.{jsx,js}": "eslint --cache --fix"
+    "src/**/*.+(js|jsx)": ["npm run lint:fix"],
+    "src/**/*.+(json|yml|yaml|css|md)": "npm run format"
   }
 }

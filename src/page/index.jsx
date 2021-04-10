@@ -18,7 +18,7 @@ import LogIn from 'component/LogIn';
 import NewLinkSent from 'component/NewLinkSent';
 
 export const App = props => {
-  console.log('~~~~~~~ app props', props);
+  console.log('~~~~~~~ app props111', props);
   //TODO: Update folder structure.  Create "components" and "pages" folders.
   //Only Component Folders (containing a single component definition) should start with upper case
   //REcommended folders to add (perhaps):
