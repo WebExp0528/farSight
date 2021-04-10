@@ -75,8 +75,12 @@
     "prettier": "^2.2.1"
   },
   "lint-staged": {
-    "*.+(js|jsx)": "eslint --fix",
-    "*.+(json|yml|yaml|css|md)": "prettier --write",
-    "*.js": "eslint --cache --fix"
+    "*.+(js|jsx)": ["npm run lint:fix"],
+    "*.+(json|yml|yaml|css|md)": "npm run format"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
