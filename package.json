@@ -51,22 +51,12 @@
     "lint": "eslint --ext .jsx --ext .js src/.",
     "lint:fix": "eslint --fix --ext .jsx --ext .js src/.",
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md)\"",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "eject": "react-scripts eject",
+    "prepare": "husky install"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
   },
   "devDependencies": {
     "eslint": "^7.24.0",
@@ -83,14 +73,8 @@
     "prettier": "^2.2.1"
   },
   "lint-staged": {
-    "*.+(js|jsx)": [
-      "npm run lint:fix"
-    ],
-    "*.+(json|yml|yaml|css|md)": "npm run format"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "*.+(js|jsx)": ["npm run lint:fix"],
+    "*.+(json|yml|yaml|css|md)": "npm run format",
+    "*.{jsx,js}": "eslint --cache --fix"
   }
 }
