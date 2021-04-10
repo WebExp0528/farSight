@@ -79,5 +79,10 @@
   "lint-staged": {
     "src/**/*.+(js|jsx)": ["npm run lint:fix"],
     "src/**/*.+(json|yml|yaml|css|md)": "npm run format"
+  },
+  "husky ": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
