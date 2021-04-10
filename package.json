@@ -9,7 +9,7 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
-    "@testing-library/user-event": "^13.1.1",
+    "@testing-library/user-event": "^13.1.2",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "cors": "^2.8.5",
@@ -19,7 +19,7 @@
     "express-mysql-session": "^2.1.5",
     "express-session": "^1.17.1",
     "history": "^5.0.0",
-    "http-proxy-middleware": "^1.1.0",
+    "http-proxy-middleware": "^1.1.1",
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.1",
@@ -57,14 +57,22 @@
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
-    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
-    "eslint": "^7.23.0",
+    "eslint": "^7.24.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-react": "^7.23.1",
+    "eslint-plugin-react": "^7.23.2",
     "express-pino-logger": "^6.0.0",
     "husky": "^6.0.0",
     "lint-staged": "^10.5.4",
@@ -75,7 +83,9 @@
     "prettier": "^2.2.1"
   },
   "lint-staged": {
-    "*.+(js|jsx)": ["npm run lint:fix"],
+    "*.+(js|jsx)": [
+      "npm run lint:fix"
+    ],
     "*.+(json|yml|yaml|css|md)": "npm run format"
   },
   "husky": {
