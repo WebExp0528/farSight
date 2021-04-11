@@ -1,53 +1,35 @@
-import React, { Component, useState, useRef } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import renderHTML from 'react-render-html';
-import {
-  faSearch,
-  faHistory,
-  faEye,
-  faChessRook,
-  faPaperPlane,
-  faBackward,
-  faBars,
-  faCompass,
-  faCaretRight,
-  faCaretDown,
-  faAngleDoubleDown
-} from '@fortawesome/free-solid-svg-icons';
+
+import { faCaretRight, faCaretDown, faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
 import {
   Badge,
   Card,
   Container,
   Row,
   Col,
-  Form,
-  Image,
-  InputGroup,
   Spinner,
-  Navbar,
   Nav,
-  NavDropdown,
-  Tabs,
-  Alert,
   Tab,
   Popover,
   Overlay,
   Accordion,
   Button
 } from 'react-bootstrap';
-import { getWorkOrders } from 'store/actions/WorkorderlistAction';
+
 //import './Workorder.css';
 import axios from 'utils/axios';
 import Popup from 'Comman/Popup';
 
 import Bidsscreen from '../Bidsfeature/Bidsscreen';
-import Submitworkorder from '../Submitworkorder/Submitworkorder';
+import Submitworkorder from '../../component/Submitworkorder/Submitworkorder';
 import { Body } from 'node-fetch';
 import Createbiditem from '../Bidsfeature/Createbiditem';
 import StatusScreen from '../StatusScreen';
 import PhotoScreen from '../UploadPhotos/Photosscreen';
+
 class Workorderdetails extends Component {
   isLoading = true;
   wonId = null;
