@@ -22,6 +22,10 @@ const NS_FS_API = process.env.NS_FS_API;
 /**
  * const NS_FS_API = "http://localhost:5000";//local testing only
  */
+
+/**
+ * Session Store Configuration
+ */
 if (process.env.NODE_ENV === 'production') {
   var options = {
     host: process.env.NS_DB_HOST,
@@ -42,7 +46,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use(cors());
-
 app.use(express.static(path.join(__dirname, 'build')));
 
 /**
