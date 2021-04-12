@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Popup from '../Comman/Popup';
+import Popup from '../../Comman/Popup';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

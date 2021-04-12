@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-import Popup from '../Comman/Popup';
-import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faHistory, faEye, faChessRook } from '@fortawesome/free-solid-svg-icons';
-import { Badge, Card, Container, Form, Image, InputGroup, Row, Spinner, Navbar } from 'react-bootstrap';
-import axios from 'utils/axios';
+import { Card, Container } from 'react-bootstrap';
 
 class NewLinkSent extends Component {
   isLoading = true;
