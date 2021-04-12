@@ -4,9 +4,9 @@ module.exports = {
   apps: [
     {
       name: 'farSight',
-      script: 'node ./server.js',
+      script: 'server.js',
       watch: true,
-      ignore_watch: ['node_modules', 'build', 'config', 'src', 'public', '.vscode', '.husky'],
+      ignore_watch: ['node_modules', 'build', 'config', 'src', 'public', '.vscode', '.husky', 'sessions'],
       watch_options: {
         usePolling: true
       },
@@ -15,6 +15,10 @@ module.exports = {
       max_memory_restart: '2G',
       env: {
         NODE_ENV: 'development',
+        PORT: '3000'
+      },
+      env_prod: {
+        NODE_ENV: 'production',
         PORT: '3000'
       }
     }

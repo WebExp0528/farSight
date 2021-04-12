@@ -5,11 +5,13 @@ const moment = require('moment');
 const mysql = require('mysql');
 const session = require('express-session'); //express session manager.
 const MySQLStore = require('express-mysql-session')(session);
+const FileStore = require('session-file-store')(session);
 const morgan = require('morgan');
 const { createProxyMiddleware } = require('http-proxy-middleware'); //proxy middleware for routing our back-end API requests to the API server, so we can keep things simple.
 const path = require('path'); //path and directory tools.
 const fetch = require('node-fetch');
 const cors = require('cors');
+const _ = require('lodash');
 
 const { Provider } = require('react-redux');
 const app = express(); //create the server.
@@ -20,17 +22,24 @@ const NS_FS_API = process.env.NS_FS_API;
 /**
  * const NS_FS_API = "http://localhost:5000";//local testing only
  */
-var options = {
-  host: process.env.NS_DB_HOST,
-  port: process.env.NS_DB_PORT,
-  user: process.env.NS_DB_USER,
-  password: process.env.NS_DB_PWD,
-  database: process.env.NS_DB_DATABASE,
-  clearExpired: true,
-  checkExpirationInterval: moment.duration(1, 'day').asMilliseconds(),
-  expiration: moment.duration(1, 'day').asMilliseconds()
-};
-var sessionStore = new MySQLStore(options);
+if (process.env.NODE_ENV === 'production') {
+  var options = {
+    host: process.env.NS_DB_HOST,
+    port: process.env.NS_DB_PORT,
+    user: process.env.NS_DB_USER,
+    password: process.env.NS_DB_PWD,
+    database: process.env.NS_DB_DATABASE,
+    clearExpired: true,
+    checkExpirationInterval: moment.duration(1, 'day').asMilliseconds(),
+    expiration: moment.duration(1, 'day').asMilliseconds()
+  };
+  sessionStore = new MySQLStore(options);
+}
+
+if (process.env.NODE_ENV === 'development') {
+  var options = { path: './sessions' };
+  sessionStore = new FileStore(options);
+}
 
 app.use(cors());
 
@@ -39,6 +48,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 /**
  * Use Session Middleware
  */
+
 app.use(
   session({
     genid: function (req) {
@@ -62,7 +72,7 @@ app.use(
  * Register Default Session
  */
 app.use('/demo', function (req, res, next) {
-  req.session.apiKey = '00903200-EQ00-QUY1-UAA3-1EQUY1EQ1EQU';
+  _.set(req, 'session.apiKey', '00903200-EQ00-QUY1-UAA3-1EQUY1EQ1EQU');
   console.warn('STARTING DEMO');
   return res.redirect('/');
 });
