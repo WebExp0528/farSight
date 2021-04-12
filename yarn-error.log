@@ -1,0 +1,122 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js install
+
+PATH: 
+  C:\Users\DEV\bin;C:\Users\DEV\AppData\Local\Atlassian\SourceTree\git_local\mingw32\bin;C:\Users\DEV\AppData\Local\Atlassian\SourceTree\git_local\usr\local\bin;C:\Users\DEV\AppData\Local\Atlassian\SourceTree\git_local\usr\bin;C:\Users\DEV\AppData\Local\Atlassian\SourceTree\git_local\usr\bin;C:\Users\DEV\AppData\Local\Atlassian\SourceTree\git_local\mingw32\bin;C:\Users\DEV\AppData\Local\Atlassian\SourceTree\git_local\usr\bin;C:\Users\DEV\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Users\DEV\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Users\DEV\AppData\Local\Microsoft\WindowsApps;C:\Users\DEV\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\DEV\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\DEV\AppData\Local\Atlassian\SourceTree\git_local\usr\bin\vendor_perl;C:\Users\DEV\AppData\Local\Atlassian\SourceTree\git_local\usr\bin\core_perl
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  14.16.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.15.3.tgz: ESOCKETTIMEDOUT
+      at ClientRequest.<anonymous> (C:\Users\DEV\AppData\Roaming\nvm\v14.16.0\node_modules\yarn\lib\cli.js:141289:19)
+      at Object.onceWrapper (events.js:421:28)
+      at ClientRequest.emit (events.js:315:20)
+      at TLSSocket.emitRequestTimeout (_http_client.js:784:9)
+      at Object.onceWrapper (events.js:421:28)
+      at TLSSocket.emit (events.js:327:22)
+      at TLSSocket.Socket._onTimeout (net.js:483:8)
+      at listOnTimeout (internal/timers.js:554:17)
+      at processTimers (internal/timers.js:497:7)
+
+npm manifest: 
+  {
+    "name": "Farsightproject",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+      "@fortawesome/fontawesome-free": "^5.15.3",
+      "@fortawesome/fontawesome-svg-core": "^1.2.35",
+      "@fortawesome/free-solid-svg-icons": "^5.15.3",
+      "@fortawesome/react-fontawesome": "^0.1.14",
+      "@testing-library/jest-dom": "^5.11.10",
+      "@testing-library/react": "^11.2.6",
+      "@testing-library/user-event": "^13.1.2",
+      "axios": "^0.21.1",
+      "bootstrap": "^4.6.0",
+      "cors": "^2.8.5",
+      "cross-env": "^7.0.3",
+      "crypto-js": "^4.0.0",
+      "exifreader": "^3.14.1",
+      "express": "^4.17.1",
+      "express-mysql-session": "^2.1.5",
+      "express-session": "^1.17.1",
+      "history": "^5.0.0",
+      "http-proxy-middleware": "^1.1.1",
+      "moment": "^2.29.1",
+      "morgan": "^1.10.0",
+      "node-fetch": "^2.6.1",
+      "node-mysql": "^0.4.2",
+      "node-sass": "^5.0.0",
+      "pm2": "^4.5.6",
+      "react": "^17.0.2",
+      "react-bootstrap": "^1.5.2",
+      "react-burger-menu": "^3.0.6",
+      "react-dom": "^17.0.2",
+      "react-images-upload": "^1.2.8",
+      "react-redux": "^7.2.3",
+      "react-render-html": "^0.6.0",
+      "react-router-dom": "^5.2.0",
+      "react-scripts": "^4.0.3",
+      "redux": "^4.0.5",
+      "redux-devtools-extension": "^2.13.9",
+      "redux-thunk": "^2.3.0",
+      "save": "^2.4.0",
+      "semantic-ui-react": "^2.0.3",
+      "styled-components": "^5.2.3",
+      "uuid": "^8.3.2"
+    },
+    "scripts": {
+      "start": "npm-run-all -p build server",
+      "dev": "npm-run-all -p build:watch server",
+      "server": "pm2 start",
+      "server:log": "pm2 logs farSight",
+      "build": "react-scripts build",
+      "build:watch": "cra-build-watch",
+      "test": "react-scripts test",
+      "lint": "eslint --ext .jsx --ext .js src/.",
+      "lint:fix": "eslint --fix --ext .jsx --ext .js src/.",
+      "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md)\"",
+      "eject": "react-scripts eject",
+      "prepare": "husky install"
+    },
+    "browserslist": {
+      "production": [">0.2%", "not dead", "not op_mini all"],
+      "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+    },
+    "devDependencies": {
+      "cra-build-watch": "^3.4.0",
+      "eslint": "^7.24.0",
+      "eslint-config-prettier": "^8.1.0",
+      "eslint-plugin-prettier": "^3.3.1",
+      "eslint-plugin-react": "^7.23.2",
+      "express-pino-logger": "^6.0.0",
+      "husky": "^6.0.0",
+      "lint-staged": "^10.5.4",
+      "node-env-run": "^4.0.2",
+      "npm-run-all": "^4.1.5",
+      "pino-colada": "^2.1.0",
+      "prettier": "^2.2.1"
+    },
+    "lint-staged": {
+      "src/**/*.+(js|jsx)": ["npm run lint:fix"],
+      "src/**/*.+(json|yml|yaml|css|md)": "npm run format"
+    },
+    "husky ": {
+      "hooks": {
+        "pre-commit": "lint-staged"
+      }
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
