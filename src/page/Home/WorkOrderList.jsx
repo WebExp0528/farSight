@@ -7,7 +7,7 @@ import { faSearch, faHistory, faEye, faChessRook } from '@fortawesome/free-solid
 import { Badge, Card, Container, Form, Image, InputGroup, Row, Spinner, Navbar } from 'react-bootstrap';
 import { getWorkOrders } from 'store/actions/WorkorderlistAction';
 
-class Workorderlist extends Component {
+class WorkOrderList extends Component {
   isLoading = true;
   state = {
     workOrders: [],
@@ -15,6 +15,7 @@ class Workorderlist extends Component {
   };
 
   componentDidMount() {
+    console.log('mounted list component');
     this.props.getWorkOrders();
     this.isLoading = false;
   }
@@ -160,4 +161,4 @@ class Workorderlist extends Component {
 
 const mapStateToProps = state => ({ workOrders: state.workOrders });
 
-export default connect(mapStateToProps, { getWorkOrders })(Workorderlist);
+export default connect(mapStateToProps, { getWorkOrders })(WorkOrderList);

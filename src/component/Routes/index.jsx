@@ -12,7 +12,8 @@ export const RenderRoutes = withRouter(({ routes, match }) => {
         if (type === 'route') {
           return <RouteWithSubRoutes key={i} path={path} {...props} />;
         } else if (type === 'redirect') {
-          return <Redirect key={i} to={`${match.path}/${path}`} {...props} />;
+          const newPath = match.path === '/' ? `/${path}` : `${match.path}/${path}`;
+          return <Redirect key={i} to={newPath} {...props} />;
         }
       })}
       <Route component={NotFoundPage} />
@@ -28,8 +29,10 @@ RenderRoutes.propTypes = {
   routes: PropTypes.object.isRequired
 };
 
-export const RouteWithSubRoutes = withRouter(({ path, routes, component: Component, match, ...rest }) => (
-  <Route path={`${match.path}/${path}`} render={props => <Component {...props} routes={routes} />} {...rest} />
-));
+export const RouteWithSubRoutes = withRouter(({ path, routes, component: Component, match, ...rest }) => {
+  const newPath = match.path === '/' ? `/${path}` : `${match.path}/${path}`;
+  console.log('~~~~~ render routes', newPath, match, routes);
+  return <Route path={newPath} render={props => <Component {...props} routes={routes} />} {...rest} />;
+});
 
 export default RenderRoutes;

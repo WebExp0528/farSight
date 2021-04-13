@@ -30,7 +30,7 @@ import Createbiditem from '../Bidsfeature/Createbiditem';
 import StatusScreen from '../StatusScreen';
 import PhotoScreen from '../UploadPhotos/Photosscreen';
 
-class Workorderdetails extends Component {
+class WorkOrderDetails extends Component {
   isLoading = true;
   wonId = null;
 
@@ -419,4 +419,4 @@ class Workorderdetails extends Component {
 
 const mapStateToProps = state => ({ won: state.won });
 
-export default connect(mapStateToProps)(Workorderdetails);
+export default connect(mapStateToProps)(WorkOrderDetails);

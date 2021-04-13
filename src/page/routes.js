@@ -6,15 +6,25 @@ import NewLinkSent from './NewLinkSent';
 import StatusScreen from './StatusScreen';
 import PhotosDescriptionscreen from './UploadPhotos/PhotosDescriptionscreen';
 import Photoscreen from './UploadPhotos/Photosscreen';
-import Workorderdetails from './WorkOrder/Workorderdetails';
-import Workorderlist from './WorkOrder/Workorderlist';
+import WorkOrderDetails from './Home/WorkOrderDetails';
+import WorkOrderList from './Home/WorkOrderList';
 import BidsDescriptionscreen from './Bidsfeature/BidsDescriptionscreen';
+import Home from './Home';
 
 const ROUTES = [
-  { type: 'route', path: '', exact: true, component: Workorderlist },
+  {
+    type: 'route',
+    path: '',
+    exact: true,
+    component: Home,
+    routes: [
+      { type: 'route', path: 'work-orders/:won', component: WorkOrderDetails },
+      { type: 'route', exact: true, path: 'work-orders', component: WorkOrderList },
+      { type: 'redirect', path: 'work-orders' }
+    ]
+  },
   { type: 'route', path: 'requestMagicLink', component: NewLinkSent },
   { type: 'route', path: 'magicLink/:token', component: Login },
-  { type: 'route', path: 'Workorderdetails/:won', component: Workorderdetails },
   { type: 'route', path: 'Createstatuscreen', component: Createstatusscreen },
   { type: 'route', path: 'StatusScreen', component: StatusScreen },
   { type: 'route', path: 'Photosscreen', component: Photoscreen },
