@@ -6,30 +6,36 @@ import NewLinkSent from './NewLinkSent';
 import StatusScreen from './StatusScreen';
 import PhotosDescriptionscreen from './UploadPhotos/PhotosDescriptionscreen';
 import Photoscreen from './UploadPhotos/Photosscreen';
-import WorkOrderDetails from './Home/WorkOrderDetails';
-import WorkOrderList from './Home/WorkOrderList';
+import WorkOrderDetails from './WorkOrder/WorkOrderDetails';
+import WorkOrderList from './WorkOrder/WorkOrderList';
 import BidsDescriptionscreen from './Bidsfeature/BidsDescriptionscreen';
-import Home from './Home';
+import WorkOrder from './WorkOrder';
 
 const ROUTES = [
+  { key: 'MAGIC_LINK_TOKEN', type: 'route', path: 'magicLink/:token', component: Login },
+  { key: 'REQUEST_MAGIC_LINK', type: 'route', path: 'requestMagicLink', component: NewLinkSent },
+  { key: 'CREATE_STATUS_SCREEN', type: 'route', path: 'Createstatuscreen', component: Createstatusscreen },
+  { key: 'STATUS_SCREEN', type: 'route', path: 'StatusScreen', component: StatusScreen },
+  { key: 'PHOTO_SCREEN', type: 'route', path: 'Photosscreen', component: Photoscreen },
   {
+    key: 'PHOTO_SCREEN_DESCRIPTION',
     type: 'route',
-    path: '',
-    exact: true,
-    component: Home,
+    path: 'PhotosDescriptionscreen',
+    component: PhotosDescriptionscreen
+  },
+  { key: 'BIDS_DESCRIPTION_SCREEN', type: 'route', path: 'BidsDescriptionscreen', component: BidsDescriptionscreen },
+  {
+    key: 'WORK_ORDER',
+    type: 'route',
+    path: 'work-orders',
+    component: WorkOrder,
     routes: [
-      { type: 'route', path: 'work-orders/:won', component: WorkOrderDetails },
-      { type: 'route', exact: true, path: 'work-orders', component: WorkOrderList },
-      { type: 'redirect', path: 'work-orders' }
+      { key: 'WORK_ORDER_DETAILS', type: 'route', path: ':won', component: WorkOrderDetails },
+      { key: 'WORK_ORDER', type: 'route', path: '', component: WorkOrderList },
+      { key: 'WORK_ORDER_REDIRECT', type: 'redirect', path: '' }
     ]
   },
-  { type: 'route', path: 'requestMagicLink', component: NewLinkSent },
-  { type: 'route', path: 'magicLink/:token', component: Login },
-  { type: 'route', path: 'Createstatuscreen', component: Createstatusscreen },
-  { type: 'route', path: 'StatusScreen', component: StatusScreen },
-  { type: 'route', path: 'Photosscreen', component: Photoscreen },
-  { type: 'route', path: 'PhotosDescriptionscreen', component: PhotosDescriptionscreen },
-  { type: 'route', path: 'BidsDescriptionscreen', component: BidsDescriptionscreen }
+  { key: 'HOME_REDIRECT', type: 'redirect', path: 'work-orders' }
 ];
 
 export default ROUTES;
