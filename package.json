@@ -39,6 +39,8 @@
     "react-scripts": "^4.0.3",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.9",
+    "redux-logger": "^3.0.6",
+    "redux-promise-middleware": "^6.1.2",
     "redux-thunk": "^2.3.0",
     "save": "^2.4.0",
     "semantic-ui-react": "^2.0.3",
@@ -61,8 +63,16 @@
     "prepare": "husky install"
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
-    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
     "cra-build-watch": "^3.4.0",
@@ -80,12 +90,10 @@
     "session-file-store": "^1.5.0"
   },
   "lint-staged": {
-    "src/**/*.+(js|jsx)": ["npm run lint:fix"],
-    "src/**/*.+(json|yml|yaml|css|md)": "npm run format"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "src/**/*.+(js|jsx)": [
+      "npm run lint:fix"
+    ],
+    "src/**/*.+(json|yml|yaml|css|md)": "npm run format",
+    "*.{jsx,js}": "eslint --cache --fix"
   }
 }
