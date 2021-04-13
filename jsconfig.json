@@ -1,6 +1,18 @@
 {
   "compilerOptions": {
-    "baseUrl": "src"
+    "module": "commonjs",
+    "target": "es2016",
+    "jsx": "preserve",
+    "checkJs": true,
+    "baseUrl": "./src",
+    "paths": {
+      "components/*": ["./src/components/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "page/*": ["./src/page/*"],
+      "store/*": ["./src/store/*"],
+      "utils/*": ["./src/utils/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["node_modules", "**/node_modules/*"]
 }

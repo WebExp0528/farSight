@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 
 import NotFoundPage from 'component/NotFound';
@@ -18,6 +19,14 @@ export const RenderRoutes = withRouter(({ routes, match }) => {
     </Switch>
   );
 });
+
+RenderRoutes.defaultProps = {
+  routes: []
+};
+
+RenderRoutes.propTypes = {
+  routes: PropTypes.object.isRequired
+};
 
 export const RouteWithSubRoutes = withRouter(({ path, routes, component: Component, match, ...rest }) => (
   <Route path={`${match.path}/${path}`} render={props => <Component {...props} routes={routes} />} {...rest} />
