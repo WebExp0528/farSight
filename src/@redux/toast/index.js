@@ -7,6 +7,7 @@ import toastDefaultOptions from './toastDefaultOptions';
 
 /**
  * Add Toast
+ *
  * @param {Toast} data
  * @returns
  */

@@ -23,10 +23,10 @@ const CustomToast = props => {
 
   return (
     <Toast className={classnames(cls.toastWrapper, { [cls[type]]: type })} onClose={handleClose} {...restToastProps}>
-      <Toast.Header>
+      <Toast.Header className={cls.header}>
         <strong className="mr-auto">{type}</strong>
       </Toast.Header>
-      <Toast.Body>{content}</Toast.Body>
+      <Toast.Body className={cls.body}>{content}</Toast.Body>
     </Toast>
   );
 };

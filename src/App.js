@@ -10,6 +10,7 @@ import Page from 'page';
 import { createStore } from '@redux';
 
 import './lumen.bootstrap.css';
+import { ToastContainer } from 'component';
 
 library.add(fas);
 
@@ -23,6 +24,7 @@ export const App = props => {
         <Router>
           <Page />
         </Router>
+        <ToastContainer />
       </Provider>
     </div>
   );

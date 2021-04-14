@@ -2,6 +2,7 @@ import toastDefaultOptions from './toastDefaultOptions';
 
 /**
  * Add Toast
+ *
  * @param {import('@redux/toast').Toast} toast
  * @returns
  */

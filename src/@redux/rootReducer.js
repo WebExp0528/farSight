@@ -6,10 +6,15 @@ import workOrders from './workOrders';
 import workOrderDetail from './workOrderDetail';
 
 const {
-  toasts: initToast, // do not reset toast but the rest
+  toasts: _initToast, // do not reset toast but the rest
   ...emptyInitState
 } = initialState;
 
+/**
+ *
+ * @param {import('.').AppState} initialState
+ * @returns
+ */
 const createAppReducer = initialState => {
   const appReducer = combineReducers({
     toast,
