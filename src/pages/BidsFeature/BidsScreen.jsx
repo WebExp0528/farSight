@@ -1,23 +1,9 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faPaperPlane, faPencilRuler } from '@fortawesome/free-solid-svg-icons';
 import React, { Component } from 'react';
-import {
-  Badge,
-  Button,
-  Card,
-  Container,
-  Row,
-  Col,
-  Form,
-  Image,
-  InputGroup,
-  Spinner,
-  Navbar,
-  Table
-} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane, faPencilRuler } from '@fortawesome/free-solid-svg-icons';
+import { Badge, Button, Card, Container, Row, Col, Spinner, Table } from 'react-bootstrap';
 
-class Bidsscreen extends Component {
+class BidsScreen extends Component {
   isLoading = true;
   state = {
     todos: []
@@ -123,4 +109,4 @@ class Bidsscreen extends Component {
     );
   }
 }
-export default Bidsscreen;
+export default BidsScreen;

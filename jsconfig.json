@@ -9,7 +9,7 @@
       "@redux/*": ["./@redux/*"],
       "components/*": ["./components/*"],
       "hooks/*": ["./hooks/*"],
-      "page/*": ["./page/*"],
+      "pages/*": ["./pages/*"],
       "helpers/*": ["./helpers/*"],
       "Layout/*": ["./Layout/*"]
     }

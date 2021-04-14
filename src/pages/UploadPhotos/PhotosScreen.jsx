@@ -1,6 +1,5 @@
 import CryptoJS from 'crypto-js';
-import React, { useState, Component } from 'react';
-import { Prev } from 'react-bootstrap/esm/PageItem';
+import React, { Component } from 'react';
 import { Button, Card, Container, Form, Image, Row, Col, Tab, ProgressBar, Accordion } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faCamera, faUpload } from '@fortawesome/free-solid-svg-icons';
@@ -15,7 +14,8 @@ const imageResizeConfig = {
 };
 
 const previewPageSize = 10;
-class Photoscreen extends Component {
+
+class PhotoScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -463,4 +463,4 @@ class Photoscreen extends Component {
   };
 }
 
-export default Photoscreen;
+export default PhotoScreen;

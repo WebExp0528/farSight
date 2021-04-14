@@ -5,7 +5,7 @@ import { Badge, Button, Card, Image } from 'react-bootstrap';
 import renderHTML from 'react-render-html';
 import { Link, withRouter } from 'react-router-dom';
 
-import ModalUpdateStatus from './../ModalUpdateStatus';
+import ModalUpdateStatus from '../ModalUpdateStatus';
 import { useIsOpenControls } from 'hooks';
 
 import { genRandomCode } from 'helpers';

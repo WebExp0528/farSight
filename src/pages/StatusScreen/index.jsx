@@ -1,20 +1,6 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
+import { Button, Container, Form } from 'react-bootstrap';
 
-import {
-  Alert,
-  Badge,
-  Button,
-  Card,
-  Container,
-  Form,
-  Image,
-  InputGroup,
-  Row,
-  Spinner,
-  Navbar,
-  Toast,
-  FormControl
-} from 'react-bootstrap';
 class StatusScreen extends Component {
   state = {
     won: this.props.won,

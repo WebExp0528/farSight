@@ -2,7 +2,10 @@ export const get = () => ({ axios }) => ({
   type: '@work_orders/GET',
   meta: {
     toast_success: {
-      content: 'Get Work Orders'
+      content: 'Get WorkOrders'
+    },
+    toast_error: {
+      content: 'Could not WorkOrders'
     }
   },
   payload: axios

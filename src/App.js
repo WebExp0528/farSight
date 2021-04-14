@@ -6,7 +6,7 @@ import { createBrowserHistory } from 'history';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
-import Page from 'page';
+import Page from 'pages';
 import { createStore } from '@redux';
 
 import './lumen.bootstrap.css';

@@ -9,12 +9,12 @@ import { Badge, Card, Container, Row, Col, Nav, Tab, Popover, Overlay, Accordion
 import { get as getWorkOrderDetail } from '@redux/workOrderDetail/actions';
 import { ContentLoader } from 'component';
 
-import Bidsscreen from '../Bidsfeature/Bidsscreen';
+import BidsScreen from '../BidsFeature/BidsScreen';
 import { SubmitWorkOrder } from './components';
 
-import Createbiditem from '../Bidsfeature/Createbiditem';
+import CreateBidItem from '../BidsFeature/CreateBidItem';
 import StatusScreen from '../StatusScreen';
-import PhotoScreen from '../UploadPhotos/Photosscreen';
+import PhotoScreen from '../UploadPhotos/PhotosScreen';
 
 class WorkOrderDetails extends Component {
   wonId = null;
@@ -248,7 +248,7 @@ class WorkOrderDetails extends Component {
               <StatusScreen won={this.wonId} dueDate={dueDate ? dueDate.toISOString().slice(0, 10) : null} />
             </Tab.Pane>
             <Tab.Pane eventKey="bids">
-              <Bidsscreen
+              <BidsScreen
                 won={this.wonId}
                 tabChange={key => {
                   this.navSelected(key);
@@ -256,7 +256,7 @@ class WorkOrderDetails extends Component {
               />
             </Tab.Pane>
             <Tab.Pane eventKey="createBid">
-              <Createbiditem won={this.wonId} />
+              <CreateBidItem won={this.wonId} />
             </Tab.Pane>
             <Tab.Pane eventKey="before-photos">
               <PhotoScreen won={this.wonId} category="before" />

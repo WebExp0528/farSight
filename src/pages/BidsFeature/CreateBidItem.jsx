@@ -1,20 +1,7 @@
 import React, { Component } from 'react';
-import {
-  Alert,
-  Badge,
-  Button,
-  Card,
-  Container,
-  Form,
-  Image,
-  InputGroup,
-  Row,
-  Spinner,
-  Navbar,
-  Toast
-} from 'react-bootstrap';
-import { isCompositeComponentWithType } from 'react-dom/test-utils';
-class Createbiditem extends Component {
+import { Alert, Button, Container, Form, Toast } from 'react-bootstrap';
+
+class CreateBidItem extends Component {
   toastMessage = null;
   toastVariant = 'warning';
   toggleShowToast = () => {
@@ -132,4 +119,4 @@ class Createbiditem extends Component {
     );
   }
 }
-export default Createbiditem;
+export default CreateBidItem;

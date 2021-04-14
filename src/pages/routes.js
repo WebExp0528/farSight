@@ -1,29 +1,29 @@
 import React from 'react';
 
-import Createstatusscreen from 'page/CreateStatusScreen';
+import CreateStatusScreen from './CreateStatusScreen';
 import Login from './Login';
 import NewLinkSent from './NewLinkSent';
 import StatusScreen from './StatusScreen';
-import PhotosDescriptionscreen from './UploadPhotos/PhotosDescriptionscreen';
-import Photoscreen from './UploadPhotos/Photosscreen';
+import PhotosDescriptionScreen from './UploadPhotos/PhotosDescriptionScreen';
+import PhotoScreen from './UploadPhotos/PhotosScreen';
 import WorkOrderDetails from './WorkOrder/Details';
 import WorkOrderList from './WorkOrder/List';
-import BidsDescriptionscreen from './Bidsfeature/BidsDescriptionscreen';
+import BidsDescriptionScreen from './BidsFeature/BidsDescriptionScreen';
 import WorkOrder from './WorkOrder';
 
 const ROUTES = [
   { key: 'MAGIC_LINK_TOKEN', type: 'route', path: 'magicLink/:token', component: Login },
   { key: 'REQUEST_MAGIC_LINK', type: 'route', path: 'requestMagicLink', component: NewLinkSent },
-  { key: 'CREATE_STATUS_SCREEN', type: 'route', path: 'Createstatuscreen', component: Createstatusscreen },
+  { key: 'CREATE_STATUS_SCREEN', type: 'route', path: 'Createstatuscreen', component: CreateStatusScreen },
   { key: 'STATUS_SCREEN', type: 'route', path: 'StatusScreen', component: StatusScreen },
-  { key: 'PHOTO_SCREEN', type: 'route', path: 'Photosscreen', component: Photoscreen },
+  { key: 'PHOTO_SCREEN', type: 'route', path: 'Photosscreen', component: PhotoScreen },
   {
     key: 'PHOTO_SCREEN_DESCRIPTION',
     type: 'route',
     path: 'PhotosDescriptionscreen',
-    component: PhotosDescriptionscreen
+    component: PhotosDescriptionScreen
   },
-  { key: 'BIDS_DESCRIPTION_SCREEN', type: 'route', path: 'BidsDescriptionscreen', component: BidsDescriptionscreen },
+  { key: 'BIDS_DESCRIPTION_SCREEN', type: 'route', path: 'BidsDescriptionscreen', component: BidsDescriptionScreen },
   {
     key: 'WORK_ORDER',
     type: 'route',
