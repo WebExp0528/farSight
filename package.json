@@ -63,16 +63,8 @@
     "prepare": "husky install"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
   },
   "devDependencies": {
     "cra-build-watch": "^3.4.0",
@@ -90,9 +82,7 @@
     "session-file-store": "^1.5.0"
   },
   "lint-staged": {
-    "src/**/*.+(js|jsx)": [
-      "npm run lint:fix"
-    ],
+    "src/**/*.+(js|jsx)": ["npm run lint:fix"],
     "src/**/*.+(json|yml|yaml|css|md)": "npm run format",
     "*.{jsx,js}": "eslint --cache --fix"
   }

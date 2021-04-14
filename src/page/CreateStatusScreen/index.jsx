@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Popup from '../../Comman/Popup';
 import { Link } from 'react-router-dom';
-import axios from 'utils/axios';
+import { axios } from 'utils';
 
-class Createstatusscreen extends Component {
+class CreateStatusScreen extends Component {
   constructor() {
     super();
     this.state = {
@@ -297,4 +297,4 @@ class Createstatusscreen extends Component {
   }
 }
 
-export default Createstatusscreen;
+export default CreateStatusScreen;

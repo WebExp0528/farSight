@@ -13,7 +13,7 @@ const LayoutHeader = () => {
         <ButtonBack />
       </Nav>
       <Navbar.Brand>
-        <Button float="right" size="sm" variant="outline-info" href="/demo">
+        <Button size="sm" variant="outline-info" href="/demo">
           Start Demo &gt;
         </Button>
       </Navbar.Brand>
@@ -22,8 +22,7 @@ const LayoutHeader = () => {
         style={{
           textAlign: 'center',
           margin: -10,
-          padding: 0,
-          boxSize: 0
+          padding: 0
         }}
       >
         <div style={{ margin: -5, padding: -5 }}>

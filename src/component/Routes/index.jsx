@@ -3,13 +3,17 @@ import PropTypes from 'prop-types';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 
 import NotFoundPage from 'component/NotFound';
-import { getRandomCode } from 'utils';
+import { genRandomCode } from 'utils';
 
-export const RenderRoutes = withRouter(({ routes, match }) => {
+const RouteWithSubRoutes = ({ path, routes, component: Component, match, ...rest }) => {
+  return <Route path={path} render={props => <Component {...props} routes={routes} />} {...rest} />;
+};
+
+export const RenderRoutes = ({ routes, match }) => {
   return (
     <Switch>
       {routes.map((route, i) => {
-        const { key = getRandomCode(), path = '', type = 'route', ...props } = route;
+        const { key = genRandomCode(), path = '', type = 'route', ...props } = route;
         const newPath = match.path === '/' ? `/${path}` : `${match.path}/${path}`;
         if (type === 'route') {
           return <RouteWithSubRoutes key={key} path={newPath} {...props} />;
@@ -20,14 +24,10 @@ export const RenderRoutes = withRouter(({ routes, match }) => {
       <Route component={NotFoundPage} />
     </Switch>
   );
-});
+};
 
 RenderRoutes.propTypes = {
   routes: PropTypes.array.isRequired
 };
 
-export const RouteWithSubRoutes = ({ path, routes, component: Component, match, ...rest }) => {
-  return <Route path={path} render={props => <Component {...props} routes={routes} />} {...rest} />;
-};
-
-export default RenderRoutes;
+export default withRouter(RenderRoutes);
