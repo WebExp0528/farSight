@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Badge, Card, Image } from 'react-bootstrap';
+import { Badge, Button, Card, Image } from 'react-bootstrap';
 import renderHTML from 'react-render-html';
 import { Link, withRouter } from 'react-router-dom';
+
+import ModalUpdateStatus from './../ModalUpdateStatus';
+import { useIsOpenControls } from 'hooks';
 
 import { genRandomCode } from 'helpers';
 
@@ -52,6 +55,9 @@ export const getItemStatusBadgeClass = item => {
 
 const ListCard = props => {
   const { item = {}, match } = props;
+
+  const modalControls = useIsOpenControls();
+
   return (
     <Card className={cls.cardWrapper} key={`${item.won}-${genRandomCode()}`}>
       <Card.Body style={{ padding: '0.25em' }}>
@@ -76,16 +82,17 @@ const ListCard = props => {
         <Card.Text>{item.description ? renderHTML(item.description) : null}</Card.Text>
       </Card.Body>
       <Card.Footer className={cls.footerWrapper}>
-        <div>
+        <Button variant="link" size="sm" onClick={modalControls.handleOpen}>
           <FontAwesomeIcon icon={['fas', 'history']} flip="horizontal" />
           &nbsp;Update Status
-        </div>
+        </Button>
         <div>
           <span style={{ color: 'grey' }}>Work&nbsp;Order&nbsp;#{item.won}</span> &nbsp;&nbsp;&nbsp;&nbsp;
           <Badge variant="primary">Due: {new Date(item.due_date).toDateString()}</Badge> &nbsp;&nbsp;&nbsp;&nbsp;
           <Badge variant={getItemStatusBadgeClass(item)}>{getItemStatus(item)}</Badge>
         </div>
       </Card.Footer>
+      <ModalUpdateStatus {...modalControls} />
     </Card>
   );
 };
