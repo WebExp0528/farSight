@@ -20,12 +20,11 @@ import {
 } from 'react-bootstrap';
 
 //import './Workorder.css';
-import axios from 'utils/axios';
-import Popup from 'Comman/Popup';
+import { axios } from 'utils';
 
 import Bidsscreen from '../Bidsfeature/Bidsscreen';
-import Submitworkorder from '../../component/Submitworkorder/Submitworkorder';
-import { Body } from 'node-fetch';
+import { SubmitWorkOrder } from './components';
+
 import Createbiditem from '../Bidsfeature/Createbiditem';
 import StatusScreen from '../StatusScreen';
 import PhotoScreen from '../UploadPhotos/Photosscreen';
@@ -80,6 +79,7 @@ class WorkOrderDetails extends Component {
   };
 
   componentDidMount = () => {
+    console.log('~~~~~ mounted work order details', this.props);
     window.addEventListener('scroll', this.handleScroll);
   };
   componentDidUpdate = () => {
@@ -150,7 +150,7 @@ class WorkOrderDetails extends Component {
         <Row>
           <Col>
             <h5>
-              <Link to={'/Workorderdetails/' + item.won}>{item.work_ordered}</Link>
+              <Link to={this.props.match.url}>{item.work_ordered}</Link>
             </h5>
           </Col>
           <Col>
@@ -309,10 +309,10 @@ class WorkOrderDetails extends Component {
             </Tab.Pane>
 
             <Tab.Pane eventKey="survey">
-              <Submitworkorder won={this.wonId} surveyName={this.state.won.survey_name} />
+              <SubmitWorkOrder won={this.wonId} surveyName={this.state.won.survey_name} />
             </Tab.Pane>
             <Tab.Pane eventKey="submit">
-              <Submitworkorder won={this.wonId} surveyName="FinalCheck" />
+              <SubmitWorkOrder won={this.wonId} surveyName="FinalCheck" />
             </Tab.Pane>
           </Tab.Content>
           <br />

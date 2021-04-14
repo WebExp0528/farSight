@@ -1,5 +1,5 @@
 import { GET_WORK_ORDERS, WORK_ORDERS_ERROR, GET_DETAILS, DETAILS_ERROR } from '../types';
-import axios from 'utils/axios';
+import { axios } from 'utils';
 
 export const getWorkOrders = () => async dispatch => {
   axios

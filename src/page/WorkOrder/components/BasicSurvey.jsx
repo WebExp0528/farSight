@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Badge, Button, Card, Container, Form, Image, InputGroup, Row, Spinner, Navbar, Toast } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
+
 class BasicSurvey extends Component {
   toastMessage = null;
 
@@ -67,4 +68,5 @@ class BasicSurvey extends Component {
     );
   }
 }
+
 export default BasicSurvey;

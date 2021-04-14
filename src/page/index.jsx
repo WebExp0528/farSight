@@ -1,6 +1,7 @@
 import React from 'react';
-import { RenderRoutes, Layout } from 'component';
+import { RenderRoutes } from 'component';
 import Routes from './routes';
+import Layout from 'Layout';
 
 export const App = props => {
   return (

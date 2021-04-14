@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Badge, Button, Card, Container, Form, Image, InputGroup, Row, Spinner, Navbar, Toast } from 'react-bootstrap';
+import { Container, Toast } from 'react-bootstrap';
 import BasicSurvey from './BasicSurvey';
 import PoolSurvey from './PoolSurvey';
-import FinalCheckSurvey from './FinalCheck';
-class Submitworkorder extends Component {
+import FinalCheckSurvey from './FinalCheckSurvey';
+
+class SubmitWorkOrder extends Component {
   toastMessage = null;
   toggleShowToast = () => {
     this.setState((state, props) => {
@@ -94,4 +95,4 @@ class Submitworkorder extends Component {
     );
   }
 }
-export default Submitworkorder;
+export default SubmitWorkOrder;

@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-
-import NotFoundPage from 'component/NotFound';
 import { genRandomCode } from 'utils';
 
 const RouteWithSubRoutes = ({ path, routes, component: Component, match, ...rest }) => {
   return <Route path={path} render={props => <Component {...props} routes={routes} />} {...rest} />;
 };
 
-export const RenderRoutes = ({ routes, match }) => {
+export const RenderRoutes = props => {
+  const { routes, match } = props;
   return (
     <Switch>
       {routes.map((route, i) => {
@@ -21,7 +20,6 @@ export const RenderRoutes = ({ routes, match }) => {
           return <Redirect key={`${path}-${i}`} to={newPath} {...props} />;
         }
       })}
-      <Route component={NotFoundPage} />
     </Switch>
   );
 };

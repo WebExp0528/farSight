@@ -1,18 +1,6 @@
 import React, { Component } from 'react';
-import {
-  Badge,
-  Button,
-  Card,
-  Container,
-  Form,
-  Image,
-  InputGroup,
-  Row,
-  Spinner,
-  Navbar,
-  Toast,
-  ListGroup
-} from 'react-bootstrap';
+import { Form, ListGroup } from 'react-bootstrap';
+
 class FinalCheckSurvey extends Component {
   toastMessage = null;
 
@@ -46,4 +34,5 @@ class FinalCheckSurvey extends Component {
     );
   }
 }
+
 export default FinalCheckSurvey;

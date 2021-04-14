@@ -32,7 +32,7 @@ class NewLinkSent extends Component {
                   fontSize: '0.75em',
                   textAlign: 'right'
                 }}
-              ></Card.Footer>
+              />
             </Card>
           </Container>
         </div>

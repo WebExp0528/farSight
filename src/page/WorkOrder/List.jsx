@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import renderHTML from 'react-render-html';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faHistory, faEye, faChessRook } from '@fortawesome/free-solid-svg-icons';
-import { Badge, Card, Container, Form, Image, InputGroup, Row, Spinner, Navbar } from 'react-bootstrap';
+import { faSearch, faHistory } from '@fortawesome/free-solid-svg-icons';
+
+import { Badge, Card, Container, Form, Image, InputGroup } from 'react-bootstrap';
+
 import { getWorkOrders } from 'store/actions/WorkorderlistAction';
+import { ContentLoader } from 'component';
 
 class WorkOrderList extends Component {
   isLoading = true;
@@ -15,13 +18,14 @@ class WorkOrderList extends Component {
   };
 
   componentDidMount() {
-    console.log('mounted list component');
+    console.log('mounted list component', this.props.match);
     this.props.getWorkOrders();
     this.isLoading = false;
   }
   handleChange = event => {
     this.setState({ filter: event.target.value });
   };
+
   getItemStatus = item => {
     let dueDate = new Date(item.due_date);
     let today = new Date();
@@ -41,6 +45,7 @@ class WorkOrderList extends Component {
     }
     return statusMessage;
   };
+
   getItemStatusBadgeClass = item => {
     let status = this.getItemStatus(item);
     let itemClass = 'primary';
@@ -61,9 +66,10 @@ class WorkOrderList extends Component {
 
     return itemClass;
   };
+
   renderCard = item => {
     return (
-      <div key={'WO' + item.won}>
+      <div key={item.won}>
         <Card style={{ marginBottom: '0.5em' }}>
           <Card.Body style={{ padding: '0.25em' }}>
             <Image
@@ -75,12 +81,11 @@ class WorkOrderList extends Component {
                 margin: '0.25em',
                 marginRight: '2em'
               }}
-              float="left"
               thumbnail
               roundedCircle
             />
             <Card.Title>
-              <Link to={'/Workorderdetails/' + item.won}>{item.work_ordered}</Link>
+              <Link to={`${this.props.match.url}/${item.won}`}>{item.work_ordered}</Link>
             </Card.Title>
             <Card.Subtitle className="mb-2 text-muted">
               {item.address_street} {item.address_city}, {item.address_state}
@@ -106,6 +111,7 @@ class WorkOrderList extends Component {
       </div>
     );
   };
+
   render() {
     const { workOrders } = this.props.workOrders;
     console.log(this.props.workOrders);
@@ -142,13 +148,7 @@ class WorkOrderList extends Component {
               Select a work order to get started
             </div>
             {this.isLoading ? (
-              <center>
-                <hr />
-                <div>Loading...</div>
-                <br />
-                <Spinner animation="border" variant="secondary" />
-                <hr />
-              </center>
+              <ContentLoader>Loading Work Order List</ContentLoader>
             ) : (
               filteredData.map(this.renderCard)
             )}

@@ -1,4 +1,4 @@
-import LayoutHeader from './../LayoutHeader';
+import LayoutHeader from './LayoutHeader';
 import React from 'react';
 
 const Layout = ({ children }) => {

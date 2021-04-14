@@ -10,7 +10,8 @@
       "hooks/*": ["./src/hooks/*"],
       "page/*": ["./src/page/*"],
       "store/*": ["./src/store/*"],
-      "utils/*": ["./src/utils/*"]
+      "utils/*": ["./src/utils/*"],
+      "Layout/*": ["./src/Layout/*"]
     }
   },
   "include": ["src"],

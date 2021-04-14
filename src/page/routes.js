@@ -6,8 +6,8 @@ import NewLinkSent from './NewLinkSent';
 import StatusScreen from './StatusScreen';
 import PhotosDescriptionscreen from './UploadPhotos/PhotosDescriptionscreen';
 import Photoscreen from './UploadPhotos/Photosscreen';
-import WorkOrderDetails from './WorkOrder/WorkOrderDetails';
-import WorkOrderList from './WorkOrder/WorkOrderList';
+import WorkOrderDetails from './WorkOrder/Details';
+import WorkOrderList from './WorkOrder/List';
 import BidsDescriptionscreen from './Bidsfeature/BidsDescriptionscreen';
 import WorkOrder from './WorkOrder';
 

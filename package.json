@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^13.1.2",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "classnames": "^2.3.1",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "crypto-js": "^4.0.0",
@@ -48,13 +49,13 @@
     "uuid": "^8.3.2"
   },
   "scripts": {
-    "start": "npm-run-all -p build server:prod",
-    "dev": "npm-run-all -p build:watch server:dev",
+    "start": "npm-run-all -p client:build server:prod",
+    "dev": "npm-run-all -p client:dev server:dev",
     "server:dev": "pm2 start",
     "server:prod": "pm2 start --env prod",
     "server:log": "pm2 logs farSight",
-    "build": "react-scripts build",
-    "build:watch": "cra-build-watch",
+    "client:build": "react-scripts build",
+    "client:dev": "react-scripts start",
     "test": "react-scripts test",
     "lint": "eslint --ext .jsx --ext .js src/.",
     "lint:fix": "eslint --fix --ext .jsx --ext .js src/.",
@@ -67,7 +68,6 @@
     "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
   },
   "devDependencies": {
-    "cra-build-watch": "^3.4.0",
     "eslint": "^7.24.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",

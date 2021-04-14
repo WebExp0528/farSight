@@ -45,7 +45,7 @@ if (process.env.NODE_ENV === 'development') {
   sessionStore = new FileStore(options);
 }
 
-app.use(cors());
+app.use(cors({ origin: ['http://localhost:3000'], credentials: true }));
 app.use(express.static(path.join(__dirname, 'build')));
 
 /**
@@ -60,24 +60,26 @@ app.use(
     key: 'farsight_session_cookie',
     secret: process.env.NS_FS_SESSION_SECRET,
     store: sessionStore,
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     cookie: {
       path: '/',
       httpOnly: true,
+      sameSite: process.env.NODE_ENV === 'development' ? 'none' : 'strict',
       secure: false,
       maxAge: moment.duration(1000, 'years').asMilliseconds()
     }
   })
 );
-
+app.set('trust proxy', 1);
 /**
  * Register Default Session
  */
 app.use('/demo', function (req, res, next) {
-  _.set(req, 'session.apiKey', '00903200-EQ00-QUY1-UAA3-1EQUY1EQ1EQU');
-  console.warn('STARTING DEMO');
-  return res.redirect('/');
+  req.session.apiKey = '00903200-EQ00-QUY1-UAA3-1EQUY1EQ1EQU';
+  console.warn('STARTING DEMO', req.session);
+  req.session.save();
+  return res.send({ message: 'Set Test Key' });
 });
 
 app.use('/error', function (req, res, next) {
@@ -129,6 +131,7 @@ app.use('/auth/magicLink/:token', async function (req, res, next) {
 
 //Use Custom Middleware to look up session-related data after session is established.
 app.use(async function (req, res, next) {
+  console.log('~~~~~ check session', req.session);
   if (req.sessionID) {
     if (req.session.apiKey) {
       //Existing Session
@@ -177,13 +180,13 @@ var proxy = createProxyMiddleware(proxyOptions);
 app.use('/api', proxy);
 //Pass back to client side router in the REACT app.
 
-app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+// app.get('*', function (req, res) {
+//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// });
 
 console.log('APP ID ' + process.env.NS_DB_DATABASE);
 app.use(morgan('combined'));
-app.listen(3000);
+app.listen(process.env.PORT);
 
 process.on('SIGINT', () => {
   console.info('SIGINT signal received.');
