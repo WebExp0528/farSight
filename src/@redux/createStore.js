@@ -7,7 +7,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import createAppReducer from './rootReducer';
 import getInitialStateFromLocalStorage from './getInitialStateFromLocalStorage';
 
-import { axios } from 'helpers';
+import axios from './@thunker/axios';
 
 export default (preloadedState = getInitialStateFromLocalStorage(), history) => {
   const isDev = process.env.NODE_ENV !== 'production';

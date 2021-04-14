@@ -7,7 +7,7 @@ export const get = () => ({ axios }) => {
         method: 'GET'
       })
       .then(res => {
-        return res.data;
+        return { data: res.data };
       })
   };
 };
