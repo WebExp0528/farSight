@@ -37,16 +37,12 @@ const LayoutHeader = props => {
       </Navbar.Brand>
       <Navbar.Brand>{navigator.platform}</Navbar.Brand>
       <div className={cls.logoWrapper}>
-        <div>
-          <FontAwesomeIcon icon={['fas', 'eye']} size="lg" style={{ margin: 0, padding: 0, color: 'white' }} />
-        </div>
-        <div>
-          <FontAwesomeIcon icon={['fas', 'chess-rook']} size="2x" style={{ margin: 0, padding: 0, color: 'white' }} />
-        </div>
+        <FontAwesomeIcon icon={['fas', 'eye']} size="lg" style={{ margin: 0, padding: 0, color: 'white' }} />
+        <FontAwesomeIcon icon={['fas', 'chess-rook']} size="2x" style={{ margin: 0, padding: 0, color: 'white' }} />
       </div>
-      <Navbar.Brand style={{ marginLeft: 15 }}>
+      <Navbar.Brand className={cls.brandWrapper}>
         FarSight™
-        <div style={{ marginTop: -8, paddingTop: 0, fontSize: '0.75em' }}>by Northsight</div>
+        <div className={cls.brandText}>by Northsight</div>
       </Navbar.Brand>
     </Navbar>
   );

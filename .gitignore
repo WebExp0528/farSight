@@ -1,4 +1,4 @@
 node_modules/
 build/
 sessions/
-.eslintcache
+.DS_Store

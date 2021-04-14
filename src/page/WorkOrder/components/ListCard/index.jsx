@@ -7,6 +7,8 @@ import { Link, withRouter } from 'react-router-dom';
 
 import { genRandomCode } from 'helpers';
 
+import cls from './work-order-list-card.module.scss';
+
 export const getItemStatus = item => {
   let dueDate = new Date(item.due_date);
   let today = new Date();
@@ -51,7 +53,7 @@ export const getItemStatusBadgeClass = item => {
 const ListCard = props => {
   const { item = {}, match } = props;
   return (
-    <Card key={`${item.won}-${genRandomCode()}`} style={{ marginBottom: '0.5em' }}>
+    <Card className={cls.cardWrapper} key={`${item.won}-${genRandomCode()}`}>
       <Card.Body style={{ padding: '0.25em' }}>
         <Image
           src={item.image_url_small}
@@ -73,20 +75,16 @@ const ListCard = props => {
         </Card.Subtitle>
         <Card.Text>{item.description ? renderHTML(item.description) : null}</Card.Text>
       </Card.Body>
-      <Card.Footer
-        style={{
-          padding: '0.5em',
-          fontSize: '0.75em',
-          textAlign: 'right'
-        }}
-      >
-        <Link>
+      <Card.Footer className={cls.footerWrapper}>
+        <div>
           <FontAwesomeIcon icon={['fas', 'history']} flip="horizontal" />
           &nbsp;Update Status
-        </Link>
-        <span style={{ color: 'grey' }}>Work&nbsp;Order&nbsp;#{item.won}</span> &nbsp;&nbsp;&nbsp;&nbsp;
-        <Badge variant="primary">Due: {new Date(item.due_date).toDateString()}</Badge> &nbsp;&nbsp;&nbsp;&nbsp;
-        <Badge variant={getItemStatusBadgeClass(item)}>{getItemStatus(item)}</Badge>
+        </div>
+        <div>
+          <span style={{ color: 'grey' }}>Work&nbsp;Order&nbsp;#{item.won}</span> &nbsp;&nbsp;&nbsp;&nbsp;
+          <Badge variant="primary">Due: {new Date(item.due_date).toDateString()}</Badge> &nbsp;&nbsp;&nbsp;&nbsp;
+          <Badge variant={getItemStatusBadgeClass(item)}>{getItemStatus(item)}</Badge>
+        </div>
       </Card.Footer>
     </Card>
   );
