@@ -16,4 +16,13 @@
       }
     }
   }
+
+  .modalFooter {
+    display: flex;
+    justify-content: center;
+  }
+
+  :global .modal-content {
+    background: #1f3b3f 0% 0% no-repeat padding-box;
+  }
 }

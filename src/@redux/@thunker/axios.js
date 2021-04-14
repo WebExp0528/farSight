@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const axiosClient = ({ getState, dispatch }) => {
+const axiosClient = ({ _getState, _dispatch }) => {
   /**
    * Create Axios Instance
    */
@@ -19,17 +19,22 @@ const axiosClient = ({ getState, dispatch }) => {
     return config;
   });
 
-  axiosInstance.interceptors.response.use(response => {
-    /* ------------------------------ API Call End ------------------------------ */
-    console.log('[===== Ended API Call =====]');
-    if (response.status >= 400) {
-      if (response.status === 401) {
-        window.location.replace('/');
-        return;
+  axiosInstance.interceptors.response.use(
+    response => {
+      /* ------------------------------ API Call End ------------------------------ */
+      console.log('[===== Ended API Call =====]', response.status);
+      return response;
+    },
+    error => {
+      console.error('[===== Ended API Call =====]', error.response.status);
+      if (error?.response?.status >= 400) {
+        if (error?.response?.status === 401) {
+          window.location.replace('/requestMagicLink');
+        }
       }
+      throw error;
     }
-    return response;
-  });
+  );
 
   return axiosInstance;
 };

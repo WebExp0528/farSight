@@ -2,7 +2,7 @@ import toastDefaultOptions from './toastDefaultOptions';
 
 /**
  * Add Toast
- * @param {{id: string | number, autohide: boolean, animation: boolean, delay: number, onClose: Function}} toast
+ * @param {import('@redux/toast').Toast} toast
  * @returns
  */
 export const Add = toast => ({

@@ -1,0 +1,8 @@
+.toastWrapper {
+  &.success {
+    background-color: #d1ecf1;
+  }
+  &.error {
+    background-color: #f8d7da;
+  }
+}

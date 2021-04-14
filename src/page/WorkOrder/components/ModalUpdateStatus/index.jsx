@@ -21,7 +21,7 @@ const ModalUpdateStatus = ({ isOpen, handleClose }) => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer className={cls.modalFooter}>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="success" size="lg" onClick={handleClose}>
             Send Status Update
           </Button>
         </Modal.Footer>
