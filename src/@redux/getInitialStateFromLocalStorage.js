@@ -1,4 +1,5 @@
 import { initialState } from './initialState';
+import { localStorage } from 'helpers';
 
 /**
  * As an initial state,
@@ -14,5 +15,15 @@ const initReducerState = {
 };
 
 export default () => ({
-  ...initialState
+  ...initialState,
+  workOrders: {
+    ...initialState.workOrders,
+    ...localStorage('@work_orders').get(),
+    ...initReducerState
+  },
+  workOrderDetail: {
+    ...initialState.workOrderDetail,
+    ...localStorage('@work_order_detail').get(),
+    ...initReducerState
+  }
 });

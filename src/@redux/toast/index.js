@@ -2,8 +2,12 @@ import initialState from './initialState';
 import toastDefaultOptions from './toastDefaultOptions';
 
 /**
+ * @typedef {{id?: string | number, autohide?: boolean, animation?: boolean, delay?: number, onClose?: Function, type?: string, content?: string}} Toast
+ */
+
+/**
  * Add Toast
- * @param {{id: string | number, autohide: boolean, animation: boolean, delay: number, onClose: Function}} data
+ * @param {Toast} data
  * @returns
  */
 const newToast = data => ({
@@ -14,8 +18,8 @@ const newToast = data => ({
 
 /**
  * Add New Toast
- * @param {{id: string | number, autohide: boolean, animation: boolean, delay: number, onClose: Function}} data
- * @param {{id: string | number, autohide: boolean, animation: boolean, delay: number, onClose: Function}} toast
+ * @param {Toast[]} data
+ * @param {Toast} toast
  * @returns
  */
 const addNewToast = (data, toast) => {

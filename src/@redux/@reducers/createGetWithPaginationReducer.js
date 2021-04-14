@@ -1,6 +1,3 @@
-import { AnyAction } from 'redux';
-import { DefaultState, ReducerOptions } from './types';
-
 /**
  * Processes data and pagination from the server response
  * Saves data and pagination as { data, pagination }
@@ -11,7 +8,7 @@ import { DefaultState, ReducerOptions } from './types';
  * @param initialState
  * @param options
  */
-export function createGetWithPaginationReducer(baseName, initialState, options) {
+export function createGetWithPaginationReducer(baseName, initialState, options = {}) {
   return function getWithPaginationReducer(state, action) {
     const { flushOnError = false, flushOnStart = false } = options;
 

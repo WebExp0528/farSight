@@ -6,11 +6,11 @@
     "checkJs": true,
     "baseUrl": "./src",
     "paths": {
+      "@redux/*": ["./src/@redux/*"],
       "components/*": ["./src/components/*"],
       "hooks/*": ["./src/hooks/*"],
       "page/*": ["./src/page/*"],
-      "store/*": ["./src/store/*"],
-      "utils/*": ["./src/utils/*"],
+      "helpers/*": ["src/helpers/*"],
       "Layout/*": ["./src/Layout/*"]
     }
   },

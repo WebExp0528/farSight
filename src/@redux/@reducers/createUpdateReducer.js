@@ -1,6 +1,3 @@
-import { AnyAction } from 'redux';
-import { ReducerOptions, StateWithObjectPayload } from './types';
-
 /**
  * Handles update actions for an object state
  * Partial data will be merged with the old state
@@ -10,7 +7,7 @@ import { ReducerOptions, StateWithObjectPayload } from './types';
  * @param initialState
  * @param options
  */
-export function createUpdateReducer(baseName, initialState, options) {
+export function createUpdateReducer(baseName, initialState, options = {}) {
   return function deleteReducer(state, action) {
     const { flushOnError = false } = options;
 

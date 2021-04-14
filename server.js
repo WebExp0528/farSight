@@ -71,7 +71,9 @@ app.use(
     }
   })
 );
+
 app.set('trust proxy', 1);
+
 /**
  * Register Default Session
  */
@@ -176,8 +178,10 @@ var proxyOptions = {
     //console.log(proxyRes);
   }
 };
+
 var proxy = createProxyMiddleware(proxyOptions);
 app.use('/api', proxy);
+
 //Pass back to client side router in the REACT app.
 
 // app.get('*', function (req, res) {

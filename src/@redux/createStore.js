@@ -1,13 +1,13 @@
 import { applyMiddleware, createStore } from 'redux';
 
 import { createPromise as createPromiseMiddleware } from 'redux-promise-middleware';
-import thunk from 'redux-thunk';
+import createThunkerMiddleware from 'redux-thunker';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import createAppReducer from './rootReducer';
 import getInitialStateFromLocalStorage from './getInitialStateFromLocalStorage';
 
-import axios from 'utils/axios';
+import { axios } from 'helpers';
 
 export default (preloadedState = getInitialStateFromLocalStorage(), history) => {
   const isDev = process.env.NODE_ENV !== 'production';
@@ -17,7 +17,20 @@ export default (preloadedState = getInitialStateFromLocalStorage(), history) => 
     promiseTypeSuffixes: ['START', 'SUCCESS', 'ERROR']
   });
 
-  const middleware = [thunk.withExtraArgument({ axios, history }), promiseMiddleware];
+  const thunkerMiddleware = createThunkerMiddleware({
+    config: {
+      reduxThunkCompatible: false,
+      continuous: true
+    },
+    extraArgumentsEnhanced: {
+      axios
+    },
+    extraArguments: {
+      history
+    }
+  });
+
+  const middleware = [thunkerMiddleware, promiseMiddleware];
 
   if (isDev && !isServer) {
     const createLogger = require('redux-logger').createLogger;
@@ -27,7 +40,7 @@ export default (preloadedState = getInitialStateFromLocalStorage(), history) => 
     middleware.push(logger);
   }
 
-  const appReducer = createAppReducer(preloadedState, history);
+  const appReducer = createAppReducer(preloadedState);
 
   const store = createStore(appReducer, preloadedState, composeWithDevTools(applyMiddleware(...middleware)));
 

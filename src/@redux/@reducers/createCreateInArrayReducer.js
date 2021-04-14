@@ -1,6 +1,3 @@
-import { AnyAction } from 'redux';
-import { StateWithArrayPayload, ReducerOptions } from './types';
-
 /**
  * Appends new object from the payload to the data array
  * modifies isCreating of the state
@@ -9,7 +6,7 @@ import { StateWithArrayPayload, ReducerOptions } from './types';
  * @param initialState
  * @param options
  */
-export function createCreateInArrayReducer(baseName, initialState, options) {
+export function createCreateInArrayReducer(baseName, initialState, options = {}) {
   return function createInArrayReducer(state, action) {
     const { flushOnError = false } = options;
 

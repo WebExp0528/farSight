@@ -1,4 +1,4 @@
-import localStorage from 'helpers/localStorage';
+import { localStorage } from 'helpers';
 /**
  * Whenever there is an action fired and the action name start's with "name" param,
  * this wrapper will save the state to the localStorage

@@ -1,15 +1,20 @@
 import { combineReducers } from 'redux';
-import snacks from './toast';
 import { initialState } from './initialState';
 
+import toast from './toast';
+import workOrders from './workOrders';
+import workOrderDetail from './workOrderDetail';
+
 const {
-  snacks: initSnacks, // do not reset snacks but the rest
+  toasts: initToast, // do not reset toast but the rest
   ...emptyInitState
 } = initialState;
 
 const createAppReducer = initialState => {
   const appReducer = combineReducers({
-    snacks
+    toast,
+    workOrders,
+    workOrderDetail
   });
 
   return (state = initialState, action) => {

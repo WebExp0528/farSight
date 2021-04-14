@@ -1,6 +1,3 @@
-import { AnyAction } from 'redux';
-import { StateWithArrayPayload, ReducerOptions } from './types';
-
 /**
  * Handles update for an item in an array reducer. Requires "id" property
  * modifies isUpdating of the state
@@ -9,7 +6,7 @@ import { StateWithArrayPayload, ReducerOptions } from './types';
  * @param initialState
  * @param options
  */
-export function createUpdateInArrayReducer(baseName, initialState, options) {
+export function createUpdateInArrayReducer(baseName, initialState, options = {}) {
   return function updateInArrayReducer(state, action) {
     const { flushOnError = false } = options;
     switch (action.type) {
@@ -31,7 +28,7 @@ export function createUpdateInArrayReducer(baseName, initialState, options) {
         const replaceIndex = state.data.findIndex(item => item.id === id);
         const newData = [...state.data];
         let payloadData = action.payload;
-        delete payloadData['snack'];
+        delete payloadData['toast'];
         newData.splice(replaceIndex, 1, payloadData);
 
         return {

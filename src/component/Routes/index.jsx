@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import { genRandomCode } from 'utils';
+import { genRandomCode } from 'helpers';
 
 const RouteWithSubRoutes = ({ path, routes, component: Component, match, ...rest }) => {
   return <Route path={path} render={props => <Component {...props} routes={routes} />} {...rest} />;

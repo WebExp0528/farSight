@@ -1,6 +1,3 @@
-import { AnyAction } from 'redux';
-import { ReducerOptions, StateWithObjectPayload } from './types';
-
 /**
  * Handles async deletion, flushes data property on success
  * modifies isDeleting of the state
@@ -9,7 +6,7 @@ import { ReducerOptions, StateWithObjectPayload } from './types';
  * @param initialState
  * @param options
  */
-export function createDeleteReducer(baseName, initialState, options) {
+export function createDeleteReducer(baseName, initialState, options = {}) {
   return function deleteReducer(state, action) {
     const { flushOnError = false } = options;
 

@@ -3,7 +3,7 @@ import { Nav, Navbar, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ButtonBack from '../component/ButtonBack';
-import { axios } from 'utils';
+import { axios } from 'helpers';
 
 import cls from './layout.module.scss';
 import { withRouter } from 'react-router';
@@ -19,10 +19,10 @@ const LayoutHeader = props => {
         }
       })
       .then(res => {
-        // history.push('/');
+        history.push('/');
       })
       .catch(err => {
-        // history.push('/');
+        history.push('/');
       });
   };
   return (

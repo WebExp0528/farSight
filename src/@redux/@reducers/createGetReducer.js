@@ -1,6 +1,3 @@
-import { AnyAction } from 'redux';
-import { DefaultState, ReducerOptions } from './types';
-
 /**
  * State data will be replaced with new payload
  * modifies isLoading of the state
@@ -9,7 +6,7 @@ import { DefaultState, ReducerOptions } from './types';
  * @param initialState
  * @param options
  */
-export function createGetReducer(baseName, initialState, options) {
+export function createGetReducer(baseName, initialState, options = {}) {
   return function getReducer(state, action) {
     const { flushOnError = false, flushOnStart = false } = options;
 

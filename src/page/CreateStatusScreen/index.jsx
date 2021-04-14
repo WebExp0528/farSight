@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Popup from '../../Comman/Popup';
-import { Link } from 'react-router-dom';
-import { axios } from 'utils';
+import { axios } from 'helpers';
 
 class CreateStatusScreen extends Component {
   constructor() {

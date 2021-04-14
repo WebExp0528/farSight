@@ -1,6 +1,3 @@
-import { AnyAction } from 'redux';
-import { StateWithArrayPayload, ReducerOptions } from './types';
-
 /**
  * Removes item from the data which is an array of objects with "id" property
  * modifies isDeleting of the state
@@ -9,7 +6,7 @@ import { StateWithArrayPayload, ReducerOptions } from './types';
  * @param initialState
  * @param options
  */
-export function createDeleteInArrayReducer(baseName, initialState, options) {
+export function createDeleteInArrayReducer(baseName, initialState, options = {}) {
   return function deleteInArrayReducer(state, action) {
     const { flushOnError = false } = options;
 

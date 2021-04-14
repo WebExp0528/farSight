@@ -20,7 +20,7 @@ import {
 } from 'react-bootstrap';
 
 //import './Workorder.css';
-import { axios } from 'utils';
+import { axios } from 'helpers';
 
 import Bidsscreen from '../Bidsfeature/Bidsscreen';
 import { SubmitWorkOrder } from './components';

@@ -1,5 +1,3 @@
-import { AnyAction, Reducer } from 'redux';
-
 function getState(reducers, index, state, action) {
   if (reducers.length > index) {
     return getState(reducers, index + 1, reducers[index](state, action), action);
