@@ -4,23 +4,10 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faCaretRight, faCaretDown, faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
-import {
-  Badge,
-  Card,
-  Container,
-  Row,
-  Col,
-  Spinner,
-  Nav,
-  Tab,
-  Popover,
-  Overlay,
-  Accordion,
-  Button
-} from 'react-bootstrap';
+import { Badge, Card, Container, Row, Col, Nav, Tab, Popover, Overlay, Accordion, Button } from 'react-bootstrap';
 
-//import './Workorder.css';
-import { axios } from 'helpers';
+import { get as getWorkOrderDetail } from '@redux/workOrderDetail/actions';
+import { ContentLoader } from 'component';
 
 import Bidsscreen from '../Bidsfeature/Bidsscreen';
 import { SubmitWorkOrder } from './components';
@@ -30,40 +17,23 @@ import StatusScreen from '../StatusScreen';
 import PhotoScreen from '../UploadPhotos/Photosscreen';
 
 class WorkOrderDetails extends Component {
-  isLoading = true;
   wonId = null;
-
   state = {
     key: 'details',
     showNav: false,
-    won: {},
     isOpen: false,
     ispageStatus: false,
     menuCaret: faCaretRight,
     showScroll: true,
     hideScroll: false
   };
+
   constructor(props) {
     super(props);
 
     this.buttonRef = React.createRef();
     this.wonId = props.match.params.won;
-    axios
-      .get('/api/work_order/' + this.wonId, {
-        method: 'GET',
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-        }
-      })
-      .then(res => {
-        console.log('success-->', res);
-        let obj = res.data;
-        this.isLoading = false;
-        this.setState(prevState => ({
-          ...prevState,
-          won: obj
-        }));
-      });
+    this.props.getWorkOrderDetail(this.wonId);
   }
   toggleMenuCaret = eventKey => {
     if (this.state.menuCaret === faCaretRight) {
@@ -79,7 +49,6 @@ class WorkOrderDetails extends Component {
   };
 
   componentDidMount = () => {
-    console.log('~~~~~ mounted work order details', this.props);
     window.addEventListener('scroll', this.handleScroll);
   };
   componentDidUpdate = () => {
@@ -172,21 +141,18 @@ class WorkOrderDetails extends Component {
         <Card style={{ marginBottom: '0.5em' }}>
           <Card.Header style={{ padding: '0.25em' }}>INSTRUCTIONS</Card.Header>
           <Card.Body style={{ padding: '0.25em' }}>
-            <Card.Text style={{ padding: '0.25em' }}>
-              {item.instructions_full
-                ? item.instructions_full.map(i => {
-                    return (
-                      <>
-                        <h5>
-                          {i.action} - {i.type}
-                        </h5>
-                        <div>{i.instruction}</div>
-                        <br />
-                      </>
-                    );
-                  })
-                : null}
-            </Card.Text>
+            {item.instructions_full &&
+              item.instructions_full.map((i, index) => {
+                return (
+                  <React.Fragment key={index}>
+                    <h5>
+                      {i.action} - {i.type}
+                    </h5>
+                    <Card.Text style={{ padding: '0.25em' }}>{i.instruction}</Card.Text>
+                    <br />
+                  </React.Fragment>
+                );
+              })}
           </Card.Body>
         </Card>
         <Card>
@@ -257,31 +223,25 @@ class WorkOrderDetails extends Component {
   render() {
     this.wonId = this.props.match.params.won;
     const { isOpen, ispageStatus } = this.state;
-    const { won } = this.props.won;
+
+    const { data: won } = this.props.won;
     const { instructions_full } = won;
-    const dueDate = won.due_date;
+    const dueDate = new Date(won.due_date);
     const navClick = e => {
       return this.setState((state, props) => {
         return { showNav: !state.showNav };
       });
     };
-    console.log('workOrder', this.state.won);
     return (
       <Container>
-        {this.renderHeader(this.state.won)}
+        {this.renderHeader(won)}
         <Tab.Container id="woTabs" defaultActiveKey="details" activeKey={this.state.key}>
           <Tab.Content>
             <Tab.Pane eventKey="details">
-              {this.isLoading ? (
-                <center>
-                  <hr />
-                  <div>Loading Details...</div>
-                  <br />
-                  <Spinner animation="border" variant="secondary" />
-                  <hr />
-                </center>
+              {this.props.won.isLoading ? (
+                <ContentLoader>Loading Work Order Details...</ContentLoader>
               ) : (
-                this.renderCard(this.state.won)
+                this.renderCard(won)
               )}
             </Tab.Pane>
             <Tab.Pane eventKey="update">
@@ -309,7 +269,7 @@ class WorkOrderDetails extends Component {
             </Tab.Pane>
 
             <Tab.Pane eventKey="survey">
-              <SubmitWorkOrder won={this.wonId} surveyName={this.state.won.survey_name} />
+              <SubmitWorkOrder won={this.wonId} surveyName={won.survey_name} />
             </Tab.Pane>
             <Tab.Pane eventKey="submit">
               <SubmitWorkOrder won={this.wonId} surveyName="FinalCheck" />
@@ -417,6 +377,6 @@ class WorkOrderDetails extends Component {
   }
 }
 
-const mapStateToProps = state => ({ won: state.won });
+const mapStateToProps = state => ({ won: state.workOrderDetail });
 
-export default connect(mapStateToProps)(WorkOrderDetails);
+export default connect(mapStateToProps, { getWorkOrderDetail })(WorkOrderDetails);

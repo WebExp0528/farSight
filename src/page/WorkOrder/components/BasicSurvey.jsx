@@ -33,7 +33,7 @@ class BasicSurvey extends Component {
   render() {
     const parent = this.props.parent;
     return (
-      <Form onSubmit={parent.submitSurvey} id="SurveyForm">
+      <Form onSubmit={parent.submitSurvey}>
         <Form.Group controlId="Work_Completed__c">
           <Form.Label>Was Work Completed?</Form.Label>
           <Form.Control as="select" id="Work_Completed__c" onChange={parent.updateAnswer}>

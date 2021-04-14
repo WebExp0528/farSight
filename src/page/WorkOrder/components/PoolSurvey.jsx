@@ -32,7 +32,7 @@ class PoolSurvey extends Component {
   render() {
     const parent = this.props.parent;
     return (
-      <Form onSubmit={parent.submitSurvey} id="SurveyForm">
+      <Form onSubmit={parent.submitSurvey}>
         <Form.Group controlId="Work_Completed__c">
           <Form.Label>Are you able to complete this work order?</Form.Label>
           <Form.Control as="select" id="Work_Completed__c" onChange={parent.updateAnswer}>
