@@ -1,25 +1,35 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { Formik, Form as FormikForm } from 'formik';
 import DateTime from 'react-datetime';
 import _ from 'lodash';
 
+import { update } from '@redux/workOrderDetail/actions';
 import { InputText, withFormikField } from 'component';
-
 import { validationSchema } from './validationSchema';
 
 import cls from './modal-update-status.module.scss';
 
 const DateTimeFormik = withFormikField('')(DateTime);
 
-const ModalUpdateStatus = ({ isOpen, handleClose }) => {
+const ModalUpdateStatus = ({ isOpen, handleClose, won }) => {
+  const d = useDispatch();
   const initialValues = {
     expected_completion_date: '',
     notes: ''
   };
-
   const handleSubmit = data => {
-    console.log('````` submitting ', data);
+    d(
+      update(won.won, {
+        ...won,
+        last_status_update: {
+          ...(won.last_status_update ? won.last_status_update : {}),
+          expected_completion_date: data.expected_completion_date.toDate(),
+          explanation: data.notes
+        }
+      })
+    );
   };
 
   const renderForm = formikProps => {

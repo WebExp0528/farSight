@@ -92,7 +92,7 @@ const ListCard = props => {
           <Badge variant={getItemStatusBadgeClass(item)}>{getItemStatus(item)}</Badge>
         </div>
       </Card.Footer>
-      <ModalUpdateStatus {...modalControls} />
+      <ModalUpdateStatus won={item} {...modalControls} />
     </Card>
   );
 };

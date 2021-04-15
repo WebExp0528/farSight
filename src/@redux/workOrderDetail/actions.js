@@ -28,7 +28,7 @@ export const get = id => ({ axios }) => ({
  * @returns
  */
 export const update = (id, data) => ({ axios }) => ({
-  type: '@work_order_detail/GET',
+  type: '@work_order_detail/UPDATE',
   meta: {
     toast_success: {
       content: 'Update WorkOrderDetail'
