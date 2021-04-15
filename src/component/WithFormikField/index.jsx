@@ -32,5 +32,6 @@ export function withFormikField(defaultName = '') {
         </React.Fragment>
       );
     }
+    return ComponentWithFormik;
   };
 }

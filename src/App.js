@@ -10,6 +10,8 @@ import Page from 'pages';
 import { createStore } from '@redux';
 
 import './lumen.bootstrap.css';
+import 'react-datetime/css/react-datetime.css';
+
 import { ToastContainer } from 'component';
 
 library.add(fas);
