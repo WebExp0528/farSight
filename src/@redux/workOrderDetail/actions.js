@@ -13,13 +13,9 @@ export const get = id => ({ axios }) => ({
       content: 'Could not get WorkOrderDetail'
     }
   },
-  payload: axios
-    .get(`/api/work_order/${id}`, {
-      method: 'GET'
-    })
-    .then(res => {
-      return res.data;
-    })
+  payload: axios.get(`/api/work_order/${id}`).then(res => {
+    return res.data;
+  })
 });
 
 /**
@@ -39,10 +35,7 @@ export const update = (id, data) => ({ axios }) => ({
   },
   payload: axios
     .post(`/api/work_order/${id}`, {
-      method: 'POST',
-      data: {
-        won: data
-      }
+      won: data
     })
     .then(res => {
       return res.data;
