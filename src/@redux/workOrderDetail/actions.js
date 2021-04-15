@@ -21,9 +21,10 @@ export const get = id => ({ axios }) => ({
 /**
  *
  * @param {string | number} id
+ * @param {{expected_upload_date : Date, explanation : string, delay_reason: string, [index:string]:any}} data
  * @returns
  */
-export const update = (id, data) => ({ axios }) => ({
+export const updateStatus = (id, data) => ({ axios }) => ({
   type: '@work_order_detail/UPDATE',
   meta: {
     toast_success: {
@@ -35,7 +36,7 @@ export const update = (id, data) => ({ axios }) => ({
   },
   payload: axios
     .post(`/api/work_order/${id}`, {
-      won: data
+      ...data
     })
     .then(res => {
       return res.data;

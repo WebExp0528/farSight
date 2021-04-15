@@ -133,7 +133,6 @@ app.use('/auth/magicLink/:token', async function (req, res, next) {
 
 //Use Custom Middleware to look up session-related data after session is established.
 app.use(async function (req, res, next) {
-  console.log('~~~~~ check session', req.session);
   if (req.sessionID) {
     if (req.session.apiKey) {
       //Existing Session

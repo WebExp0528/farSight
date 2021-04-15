@@ -5,7 +5,7 @@ import { Formik, Form as FormikForm } from 'formik';
 import DateTime from 'react-datetime';
 import _ from 'lodash';
 
-import { update } from '@redux/workOrderDetail/actions';
+import { updateStatus } from '@redux/workOrderDetail/actions';
 import { InputText, withFormikField } from 'component';
 import { validationSchema } from './validationSchema';
 
@@ -21,13 +21,11 @@ const ModalUpdateStatus = ({ isOpen, handleClose, won }) => {
   };
   const handleSubmit = data => {
     d(
-      update(won.won, {
-        ...won,
-        last_status_update: {
-          ...(won.last_status_update ? won.last_status_update : {}),
-          expected_completion_date: data.expected_completion_date.toDate(),
-          explanation: data.notes
-        }
+      updateStatus(won.won, {
+        expected_upload_date: data.expected_completion_date.format('YYYY-MM-DD'),
+        explanation: data.notes,
+        delay_reason: 'Not Delayed',
+        order_status: 'On Time'
       })
     );
   };
