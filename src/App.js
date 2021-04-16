@@ -19,7 +19,7 @@ library.add(fas);
 const history = createBrowserHistory();
 const store = createStore(undefined, history);
 
-export const App = props => {
+export const App = () => {
   return (
     <div>
       <Provider store={store}>
