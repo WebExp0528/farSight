@@ -6,7 +6,7 @@ module.exports = {
       name: 'farSight',
       script: 'server.js',
       watch: true,
-      ignore_watch: ['node_modules', 'build', 'config', 'src', 'public', '.vscode', '.husky', 'sessions'],
+      ignore_watch: ['.git', 'node_modules', 'build', 'config', 'src', 'public', '.vscode', '.husky', 'sessions'],
       watch_options: {
         usePolling: true
       },

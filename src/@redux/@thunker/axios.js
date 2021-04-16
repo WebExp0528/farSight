@@ -22,11 +22,10 @@ const axiosClient = ({ _getState, _dispatch }) => {
   axiosInstance.interceptors.response.use(
     response => {
       /* ------------------------------ API Call End ------------------------------ */
-      console.log('[===== Ended API Call =====]', response.status);
+      console.log('[===== Ended API Call =====]');
       return response;
     },
     error => {
-      console.error('[===== Ended API Call =====]', error.response.status);
       if (error?.response?.status >= 400) {
         if (error?.response?.status === 401) {
           window.location.replace('/requestMagicLink');

@@ -54,7 +54,7 @@
   "scripts": {
     "start": "npm-run-all -p client:build server:prod",
     "dev": "npm-run-all -p client:dev server:dev",
-    "server:dev": "pm2 start",
+    "server:dev": "pm2 start --no-daemon",
     "server:prod": "pm2 start --env prod",
     "server:log": "pm2 logs farSight",
     "client:build": "react-scripts build",

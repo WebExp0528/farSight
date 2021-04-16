@@ -183,9 +183,11 @@ app.use('/api', proxy);
 
 //Pass back to client side router in the REACT app.
 
-// app.get('*', function (req, res) {
-//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
+if (process.env.NODE_ENV === 'production') {
+  app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  });
+}
 
 console.log('APP ID ' + process.env.NS_DB_DATABASE);
 app.use(morgan('combined'));
