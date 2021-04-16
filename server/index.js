@@ -1,86 +1,82 @@
-require('dotenv').config();
 const express = require('express'); //Simple Node HTML webserver
-const uuid = require('uuid');
-const moment = require('moment');
-const mysql = require('mysql');
 const session = require('express-session'); //express session manager.
 const MySQLStore = require('express-mysql-session')(session);
-const FileStore = require('session-file-store')(session);
+const uuid = require('uuid');
+const moment = require('moment');
+
 const morgan = require('morgan');
 const { createProxyMiddleware } = require('http-proxy-middleware'); //proxy middleware for routing our back-end API requests to the API server, so we can keep things simple.
 const path = require('path'); //path and directory tools.
+require('dotenv').config({ path: path.join(__dirname, './../.env') });
 const fetch = require('node-fetch');
 const cors = require('cors');
-const _ = require('lodash');
+const databaseOptions = require('./database');
 
-const { Provider } = require('react-redux');
 const app = express(); //create the server.
-
 const appId = process.env.APP_ID;
 const NS_FS_API = process.env.NS_FS_API;
 
 /**
  * const NS_FS_API = "http://localhost:5000";//local testing only
  */
-
-/**
- * Session Store Configuration
- */
-if (process.env.NODE_ENV === 'production') {
-  var options = {
-    host: process.env.NS_DB_HOST,
-    port: process.env.NS_DB_PORT,
-    user: process.env.NS_DB_USER,
-    password: process.env.NS_DB_PWD,
-    database: process.env.NS_DB_DATABASE,
-    clearExpired: true,
-    checkExpirationInterval: moment.duration(1, 'day').asMilliseconds(),
-    expiration: moment.duration(1, 'day').asMilliseconds()
-  };
-  sessionStore = new MySQLStore(options);
-}
-
-if (process.env.NODE_ENV === 'development') {
-  var options = { path: './sessions' };
-  sessionStore = new FileStore(options);
-}
-
-app.use(cors({ origin: ['http://localhost:3000'], credentials: true }));
+app.use(cors({ origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : true, credentials: true }));
 app.use(express.static(path.join(__dirname, 'build')));
-
-/**
- * Use Session Middleware
- */
-
-app.use(
-  session({
-    genid: function (req) {
-      return req.session ? req.session.id : uuid.v4();
-    },
-    key: 'farsight_session_cookie',
-    secret: process.env.NS_FS_SESSION_SECRET,
-    store: sessionStore,
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-      path: '/',
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === 'development' ? 'none' : 'strict',
-      secure: false,
-      maxAge: moment.duration(1000, 'years').asMilliseconds()
-    }
-  })
-);
-
 app.set('trust proxy', 1);
 
-/**
- * Register Default Session
- */
+/* -------------------------------------------------------------------------- */
+/*                         Session Store Configuration                        */
+/* -------------------------------------------------------------------------- */
+
+if (process.env.NODE_ENV === 'production') {
+  const sessionStore = new MySQLStore(databaseOptions);
+  app.use(
+    session({
+      genid: function (req) {
+        return req.session ? req.session.id : uuid.v4();
+      },
+      secret: process.env.NS_FS_SESSION_SECRET,
+      store: sessionStore,
+      resave: true,
+      saveUninitialized: true,
+      cookie: {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'none',
+        secure: false,
+        maxAge: moment.duration(1000, 'years').asMilliseconds()
+      }
+    })
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*                   Setup Test Session for development mode                  */
+/* -------------------------------------------------------------------------- */
+
+if (process.env.NODE_ENV === 'development') {
+  app.use((req, res, next) => {
+    if (!req.sessionID) {
+      req.sessionID = 'TEST_SESSION';
+    }
+    if (!req.session || !req.session.apiKey) {
+      req['session'] = {
+        apiKey: process.env.DEMO_API_KEY
+      };
+    }
+    return next();
+  });
+}
+
+/* -------------------------------------------------------------------------- */
+/*                            Register Demo API key                           */
+/* -------------------------------------------------------------------------- */
+
 app.use('/demo', function (req, res, next) {
-  req.session.apiKey = '00903200-EQ00-QUY1-UAA3-1EQUY1EQ1EQU';
-  console.warn('STARTING DEMO', req.session);
-  req.session.save();
+  if (process.env.NODE_ENV === 'production') {
+    req.session.apiKey = process.env.DEMO_API_KEY;
+    console.warn('STARTING DEMO', req.session);
+    req.session.save();
+  }
   return res.send({ message: 'Set Test Key' });
 });
 
@@ -88,10 +84,18 @@ app.use('/error', function (req, res, next) {
   res.send('Unexpected Response');
 });
 
+/* -------------------------------------------------------------------------- */
+/*                            Request a Magic Link                            */
+/* -------------------------------------------------------------------------- */
+
 app.use('/requestMagicLink', function (req, res, next) {
   //return res.send("THIS PAGE IS A PLACEHOLDER FOR MAGIC LINK REQUEST FORM");
   return next();
 });
+
+/* -------------------------------------------------------------------------- */
+/*                              Verify Magic Link                             */
+/* -------------------------------------------------------------------------- */
 
 app.use('/auth/magicLink/:token', async function (req, res, next) {
   //Session is new.
@@ -131,7 +135,10 @@ app.use('/auth/magicLink/:token', async function (req, res, next) {
   }
 });
 
-//Use Custom Middleware to look up session-related data after session is established.
+/* -------------------------------------------------------------------------- */
+/*                  Use Custom Middleware to look up session                  */
+/* -------------------------------------------------------------------------- */
+
 app.use(async function (req, res, next) {
   if (req.sessionID) {
     if (req.session.apiKey) {
@@ -185,22 +192,10 @@ app.use('/api', proxy);
 
 if (process.env.NODE_ENV === 'production') {
   app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, './../build', 'index.html'));
   });
 }
 
 console.log('APP ID ' + process.env.NS_DB_DATABASE);
 app.use(morgan('combined'));
 app.listen(process.env.PORT);
-
-process.on('SIGINT', () => {
-  console.info('SIGINT signal received.');
-
-  // Stops the server from accepting new connections and finishes existing connections.
-  server.close(function (err) {
-    if (err) {
-      console.error(err);
-      process.exit(1);
-    }
-  });
-});
