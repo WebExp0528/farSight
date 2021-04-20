@@ -6,12 +6,14 @@ import NewLinkSent from './NewLinkSent';
 import StatusScreen from './StatusScreen';
 import PhotosDescriptionScreen from './UploadPhotos/PhotosDescriptionScreen';
 import PhotoScreen from './WorkOrder/Details/PhotosScreen';
-import WorkOrderDetails from './WorkOrder/Details';
+import WorkOrderDetails from './WorkOrder/Details/Details1';
 import WorkOrderList from './WorkOrder/List';
 import BidsDescriptionScreen from './BidsFeature/BidsDescriptionScreen';
 import WorkOrder from './WorkOrder';
 import BidsScreen from './WorkOrder/Details/BidsScreen';
 import SubmitWorkOrder from './WorkOrder/Details/SubmitWorkOrder';
+import CreateBidItem from './WorkOrder/Details/CreateBidItem';
+import Instructions from './WorkOrder/Details/Instructions';
 
 const ROUTES = [
   { key: 'MAGIC_LINK_TOKEN', type: 'route', path: 'magicLink/:token', component: Login },
@@ -44,8 +46,10 @@ const ROUTES = [
         component: WorkOrderDetails,
         routes: [
           { key: 'photos', type: 'route', path: 'photos/:category', component: PhotoScreen },
+          { key: 'bids_add', type: 'route', path: 'bids/add', component: CreateBidItem },
           { key: 'bids', type: 'route', path: 'bids', component: BidsScreen },
-          { key: 'submit', type: 'route', path: 'submit/:surveyName', component: SubmitWorkOrder }
+          { key: 'submit', type: 'route', path: 'submit/:surveyName', component: SubmitWorkOrder },
+          { key: 'instructions', type: 'route', path: '', component: Instructions }
         ]
       },
       { key: 'list', type: 'route', path: '', component: WorkOrderList },

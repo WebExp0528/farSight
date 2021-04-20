@@ -12,7 +12,7 @@ import { ContentLoader } from 'component';
 import BidsScreen from './BidsScreen';
 import SubmitWorkOrder from './SubmitWorkOrder';
 
-import CreateBidItem from '../../BidsFeature/CreateBidItem';
+import CreateBidItem from './CreateBidItem';
 import StatusScreen from '../../StatusScreen';
 import PhotoScreen from './PhotosScreen';
 

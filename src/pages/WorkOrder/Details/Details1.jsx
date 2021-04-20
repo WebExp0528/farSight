@@ -10,18 +10,17 @@ import { useShowScroll } from 'hooks';
 import { faCaretRight, faCaretDown, faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
 import { Badge, Card, Container, Row, Col, Nav, Tab, Popover, Overlay, Accordion, Button } from 'react-bootstrap';
 
-import { AccordionToggleCaret, ContentLoader } from 'component';
+import { AccordionToggleCaret, ContentLoader, RenderRoutes } from 'component';
 
 import BidsScreen from './BidsScreen';
 import SubmitWorkOrder from './SubmitWorkOrder';
 
-import CreateBidItem from '../../BidsFeature/CreateBidItem';
+import CreateBidItem from './CreateBidItem';
 import StatusScreen from '../../StatusScreen';
 import PhotoScreen from './PhotosScreen';
 import { useRedux } from '@redux';
 import { getStatus, getStatusClass } from 'helpers';
-import { Link } from 'react-router-dom';
-import { RenderRoutes } from 'component/Routes';
+import { Link, NavLink } from 'react-router-dom';
 
 const WorkOrderDetails = props => {
   const { match, routes = [] } = props;
@@ -90,19 +89,21 @@ const WorkOrderDetails = props => {
           </AccordionToggleCaret>
           <Accordion.Collapse eventKey="orderActions">
             <Card.Footer>
-              <Nav justify activeKey={this.state.key} onSelect={this.navSelected} variant="pills">
+              <Nav justify variant="pills">
                 <Container>
                   <Row>
                     <Col>
                       <Nav.Item>
-                        <Nav.Link as={Button} size="sm" block eventKey="before-photos">
-                          Before Photos
-                        </Nav.Link>
+                        <Link to={`${match.url}/photos/before`}>
+                          <Nav.Link as={Button} size="sm" block>
+                            Before Photos
+                          </Nav.Link>
+                        </Link>
                       </Nav.Item>
                     </Col>
                     <Col>
                       <Nav.Item>
-                        <Nav.Link as={Button} size="sm" block eventKey="survey">
+                        <Nav.Link href={`${match.url}/submit/pool`} as={Button} size="sm" block eventKey="survey">
                           Submit Survey
                         </Nav.Link>
                       </Nav.Item>
@@ -111,14 +112,20 @@ const WorkOrderDetails = props => {
                   <Row>
                     <Col>
                       <Nav.Item>
-                        <Nav.Link as={Button} size="sm" block eventKey="during-photos">
+                        <Nav.Link
+                          href={`${match.url}/photos/during`}
+                          as={Button}
+                          size="sm"
+                          block
+                          eventKey="during-photos"
+                        >
                           During Photos
                         </Nav.Link>
                       </Nav.Item>
                     </Col>
                     <Col>
                       <Nav.Item>
-                        <Nav.Link as={Button} size="sm" block eventKey="bids">
+                        <Nav.Link href={`${match.url}/bids`} as={Button} size="sm" block eventKey="bids">
                           Add Bids
                         </Nav.Link>
                       </Nav.Item>
@@ -127,14 +134,20 @@ const WorkOrderDetails = props => {
                   <Row>
                     <Col>
                       <Nav.Item>
-                        <Nav.Link as={Button} size="sm" block eventKey="after-photos">
+                        <Nav.Link
+                          href={`${match.url}/photos/after`}
+                          as={Button}
+                          size="sm"
+                          block
+                          eventKey="after-photos"
+                        >
                           After Photos
                         </Nav.Link>
                       </Nav.Item>
                     </Col>
                     <Col>
                       <Nav.Item>
-                        <Nav.Link as={Button} size="sm" block eventKey="submit">
+                        <Nav.Link href={`${match.url}/submit/final`} as={Button} size="sm" block eventKey="submit">
                           Review &amp; Submit
                         </Nav.Link>
                       </Nav.Item>
@@ -148,9 +161,9 @@ const WorkOrderDetails = props => {
       </Accordion>
       <Overlay
         placement="top"
-        target={this.buttonRef}
-        show={this.state.showScroll}
-        onHide={() => console.log('hideNav')}
+        target={detailButtonRef}
+        show={scrollControl.isOpen}
+        // onHide={() => console.log('hideNav')}
       >
         <Popover id="nav-popover" className="alert-info">
           <Popover.Content>

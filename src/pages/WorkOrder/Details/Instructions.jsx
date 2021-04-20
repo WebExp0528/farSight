@@ -1,8 +1,11 @@
+import { useRedux } from '@redux';
 import React from 'react';
 
 import { Card, Col, Row } from 'react-bootstrap';
+import { withRouter } from 'react-router';
 
-export const Instructions = ({ won }) => {
+export const Instructions = ({ match }) => {
+  const { data: won } = useRedux('workOrderDetail');
   return (
     <div>
       <Card style={{ marginBottom: '0.5em' }}>
@@ -78,4 +81,4 @@ export const Instructions = ({ won }) => {
   );
 };
 
-export default Instructions;
+export default withRouter(Instructions);
