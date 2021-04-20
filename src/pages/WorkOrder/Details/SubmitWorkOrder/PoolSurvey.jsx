@@ -33,14 +33,14 @@ class PoolSurvey extends Component {
     const parent = this.props.parent;
     return (
       <Form onSubmit={parent.submitSurvey}>
-        <Form.Group controlId="Work_Completed__c">
+        <Form.Group>
           <Form.Label>Are you able to complete this work order?</Form.Label>
           <Form.Control as="select" id="Work_Completed__c" onChange={parent.updateAnswer}>
             <option>Yes</option>
             <option>Trip Charge</option>
           </Form.Control>
         </Form.Group>
-        <Form.Group controlId="Trip_Charge_Reason__c" hidden={parent.getAnswerFromState('Work_Completed__c') === 'Yes'}>
+        <Form.Group hidden={parent.getAnswerFromState('Work_Completed__c') === 'Yes'}>
           <Form.Label>Reason for Trip Charge :</Form.Label>
           <Form.Control as="select" id="Trip_Charge_Reason__c" onChange={parent.updateAnswer}>
             <option>Bad Address</option>
@@ -50,7 +50,7 @@ class PoolSurvey extends Component {
             <option>Other</option>
           </Form.Control>
         </Form.Group>
-        <Form.Group controlId="Date_Serviced__c">
+        <Form.Group>
           <Form.Label>Date Serviced:</Form.Label>
           <Form.Control
             type="date"
@@ -61,7 +61,7 @@ class PoolSurvey extends Component {
             onChange={parent.updateAnswer}
           ></Form.Control>
         </Form.Group>
-        <Form.Group controlId="Weekly_Service_Day__c">
+        <Form.Group>
           <Form.Label>
             What day of the week are you completing the weekly pool service for this property?(DOES NOT EXIST)
           </Form.Label>
@@ -77,7 +77,7 @@ class PoolSurvey extends Component {
             <option>Other</option>
           </Form.Control>
         </Form.Group>
-        <Form.Group controlId="Vendor_Notes_To_Staff__c">
+        <Form.Group>
           <Form.Label>Notes to Staff:</Form.Label>
           <Form.Control
             as="textarea"

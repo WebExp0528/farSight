@@ -4,19 +4,9 @@
   .modalHeader,
   .modalBody,
   .modalFooter {
-    background: #1f3b3f 0% 0% no-repeat padding-box;
-    border: 1px solid #67c3d0;
-    color: white;
   }
 
   .modalHeader {
-    :global .close {
-      color: white;
-      :focus,
-      :hover {
-        color: white;
-      }
-    }
   }
 
   .modalFooter {
@@ -25,10 +15,8 @@
   }
 
   :global .modal-content {
-    background: #1f3b3f 0% 0% no-repeat padding-box;
   }
 
   :global .rdtPicker {
-    background-color: #67c3d0;
   }
 }

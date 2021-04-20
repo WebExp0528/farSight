@@ -34,14 +34,14 @@ class BasicSurvey extends Component {
     const parent = this.props.parent;
     return (
       <Form onSubmit={parent.submitSurvey}>
-        <Form.Group controlId="Work_Completed__c">
+        <Form.Group>
           <Form.Label>Was Work Completed?</Form.Label>
           <Form.Control as="select" id="Work_Completed__c" onChange={parent.updateAnswer}>
             <option>Yes</option>
             <option>No</option>
           </Form.Control>
         </Form.Group>
-        <Form.Group controlId="Date_Serviced__c">
+        <Form.Group>
           <Form.Label>Date Serviced:</Form.Label>
           <Form.Control
             type="date"
@@ -52,7 +52,7 @@ class BasicSurvey extends Component {
             onChange={parent.updateAnswer}
           ></Form.Control>
         </Form.Group>
-        <Form.Group controlId="Vendor_Notes_To_Staff__c">
+        <Form.Group>
           <Form.Label>Notes to Staff:</Form.Label>
           <Form.Control
             as="textarea"

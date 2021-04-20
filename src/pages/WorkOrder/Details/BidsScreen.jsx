@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faPencilRuler } from '@fortawesome/free-solid-svg-icons';
-import { Badge, Button, Card, Container, Row, Col, Spinner, Table } from 'react-bootstrap';
+import { Badge, Button, Card, Container, Row, Col, Table } from 'react-bootstrap';
+import { ContentLoader } from 'component';
 
 class BidsScreen extends Component {
   isLoading = true;
@@ -33,13 +34,7 @@ class BidsScreen extends Component {
   // [...]
   render() {
     return this.isLoading ? (
-      <center>
-        <hr />
-        <div>Loading Bid Items...</div>
-        <br />
-        <Spinner animation="border" variant="secondary" />
-        <hr />
-      </center>
+      <ContentLoader>Loading Bid Items...</ContentLoader>
     ) : (
       <Container>
         <Row className="justify-content-center">
@@ -93,7 +88,7 @@ class BidsScreen extends Component {
                         </td>
                       </tr>
                       <tr>
-                        <td colSpan="2">
+                        <td colSpan={2}>
                           <Badge variant="success">{bid_item.status}</Badge>
                         </td>
                         <td>Total:&nbsp;${bid_item.total_price}</td>

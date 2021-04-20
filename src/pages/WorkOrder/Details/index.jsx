@@ -9,12 +9,12 @@ import { Badge, Card, Container, Row, Col, Nav, Tab, Popover, Overlay, Accordion
 import { get as getWorkOrderDetail } from '@redux/workOrderDetail/actions';
 import { ContentLoader } from 'component';
 
-import BidsScreen from '../BidsFeature/BidsScreen';
-import { SubmitWorkOrder } from './components';
+import BidsScreen from './BidsScreen';
+import SubmitWorkOrder from './SubmitWorkOrder';
 
-import CreateBidItem from '../BidsFeature/CreateBidItem';
-import StatusScreen from '../StatusScreen';
-import PhotoScreen from '../UploadPhotos/PhotosScreen';
+import CreateBidItem from '../../BidsFeature/CreateBidItem';
+import StatusScreen from '../../StatusScreen';
+import PhotoScreen from './PhotosScreen';
 
 class WorkOrderDetails extends Component {
   wonId = null;
@@ -51,21 +51,26 @@ class WorkOrderDetails extends Component {
   componentDidMount = () => {
     window.addEventListener('scroll', this.handleScroll);
   };
+
   componentDidUpdate = () => {
     let shouldShowScroll = this.showScroll();
     if (this.state.showScroll !== shouldShowScroll) {
       this.setState({ showScroll: shouldShowScroll });
     }
   };
+
   showScroll = () => {
     return document.body.scrollHeight > window.innerHeight && !this.state.hideScroll;
   };
+
   handleScroll = event => {
     this.setState({ hideScroll: true });
   };
+
   togglePopup = isOpen => {
     this.setState(!isOpen);
   };
+
   getItemStatus = item => {
     let dueDate = new Date(item.due_date);
     let today = new Date();
@@ -227,11 +232,13 @@ class WorkOrderDetails extends Component {
     const { data: won } = this.props.won;
     const { instructions_full } = won;
     const dueDate = new Date(won.due_date);
+
     const navClick = e => {
       return this.setState((state, props) => {
         return { showNav: !state.showNav };
       });
     };
+
     return (
       <Container>
         {this.renderHeader(won)}

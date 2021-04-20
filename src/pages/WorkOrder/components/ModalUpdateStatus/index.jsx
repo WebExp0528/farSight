@@ -43,14 +43,14 @@ const ModalUpdateStatus = ({ isOpen, handleClose, won }) => {
           <Modal.Title>Update Status</Modal.Title>
         </Modal.Header>
         <Modal.Body className={cls.modalBody}>
-          <Form.Group controlId="completionDate">
+          <Form.Group>
             <DateTimeFormik
               label="Expected Completion Date"
               name="expected_completion_date"
               onChange={handleChange('expected_completion_date')}
             />
           </Form.Group>
-          <Form.Group controlId="notes">
+          <Form.Group>
             <InputText label="Notes" name="notes" as="textarea" rows={3} />
           </Form.Group>
         </Modal.Body>
