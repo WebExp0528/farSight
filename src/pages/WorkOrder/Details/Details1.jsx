@@ -103,53 +103,51 @@ const WorkOrderDetails = props => {
                     </Col>
                     <Col>
                       <Nav.Item>
-                        <Nav.Link href={`${match.url}/submit/pool`} as={Button} size="sm" block eventKey="survey">
-                          Submit Survey
-                        </Nav.Link>
+                        <Link to={`${match.url}/submit/pool`}>
+                          <Nav.Link as={Button} size="sm" block eventKey="survey">
+                            Submit Survey
+                          </Nav.Link>
+                        </Link>
                       </Nav.Item>
                     </Col>
                   </Row>
                   <Row>
                     <Col>
                       <Nav.Item>
-                        <Nav.Link
-                          href={`${match.url}/photos/during`}
-                          as={Button}
-                          size="sm"
-                          block
-                          eventKey="during-photos"
-                        >
-                          During Photos
-                        </Nav.Link>
+                        <Link to={`${match.url}/photos/during`}>
+                          <Nav.Link as={Button} size="sm" block eventKey="during-photos">
+                            During Photos
+                          </Nav.Link>
+                        </Link>
                       </Nav.Item>
                     </Col>
                     <Col>
                       <Nav.Item>
-                        <Nav.Link href={`${match.url}/bids`} as={Button} size="sm" block eventKey="bids">
-                          Add Bids
-                        </Nav.Link>
+                        <Link to={`${match.url}/bids`}>
+                          <Nav.Link as={Button} size="sm" block eventKey="bids">
+                            Add Bids
+                          </Nav.Link>
+                        </Link>
                       </Nav.Item>
                     </Col>
                   </Row>
                   <Row>
                     <Col>
                       <Nav.Item>
-                        <Nav.Link
-                          href={`${match.url}/photos/after`}
-                          as={Button}
-                          size="sm"
-                          block
-                          eventKey="after-photos"
-                        >
-                          After Photos
-                        </Nav.Link>
+                        <Link to={`${match.url}/photos/after`}>
+                          <Nav.Link as={Button} size="sm" block eventKey="after-photos">
+                            After Photos
+                          </Nav.Link>
+                        </Link>
                       </Nav.Item>
                     </Col>
                     <Col>
                       <Nav.Item>
-                        <Nav.Link href={`${match.url}/submit/final`} as={Button} size="sm" block eventKey="submit">
-                          Review &amp; Submit
-                        </Nav.Link>
+                        <Link to={`${match.url}/submit/final`}>
+                          <Nav.Link as={Button} size="sm" block eventKey="submit">
+                            Review &amp; Submit
+                          </Nav.Link>
+                        </Link>
                       </Nav.Item>
                     </Col>
                   </Row>
