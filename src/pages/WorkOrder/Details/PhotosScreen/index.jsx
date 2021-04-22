@@ -389,8 +389,7 @@ class PhotoScreen extends Component {
             </Form.File>
           </Form.Group>
         </Form>
-        {this.renderPhotoControl(category)}
-        {category === 'preview' && (
+        {category === 'preview' ? (
           <React.Fragment>
             <Row>
               <br />
@@ -438,6 +437,8 @@ class PhotoScreen extends Component {
               </Col>
             </Row>
           </React.Fragment>
+        ) : (
+          this.renderPhotoControl(category)
         )}
       </>
     );

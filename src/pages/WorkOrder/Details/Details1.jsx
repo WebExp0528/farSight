@@ -1,26 +1,24 @@
 import React from 'react';
-import { connect, useDispatch } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
+import { Link, NavLink } from 'react-router-dom';
+import { Badge, Card, Container, Row, Col, Nav, Popover, Overlay, Accordion, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { useRedux } from '@redux';
 import { get as getWorkOrderDetail } from '@redux/workOrderDetail/actions';
-import { useIsOpenControls } from 'hooks/useIsOpenControl';
-import { useShowScroll } from 'hooks';
-
-import { faCaretRight, faCaretDown, faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
-import { Badge, Card, Container, Row, Col, Nav, Tab, Popover, Overlay, Accordion, Button } from 'react-bootstrap';
-
 import { AccordionToggleCaret, ContentLoader, RenderRoutes } from 'component';
 
-import BidsScreen from './BidsScreen';
-import SubmitWorkOrder from './SubmitWorkOrder';
-
-import CreateBidItem from './CreateBidItem';
-import StatusScreen from '../../StatusScreen';
-import PhotoScreen from './PhotosScreen';
-import { useRedux } from '@redux';
+import { useShowScroll, useIsOpenControls } from 'hooks';
 import { getStatus, getStatusClass } from 'helpers';
-import { Link, NavLink } from 'react-router-dom';
+
+const MenuButtons = [
+  { path: 'photos/before', name: 'Before Photos', key: 'before_photos' },
+  { path: 'submit/pool', name: 'Submit Survey', key: 'submit_survey' },
+  { path: 'photos/during', name: 'During Photos', key: 'during_photos' },
+  { path: 'bids', name: 'Add Bids', key: 'bids' },
+  { path: 'photos/after', name: 'After Photos', key: 'after_photos' },
+  { path: 'submit/final', name: 'Review & Submit', key: 'submit' }
+];
 
 const WorkOrderDetails = props => {
   const { match, routes = [] } = props;
@@ -94,64 +92,17 @@ const WorkOrderDetails = props => {
               <Nav justify variant="pills">
                 <Container>
                   <Row>
-                    <Col>
-                      <Nav.Item>
-                        <Link to={`${match.url}/photos/before`}>
-                          <Nav.Link as={Button} size="sm" block eventKey="before-photos">
-                            Before Photos
-                          </Nav.Link>
-                        </Link>
-                      </Nav.Item>
-                    </Col>
-                    <Col>
-                      <Nav.Item>
-                        <Link to={`${match.url}/submit/pool`}>
-                          <Nav.Link as={Button} size="sm" block eventKey="survey">
-                            Submit Survey
-                          </Nav.Link>
-                        </Link>
-                      </Nav.Item>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <Nav.Item>
-                        <Link to={`${match.url}/photos/during`}>
-                          <Nav.Link as={Button} size="sm" block eventKey="during-photos">
-                            During Photos
-                          </Nav.Link>
-                        </Link>
-                      </Nav.Item>
-                    </Col>
-                    <Col>
-                      <Nav.Item>
-                        <Link to={`${match.url}/bids`}>
-                          <Nav.Link as={Button} size="sm" block eventKey="bids">
-                            Add Bids
-                          </Nav.Link>
-                        </Link>
-                      </Nav.Item>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <Nav.Item>
-                        <Link to={`${match.url}/photos/after`}>
-                          <Nav.Link as={Button} size="sm" block eventKey="after-photos">
-                            After Photos
-                          </Nav.Link>
-                        </Link>
-                      </Nav.Item>
-                    </Col>
-                    <Col>
-                      <Nav.Item>
-                        <Link to={`${match.url}/submit/final`}>
-                          <Nav.Link as={Button} size="sm" block eventKey="submit">
-                            Review &amp; Submit
-                          </Nav.Link>
-                        </Link>
-                      </Nav.Item>
-                    </Col>
+                    {MenuButtons.map(({ path, name }, index) => (
+                      <Col key={index} sm={6}>
+                        <Nav.Item>
+                          <NavLink to={`${match.url}/${path}`}>
+                            <Nav.Link as={Button} size="sm" block>
+                              {name}
+                            </Nav.Link>
+                          </NavLink>
+                        </Nav.Item>
+                      </Col>
+                    ))}
                   </Row>
                 </Container>
               </Nav>
@@ -167,7 +118,7 @@ const WorkOrderDetails = props => {
       >
         <Popover id="nav-popover" className="alert-info">
           <Popover.Content>
-            <FontAwesomeIcon icon={faAngleDoubleDown} size="2x" />
+            <FontAwesomeIcon icon={['fas', 'angle-double-down']} size="2x" />
             &nbsp;&nbsp;Scroll down to read all instructions.
           </Popover.Content>
         </Popover>
