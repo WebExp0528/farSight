@@ -29,7 +29,6 @@
     "node-fetch": "^2.6.1",
     "node-mysql": "^0.4.2",
     "node-sass": "^5.0.0",
-    "pm2": "^4.5.6",
     "react": "^17.0.2",
     "react-bootstrap": "^1.5.2",
     "react-burger-menu": "^3.0.6",
@@ -54,9 +53,8 @@
   "scripts": {
     "start": "npm-run-all client:build server:prod",
     "dev": "npm-run-all -p client:dev server:dev",
-    "server:dev": "pm2 start --no-daemon",
-    "server:prod": "pm2 start --env prod",
-    "server:log": "pm2 logs farSight",
+    "server:dev": "NODE_ENV='development' node server/index.js",
+    "server:prod": "NODE_ENV='production' node server/index.js",
     "client:build": "react-scripts build",
     "client:dev": "react-scripts start",
     "test": "react-scripts test",
@@ -67,16 +65,8 @@
     "prepare": "husky install"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
   },
   "devDependencies": {
     "eslint": "^7.24.0",
@@ -92,9 +82,7 @@
     "prettier": "^2.2.1"
   },
   "lint-staged": {
-    "src/**/*.+(js|jsx)": [
-      "npm run lint:fix"
-    ],
+    "src/**/*.+(js|jsx)": ["npm run lint:fix"],
     "src/**/*.+(json|yml|yaml|css|md)": "npm run format"
   },
   "husky": {

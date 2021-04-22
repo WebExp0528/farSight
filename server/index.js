@@ -198,4 +198,4 @@ if (process.env.NODE_ENV === 'production') {
 
 console.log('APP ID ' + process.env.NS_DB_DATABASE);
 app.use(morgan('combined'));
-app.listen(process.env.PORT);
+app.listen(process.env.NODE_ENV === 'development' ? process.env.SERVER_PORT_DEV : process.env.SERVER_PORT_PROD);
