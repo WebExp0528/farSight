@@ -245,6 +245,7 @@ class PhotoScreen extends Component {
     this.forceUpdate();
     this.fileInputRef.click();
   };
+
   getPageOfArray = (myArray, page) => {
     let pagedArray = this.chunkArray(myArray, previewPageSize);
     if (pagedArray.length > 0) {
@@ -253,6 +254,7 @@ class PhotoScreen extends Component {
       return [];
     }
   };
+
   chunkArray = (myArray, chunk_size) => {
     let index = 0;
     let tempArray = [];
@@ -266,6 +268,7 @@ class PhotoScreen extends Component {
     }
     return tempArray;
   };
+
   renderPhotoControl = category => {
     return (
       <Accordion defaultActiveKey="0">
@@ -277,7 +280,6 @@ class PhotoScreen extends Component {
           <Card.Header>
             <Row>
               <Button
-                size="md"
                 onClick={() => {
                   this.selectFile(category);
                 }}
@@ -362,6 +364,7 @@ class PhotoScreen extends Component {
     );
   };
   render = () => {
+    const category = this?.props?.match?.params?.category || '';
     return (
       <>
         <Form
@@ -386,78 +389,56 @@ class PhotoScreen extends Component {
             </Form.File>
           </Form.Group>
         </Form>
-        <Tab.Container id="photoTabs" defaultActiveKey={this.props.match.params.category} activeKey={this.state.key}>
-          <Tab.Content>
-            <Tab.Pane eventKey="before">
-              <Container>{this.renderPhotoControl('before')}</Container>
-            </Tab.Pane>
-            <Tab.Pane eventKey="during">
-              <Container>{this.renderPhotoControl('during')}</Container>
-            </Tab.Pane>
-
-            <Tab.Pane eventKey="after">
-              <Container>{this.renderPhotoControl('after')}</Container>
-            </Tab.Pane>
-            <Tab.Pane eventKey="preview">
-              <Container>
-                <Row>
-                  <br />
-                </Row>
-                <Row>
-                  <Col>
-                    <Button
-                      onClick={() => {
-                        this.uploadFormRef.dispatchEvent(new Event('submit'));
-                      }}
-                      variant="success"
-                      block
-                      disabled={this.state.isUploading}
-                    >
-                      Submit Photos
-                      <FontAwesomeIcon className="float-right" icon={faPaperPlane} size="lg" />{' '}
-                    </Button>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <ProgressBar now={this.state.progress} label={`${this.state.progress}%`} />
-                  </Col>
-                </Row>
-                <Row>
-                  <br />
-                </Row>
-                <Row>
-                  <Col>
-                    <h4>You have selected {this.state.previewSources.length} files.</h4>
-                  </Col>
-                </Row>
-                <Row>
-                  <br />
-                </Row>
-                <Row>
-                  <Col>
-                    <h5>Press "Submit Photos" above to complete the upload.</h5>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    Do not close this tab until the upload is complete. You can safely open other apps. (maybe... we
-                    should test this){' '}
-                  </Col>
-                </Row>
-                <Row>
-                  <br />
-                </Row>
-                <Row>
-                  <br />
-                </Row>
-                <Row>
-                  <br />
-                </Row>
-              </Container>
-            </Tab.Pane>
-          </Tab.Content>
-        </Tab.Container>
+        {this.renderPhotoControl(category)}
+        {category === 'preview' && (
+          <React.Fragment>
+            <Row>
+              <br />
+            </Row>
+            <Row>
+              <Col>
+                <Button
+                  onClick={() => {
+                    this.uploadFormRef.dispatchEvent(new Event('submit'));
+                  }}
+                  variant="success"
+                  block
+                  disabled={this.state.isUploading}
+                >
+                  Submit Photos
+                  <FontAwesomeIcon className="float-right" icon={faPaperPlane} size="lg" />{' '}
+                </Button>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <ProgressBar now={this.state.progress} label={`${this.state.progress}%`} />
+              </Col>
+            </Row>
+            <Row>
+              <br />
+            </Row>
+            <Row>
+              <Col>
+                <h4>You have selected {this.state.previewSources.length} files.</h4>
+              </Col>
+            </Row>
+            <Row>
+              <br />
+            </Row>
+            <Row>
+              <Col>
+                <h5>Press "Submit Photos" above to complete the upload.</h5>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                Do not close this tab until the upload is complete. You can safely open other apps. (maybe... we should
+                test this){' '}
+              </Col>
+            </Row>
+          </React.Fragment>
+        )}
       </>
     );
   };

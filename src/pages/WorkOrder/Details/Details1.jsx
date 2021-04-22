@@ -79,8 +79,10 @@ const WorkOrderDetails = props => {
           </a>
         </h6>
       </Row>
-      <Row>
-        <RenderRoutes routes={routes} />
+      <Row style={{ marginBottom: '150px' }}>
+        <Col>
+          <RenderRoutes routes={routes} />
+        </Col>
       </Row>
       <Accordion defaultActiveKey="orderActions">
         <Card className="fixed-bottom" bg="secondary">
@@ -95,7 +97,7 @@ const WorkOrderDetails = props => {
                     <Col>
                       <Nav.Item>
                         <Link to={`${match.url}/photos/before`}>
-                          <Nav.Link as={Button} size="sm" block>
+                          <Nav.Link as={Button} size="sm" block eventKey="before-photos">
                             Before Photos
                           </Nav.Link>
                         </Link>

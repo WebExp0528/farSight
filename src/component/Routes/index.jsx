@@ -4,7 +4,6 @@ import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import _ from 'lodash';
 
 import { genRandomCode } from 'helpers';
-import NotFoundPage from 'pages/NotFound';
 
 const RouteWithSubRoutes = ({ path, routes = [], parentKey, component: Component, match, ...rest }) => {
   const newRoutes = _.cloneDeep(routes).map(item => {
@@ -15,7 +14,7 @@ const RouteWithSubRoutes = ({ path, routes = [], parentKey, component: Component
 };
 
 const RenderRoutes = props => {
-  const { routes, match } = props;
+  const { routes = [], match } = props;
   return (
     <Switch>
       {routes.map((route, i) => {
