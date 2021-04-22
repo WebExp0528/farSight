@@ -27,7 +27,7 @@ class PhotoScreen extends Component {
       selectedFiles: [],
       successMsg: '',
       errMsg: '',
-      key: props.category,
+      key: props?.match?.params?.category || '',
       isUploading: false
     };
     this.uploadedCount = 0;
@@ -386,7 +386,7 @@ class PhotoScreen extends Component {
             </Form.File>
           </Form.Group>
         </Form>
-        <Tab.Container id="photoTabs" defaultActiveKey={this.props.category} activeKey={this.state.key}>
+        <Tab.Container id="photoTabs" defaultActiveKey={this.props.match.params.category} activeKey={this.state.key}>
           <Tab.Content>
             <Tab.Pane eventKey="before">
               <Container>{this.renderPhotoControl('before')}</Container>
