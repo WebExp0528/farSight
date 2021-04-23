@@ -11,9 +11,9 @@ import { AccordionToggleCaret, ContentLoader, RenderRoutes } from 'component';
 import { useShowScroll, useIsOpenControls } from 'hooks';
 import { getStatus, getStatusClass } from 'helpers';
 
-const MenuButtons = [
+const getMenuButtons = won => [
   { path: 'photos/before', name: 'Before Photos', key: 'before_photos' },
-  { path: 'submit/pool', name: 'Submit Survey', key: 'submit_survey' },
+  { path: `submit/${won?.survey_name || 'basic'}`, name: 'Submit Survey', key: 'submit_survey' },
   { path: 'photos/during', name: 'During Photos', key: 'during_photos' },
   { path: 'bids', name: 'Add Bids', key: 'bids' },
   { path: 'photos/after', name: 'After Photos', key: 'after_photos' },
@@ -92,7 +92,7 @@ const WorkOrderDetails = props => {
               <Nav justify variant="pills">
                 <Container>
                   <Row>
-                    {MenuButtons.map(({ path, name }, index) => (
+                    {getMenuButtons(won).map(({ path, name }, index) => (
                       <Col key={index} sm={6}>
                         <Nav.Item>
                           <NavLink to={`${match.url}/${path}`}>

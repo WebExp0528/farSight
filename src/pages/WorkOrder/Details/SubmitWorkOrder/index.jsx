@@ -6,20 +6,24 @@ import FinalCheckSurvey from './FinalCheckSurvey';
 
 class SubmitWorkOrder extends Component {
   toastMessage = null;
+
   toggleShowToast = () => {
     this.setState((state, props) => {
       return { showToast: !state.showToast };
     });
   };
+
   setShowToast = val => {
     this.setState((state, props) => {
       return { showToast: val };
     });
   };
+
   state = {
     showToast: false,
     survey: { answers: [] }
   };
+
   getAnswerFromState = id => {
     let question = this.state.survey.answers.find(a => {
       return a && a.id === id;
@@ -33,12 +37,14 @@ class SubmitWorkOrder extends Component {
   setupSurvey = surveyTemplate => {
     this.setState({ survey: surveyTemplate });
   };
+
   updateAnswer = event => {
     this.state.survey.answers.find(a => {
       return a.id === event.target.id;
     }).answer = event.target.value;
     this.forceUpdate();
   };
+
   submitSurvey = async event => {
     event.preventDefault();
     console.log(this.props.won);
@@ -66,23 +72,20 @@ class SubmitWorkOrder extends Component {
         this.setShowToast(true);
       });
   };
+
   renderSurvey = () => {
-    const surveyName = this.props.surveyName;
-    let survey = {};
+    const surveyName = this?.props?.match?.params?.surveyName || '';
     switch (surveyName) {
+      case 'final':
+        return <FinalCheckSurvey parent={this} />;
       case 'NS_FSAPI_Pool_Beta-v1':
-        survey = <PoolSurvey parent={this} />;
-        break;
-      case 'FinalCheck':
-        survey = <FinalCheckSurvey parent={this} />;
-        break;
+        return <PoolSurvey parent={this} />;
       case 'FarSightBasic':
       default:
-        survey = <BasicSurvey parent={this} />;
-        break;
+        return <BasicSurvey parent={this} />;
     }
-    return survey;
   };
+
   render() {
     return (
       <Container>
