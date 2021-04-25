@@ -2,7 +2,7 @@ import initialState from './initialState';
 import toastDefaultOptions from './toastDefaultOptions';
 
 /**
- * @typedef {{id?: string | number, autohide?: boolean, animation?: boolean, delay?: number, onClose?: Function, type?: string, content?: string}} Toast
+ * @typedef {{id?: string | number, autohide?: boolean, animation?: boolean, delay?: number, onClose?: Function, type?: 'success' | 'error', content?: string}} Toast
  */
 
 /**

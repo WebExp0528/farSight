@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 import { Form, ListGroup } from 'react-bootstrap';
+import BaseWorkOrder from './_base';
 
-class FinalCheckSurvey extends Component {
-  toastMessage = null;
-
-  componentDidMount() {
-    const parent = this.props.parent;
-    //Doing this means that we cannot render
-    parent.setupSurvey(this.survey); //Ensures that the survey has all required questions represented.
-  }
+class FinalCheckSurvey extends BaseWorkOrder {
   render() {
-    const parent = this.props.parent;
     return (
       <Form>
         <ListGroup>

@@ -6,7 +6,7 @@ import NewLinkSent from './NewLinkSent';
 import StatusScreen from './StatusScreen';
 import PhotosDescriptionScreen from './UploadPhotos/PhotosDescriptionScreen';
 import PhotoScreen from './WorkOrder/Details/PhotosScreen';
-import WorkOrderDetails from './WorkOrder/Details/Details1';
+import WorkOrderDetails from './WorkOrder/Details';
 import WorkOrderList from './WorkOrder/List';
 import BidsDescriptionScreen from './BidsFeature/BidsDescriptionScreen';
 import WorkOrder from './WorkOrder';
