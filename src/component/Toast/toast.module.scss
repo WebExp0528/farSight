@@ -1,0 +1,24 @@
+.toastWrapper {
+  min-width: 200px;
+  &.success {
+    background-color: #d1ecf1;
+
+    .header {
+      color: #155724;
+      text-transform: capitalize;
+    }
+    .body {
+      color: #155724;
+    }
+  }
+  &.error {
+    background-color: #f8d7da;
+    .header {
+      color: #721c24;
+      text-transform: capitalize;
+    }
+    .body {
+      color: #721c24;
+    }
+  }
+}

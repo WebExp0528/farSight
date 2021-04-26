@@ -1,0 +1,22 @@
+@import 'bootstrap/dist/css/bootstrap.css';
+
+.modalWrapper {
+  .modalHeader,
+  .modalBody,
+  .modalFooter {
+  }
+
+  .modalHeader {
+  }
+
+  .modalFooter {
+    display: flex;
+    justify-content: center;
+  }
+
+  :global .modal-content {
+  }
+
+  :global .rdtPicker {
+  }
+}
