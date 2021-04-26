@@ -54,8 +54,8 @@
   "scripts": {
     "start": "npm-run-all client:build server:prod",
     "dev": "npm-run-all -p client:dev server:dev",
-    "server:dev": "NODE_ENV='development' nodemon server/index.js",
-    "server:prod": "NODE_ENV='production' node server/index.js",
+    "server:dev": "cross-env NODE_ENV='development' nodemon server/index.js",
+    "server:prod": "cross-env NODE_ENV='production' node server/index.js",
     "client:build": "react-scripts build",
     "client:dev": "react-scripts start",
     "test": "react-scripts test",
@@ -66,8 +66,16 @@
     "prepare": "husky install"
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
-    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
     "eslint": "^7.24.0",
@@ -83,7 +91,9 @@
     "prettier": "^2.2.1"
   },
   "lint-staged": {
-    "src/**/*.+(js|jsx)": ["npm run lint:fix"],
+    "src/**/*.+(js|jsx)": [
+      "npm run lint:fix"
+    ],
     "src/**/*.+(json|yml|yaml|css|md)": "npm run format"
   },
   "husky": {
