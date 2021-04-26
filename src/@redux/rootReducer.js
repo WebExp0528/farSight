@@ -4,6 +4,7 @@ import { initialState } from './initialState';
 import toast from './toast';
 import workOrders from './workOrders';
 import workOrderDetail from './workOrderDetail';
+import workOrderBids from './workOrderBids';
 
 const {
   toasts: _initToast, // do not reset toast but the rest
@@ -19,7 +20,8 @@ const createAppReducer = initialState => {
   const appReducer = combineReducers({
     toast,
     workOrders,
-    workOrderDetail
+    workOrderDetail,
+    workOrderBids
   });
 
   return (state = initialState, action) => {

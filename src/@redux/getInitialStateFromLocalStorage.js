@@ -25,5 +25,10 @@ export default () => ({
     ...initialState.workOrderDetail,
     ...localStorage('@work_order_detail').get(),
     ...initReducerState
+  },
+  workOrderBids: {
+    ...initialState.workOrderBids,
+    ...localStorage('@work_order_bids').get(),
+    ...initReducerState
   }
 });
