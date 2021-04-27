@@ -2,7 +2,7 @@ import enhaceLocalStorage from '../enhanceReducerWithWriteLocalStorage';
 import { createFlushReducer, composeReducers, createGetReducer } from '../@reducers';
 import initialState from './initialState';
 
-const NAME = '@work_order_bids';
+const NAME = '@work_order_details';
 
 // reducers
 const getReducer = createGetReducer(NAME, initialState);

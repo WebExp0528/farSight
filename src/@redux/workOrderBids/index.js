@@ -10,6 +10,6 @@ const name = genActionTypes(ACTION_NAME).NAME;
 const getReducer = createGetReducer(name, initialState);
 const flushReducer = createFlushReducer(name, []);
 
-export const workOrderDetailReducer = composeReducers(initialState)(getReducer, flushReducer);
+export const workOrderBidsReducer = composeReducers(initialState)(getReducer, flushReducer);
 
-export default enhaceLocalStorage(name)(workOrderDetailReducer);
+export default enhaceLocalStorage(name)(workOrderBidsReducer);
