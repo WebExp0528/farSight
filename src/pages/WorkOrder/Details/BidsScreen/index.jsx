@@ -36,8 +36,8 @@ export const BidsScreen = props => {
     <React.Fragment>
       <Card className="border border-primary">
         <Card.Header className="bg-info d-flex flex-row">
-          <h5 className="col align-items-center mb-0 text-light">Bid Items</h5>
-          <h5 className="col align-items-center mb-0 text-right text-light">{`Total = $${totalPrice}`}</h5>
+          <h5 className="col align-items-center mb-0">Bid Items</h5>
+          <h5 className="col align-items-center mb-0 text-right">{`Total = $${totalPrice}`}</h5>
         </Card.Header>
         <Card.Body>
           {bidsData.map((item, index) => {

@@ -1,5 +1,8 @@
 import { Button } from 'react-bootstrap';
 import React from 'react';
+import classnames from 'classnames';
+
+import cls from './bids-screen.module.scss';
 
 const BidCard = ({ item, ...rest }) => {
   const {
@@ -13,7 +16,7 @@ const BidCard = ({ item, ...rest }) => {
 
   return (
     <React.Fragment>
-      <div className="text-light d-flex bg-info border-border-primary flex-column p-1">
+      <div className={classnames('d-flex flex-column p-2', cls.bidCardWrapper)}>
         <div>{item_description}</div>
         <div className="d-flex flex-row justify-content-center">
           <div className="flex-grow-1 d-flex align-items-center">{`$${total_price}=${number_of_units} ${unit_of_measure} @ $${usd_unit_price} per ${unit_of_measure}`}</div>
