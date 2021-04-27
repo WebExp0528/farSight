@@ -44,6 +44,12 @@ export const BidsScreen = props => {
             return <BidCard key={index} item={{ ...item }} />;
           })}
         </Card.Body>
+        <Card.Footer className="d-flex flex-row">
+          <Button className="col m-2" variant="success">
+            Add Bid Item
+          </Button>
+          <Button className="col m-2">Finish and Submit</Button>
+        </Card.Footer>
       </Card>
     </React.Fragment>
   );
