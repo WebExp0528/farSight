@@ -1,3 +1,5 @@
-export default {
-  data: {}
+const initialState = {
+  data: []
 };
+
+export default initialState;

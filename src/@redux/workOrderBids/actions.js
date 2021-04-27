@@ -18,6 +18,6 @@ export const get = id => ({ axios }) => ({
     }
   },
   payload: axios.get(`/api/work_order/${id}/bid`).then(res => {
-    return res.data;
+    return { data: res.data };
   })
 });
