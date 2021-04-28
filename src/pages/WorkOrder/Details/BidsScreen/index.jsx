@@ -1,25 +1,26 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane, faPencilRuler } from '@fortawesome/free-solid-svg-icons';
-import { Badge, Button, Card, Container, Row, Col, Table } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import { ContentLoader } from 'component';
 import { useRedux, useReduxLoading } from '@redux';
 import { get as getWorkOrderBids } from '@redux/workOrderBids/actions';
-import { getWonID } from '../helper';
 import BidCard from './BidCard';
+import ModalCreateBidItem from './ModalCreateBidItem';
+
+import { getWonID } from '../helper';
+import { useIsOpenControls } from 'hooks/useIsOpenControl';
 
 export const BidsScreen = props => {
   const wonId = getWonID(props);
 
+  const createBitItemModalControl = useIsOpenControls();
   const d = useDispatch();
+  const workOrderBidsState = useRedux('workOrderBids');
 
   React.useEffect(() => {
     d(getWorkOrderBids(wonId));
   }, [wonId]);
-
-  const workOrderBidsState = useRedux('workOrderBids');
 
   if (useReduxLoading('workOrderBids')) {
     return <ContentLoader>Loading Bid Items...</ContentLoader>;
@@ -45,12 +46,13 @@ export const BidsScreen = props => {
           })}
         </Card.Body>
         <Card.Footer className="d-flex flex-row">
-          <Button className="col mx-2" variant="success">
+          <Button className="col mx-2" variant="success" onClick={createBitItemModalControl.handleOpen}>
             Add Bid Item
           </Button>
           <Button className="col mx-2">Finish and Submit</Button>
         </Card.Footer>
       </Card>
+      <ModalCreateBidItem {...createBitItemModalControl} />
     </React.Fragment>
   );
 };

@@ -3,7 +3,7 @@ import { RenderRoutes } from 'component';
 import Routes from './routes';
 import Layout from 'Layout';
 
-export const App = props => {
+export const App = () => {
   return (
     <Layout>
       <RenderRoutes routes={Routes} />

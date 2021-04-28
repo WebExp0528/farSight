@@ -5,7 +5,7 @@ import FinalCheckSurvey from './FinalCheckSurvey';
 import { useRedux } from '@redux';
 
 export const SubmitWorkOrder = props => {
-  const { surveyName, won: wonId } = props?.match?.params || {};
+  const { surveyName } = props?.match?.params || {};
   const wonState = useRedux('workOrderDetail');
   const { data: won = {} } = wonState;
 

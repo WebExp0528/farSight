@@ -6,6 +6,8 @@ import { faPaperPlane, faCamera, faUpload } from '@fortawesome/free-solid-svg-ic
 
 import ImageResizer from './ImageResizer';
 
+/* eslint-disable no-console */
+
 const imageResizeConfig = {
   quality: 0.5,
   maxWidth: 640,

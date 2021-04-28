@@ -1,5 +1,3 @@
-import React from 'react';
-
 import CreateStatusScreen from './CreateStatusScreen';
 import Login from './Login';
 import NewLinkSent from './NewLinkSent';

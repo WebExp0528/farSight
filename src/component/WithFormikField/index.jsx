@@ -21,7 +21,7 @@ export function withFormikField(defaultName = '') {
       const [field, meta] = useField(name);
 
       return (
-        <React.Fragment>
+        <Form.Group>
           {label && <Form.Label {...labelProps}>{label}</Form.Label>}
           <Component name={name} value={field.value} onChange={field.onChange} onBlur={field.onBlur} {...rest} />
           {meta.touched && meta.error && (
@@ -29,7 +29,7 @@ export function withFormikField(defaultName = '') {
               {meta.error}
             </Form.Control.Feedback>
           )}
-        </React.Fragment>
+        </Form.Group>
       );
     }
     return ComponentWithFormik;

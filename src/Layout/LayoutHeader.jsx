@@ -18,10 +18,10 @@ const LayoutHeader = props => {
           'X-Requested-With': 'XMLHttpRequest'
         }
       })
-      .then(res => {
+      .then(_res => {
         history.push('/');
       })
-      .catch(err => {
+      .catch(_err => {
         history.push('/');
       });
   };

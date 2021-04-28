@@ -1,7 +1,7 @@
 import React from 'react';
 import { RenderRoutes } from 'component';
 
-const WorkOrder = ({ routes, match }) => {
+const WorkOrder = ({ routes }) => {
   return (
     <div>
       <RenderRoutes routes={routes} />

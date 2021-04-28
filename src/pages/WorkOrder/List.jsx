@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect, useDispatch } from 'react-redux';
-import renderHTML from 'react-render-html';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Badge, Card, Container, Form, Image, InputGroup } from 'react-bootstrap';
+import { Container, Form, InputGroup } from 'react-bootstrap';
 
 import { get as getWorkOrders } from '@redux/workOrders/actions';
 import { ContentLoader } from 'component';
 import { ListCard } from './components';
-
-import { genRandomCode } from 'helpers';
 
 class WorkOrderList extends Component {
   state = {

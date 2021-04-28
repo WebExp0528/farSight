@@ -4,7 +4,7 @@ import React from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 
-export const Instructions = ({ match }) => {
+export const Instructions = () => {
   const { data: won } = useRedux('workOrderDetail');
   return (
     <div>

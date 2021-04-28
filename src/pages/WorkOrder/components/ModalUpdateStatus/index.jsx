@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 import { Formik, Form as FormikForm } from 'formik';
 import DateTime from 'react-datetime';
 import _ from 'lodash';
 
 import { updateStatus } from '@redux/workOrderDetail/actions';
-import { InputText, withFormikField } from 'component';
+import { FormControlFormik, withFormikField } from 'component';
 import { validationSchema } from './validationSchema';
 
 import cls from './modal-update-status.module.scss';
@@ -43,16 +43,12 @@ const ModalUpdateStatus = ({ isOpen, handleClose, won }) => {
           <Modal.Title>Update Status</Modal.Title>
         </Modal.Header>
         <Modal.Body className={cls.modalBody}>
-          <Form.Group>
-            <DateTimeFormik
-              label="Expected Completion Date"
-              name="expected_completion_date"
-              onChange={handleChange('expected_completion_date')}
-            />
-          </Form.Group>
-          <Form.Group>
-            <InputText label="Notes" name="notes" as="textarea" rows={3} />
-          </Form.Group>
+          <DateTimeFormik
+            label="Expected Completion Date"
+            name="expected_completion_date"
+            onChange={handleChange('expected_completion_date')}
+          />
+          <FormControlFormik label="Notes" name="notes" as="textarea" rows={3} />
         </Modal.Body>
         <Modal.Footer className={cls.modalFooter}>
           <Button variant="success" size="lg" type="submit">

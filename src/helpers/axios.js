@@ -14,6 +14,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(config => {
   /* ----------------------------- API Call Start ----------------------------- */
+  /* eslint-disable no-console */
   console.log('[===== Started API Call =====]');
   return config;
 });
