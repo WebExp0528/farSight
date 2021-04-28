@@ -1,16 +1,19 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Modal } from 'react-bootstrap';
 import { Formik, Form as FormikForm } from 'formik';
 import _ from 'lodash';
 import * as Yup from 'yup';
 
 import { create as createBid } from '@redux/workOrderBids/actions';
-import { FormControlFormik } from 'component';
+import { ContentLoader, FormControlFormik } from 'component';
 
 import { getWonID } from './../helper';
 import { withRouter } from 'react-router';
 
+/**
+ * TODO: Add Validation Schema
+ */
 const validationSchema = Yup.object().shape({}, []);
 
 const ModalCreateBitItem = props => {
@@ -21,23 +24,25 @@ const ModalCreateBitItem = props => {
   const initialValues = {
     bid_item_number: 'new',
     item_description: '',
-    usd_unit_price: '',
-    number_of_units: '',
+    usd_unit_price: 0,
+    number_of_units: 0,
+    unit_of_measure: 'EA',
     status: ''
   };
 
-  const handleSubmit = data => {
-    d(
+  const handleSubmit = async (data, formik) => {
+    await d(
       createBid(wonId, {
-        expected_upload_date: data.expected_completion_date.format('YYYY-MM-DD'),
-        explanation: data.notes,
-        delay_reason: 'Not Delayed',
-        order_status: 'On Time'
+        ...data
       })
     );
   };
 
   const renderForm = formikProps => {
+    if (formikProps.isSubmitting) {
+      return <ContentLoader>Creating...</ContentLoader>;
+    }
+
     return (
       <FormikForm>
         <Modal.Header closeButton>
@@ -45,7 +50,7 @@ const ModalCreateBitItem = props => {
         </Modal.Header>
         <Modal.Body>
           <FormControlFormik name="item_description" label="Item Description" />
-          <FormControlFormik label="Quantity" name="number_of_units" />
+          <FormControlFormik label="Quantity" type="number" name="number_of_units" />
           <FormControlFormik label="Unit of Measure" as="select" name="unit_of_measure">
             <option>EA</option>
             <option>CY</option>
@@ -56,7 +61,7 @@ const ModalCreateBitItem = props => {
             <option>SQ</option>
             <option>GAL</option>
           </FormControlFormik>
-          <FormControlFormik label="Price Per Unit" name="usd_unit_price" />
+          <FormControlFormik label="Price Per Unit" type="number" name="usd_unit_price" />
           <Button variant="primary" type="submit" onClick={formikProps.handleSubmit}>
             Submit
           </Button>
