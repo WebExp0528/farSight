@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button, Modal } from 'react-bootstrap';
 import { Formik, Form as FormikForm } from 'formik';
 import _ from 'lodash';
@@ -30,7 +30,7 @@ const ModalCreateBitItem = props => {
     status: ''
   };
 
-  const handleSubmit = async (data, formik) => {
+  const handleSubmit = async data => {
     await d(
       createBid(wonId, {
         ...data
