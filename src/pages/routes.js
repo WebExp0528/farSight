@@ -12,7 +12,6 @@ import BidsDescriptionScreen from './BidsFeature/BidsDescriptionScreen';
 import WorkOrder from './WorkOrder';
 import BidsScreen from './WorkOrder/Details/BidsScreen';
 import SubmitWorkOrder from './WorkOrder/Details/SubmitWorkOrder';
-import CreateBidItem from './WorkOrder/Details/CreateBidItem';
 import Instructions from './WorkOrder/Details/Instructions';
 
 const ROUTES = [

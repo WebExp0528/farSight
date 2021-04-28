@@ -35,7 +35,7 @@ export const BidsScreen = props => {
   return (
     <React.Fragment>
       <Card className="border border-primary">
-        <Card.Header className="bg-info d-flex flex-row">
+        <Card.Header className="text-light bg-info d-flex flex-row">
           <h5 className="col align-items-center mb-0">Bid Items</h5>
           <h5 className="col align-items-center mb-0 text-right">{`Total = $${totalPrice}`}</h5>
         </Card.Header>
@@ -45,10 +45,10 @@ export const BidsScreen = props => {
           })}
         </Card.Body>
         <Card.Footer className="d-flex flex-row">
-          <Button className="col m-2" variant="success">
+          <Button className="col mx-2" variant="success">
             Add Bid Item
           </Button>
-          <Button className="col m-2">Finish and Submit</Button>
+          <Button className="col mx-2">Finish and Submit</Button>
         </Card.Footer>
       </Card>
     </React.Fragment>
