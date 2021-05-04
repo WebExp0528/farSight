@@ -5,6 +5,7 @@ import toast from './toast';
 import workOrders from './workOrders';
 import workOrderDetail from './workOrderDetail';
 import workOrderBids from './workOrderBids';
+import workOrderPhotos from './workOrderPhotos';
 
 const {
   toasts: _initToast, // do not reset toast but the rest
@@ -21,7 +22,8 @@ const createAppReducer = initialState => {
     toast,
     workOrders,
     workOrderDetail,
-    workOrderBids
+    workOrderBids,
+    workOrderPhotos
   });
 
   return (state = initialState, action) => {

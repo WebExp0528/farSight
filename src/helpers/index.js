@@ -4,3 +4,4 @@ export * from './getRandomCode';
 export * from './getStatus';
 export * from './getStatusClass';
 export * from './genActionTypes';
+export * from './readFile';
