@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useRedux } from '@redux';
 import { get as getWorkOrderDetail } from '@redux/workOrderDetail/actions';
-import { AccordionToggleCaret, ContentLoader, RenderRoutes } from 'component';
+import { AccordionToggleCaret, ContentLoader, RenderRoutes } from 'components';
 import ModalUpdateStatus from '../components/ModalUpdateStatus';
 
 import { useShowScroll, useIsOpenControls } from 'hooks';

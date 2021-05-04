@@ -2,7 +2,7 @@ import React from 'react';
 import { Nav, Navbar, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import ButtonBack from '../component/ButtonBack';
+import ButtonBack from '../components/ButtonBack';
 import { axios } from 'helpers';
 
 import cls from './layout.module.scss';

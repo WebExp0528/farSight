@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container, Form, InputGroup } from 'react-bootstrap';
 
 import { get as getWorkOrders } from '@redux/workOrders/actions';
-import { ContentLoader } from 'component';
+import { ContentLoader } from 'components';
 import { ListCard } from './components';
 
 class WorkOrderList extends Component {

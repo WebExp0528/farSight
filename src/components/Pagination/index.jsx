@@ -2,8 +2,16 @@ import { usePagination } from 'hooks';
 import React from 'react';
 import { Pagination } from 'react-bootstrap';
 
-const CustomPagination = ({ data, defaultSize = 10, defaultPage = 1, maxItem = 5 }) => {
-  const pagination = usePagination(data.length, defaultSize, defaultPage);
+/**
+ * Pagination Component
+ */
+const CustomPagination = ({ totalItems, onChange, defaultSize = 10, defaultPage = 1 }) => {
+  const pagination = usePagination(totalItems, defaultSize, defaultPage);
+
+  React.useEffect(() => {
+    onChange(pagination);
+  }, [pagination]);
+
   let minPage = pagination.currentPage - 2;
   let maxPage = pagination.currentPage + 2;
   if (minPage < 1) {

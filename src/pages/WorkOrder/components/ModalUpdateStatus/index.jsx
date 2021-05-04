@@ -6,7 +6,7 @@ import DateTime from 'react-datetime';
 import _ from 'lodash';
 
 import { updateStatus } from '@redux/workOrderDetail/actions';
-import { FormControlFormik, withFormikField } from 'component';
+import { FormControlFormik, withFormikField } from 'components';
 import { validationSchema } from './validationSchema';
 
 import cls from './modal-update-status.module.scss';

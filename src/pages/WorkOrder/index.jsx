@@ -1,5 +1,5 @@
 import React from 'react';
-import { RenderRoutes } from 'component';
+import { RenderRoutes } from 'components';
 
 const WorkOrder = ({ routes }) => {
   return (

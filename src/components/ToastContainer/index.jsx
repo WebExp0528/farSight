@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRedux } from '@redux';
-import CustomToast from 'component/Toast';
+import CustomToast from 'components/Toast';
 
 import cls from './toast-container.module.scss';
 

@@ -6,7 +6,7 @@ import _ from 'lodash';
 import * as Yup from 'yup';
 
 import { create as createBid } from '@redux/workOrderBids/actions';
-import { ContentLoader, FormControlFormik } from 'component';
+import { ContentLoader, FormControlFormik } from 'components';
 
 import { getWonID } from './../helper';
 import { withRouter } from 'react-router';

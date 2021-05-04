@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Button, Card } from 'react-bootstrap';
-import { ContentLoader } from 'component';
+import { ContentLoader } from 'components';
 import { useRedux, useReduxLoading } from '@redux';
 import { get as getWorkOrderBids } from '@redux/workOrderBids/actions';
 import BidCard from './BidCard';
