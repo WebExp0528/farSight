@@ -6,3 +6,4 @@ export { default as ToastContainer } from './ToastContainer';
 export * from './WithFormikField';
 export * from './FormControlFormik';
 export { default as AccordionToggleCaret } from './AccordionToggleCaret';
+export { default as Pagination } from './Pagination';

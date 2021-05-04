@@ -19,6 +19,12 @@ export const usePagination = (total, defaultSize = 10, defaultPage = 1) => {
     if (currentPage > total) setCurrentPage(currentPage - 1);
   };
 
+  const setPage = number => {
+    if (number >= 1 && number <= totalPage) {
+      setCurrentPage(number);
+    }
+  };
+
   return {
     total,
     totalPage,
@@ -26,6 +32,7 @@ export const usePagination = (total, defaultSize = 10, defaultPage = 1) => {
     setNextPage,
     setPrevPage,
     setLastPage,
-    setFirstPage
+    setFirstPage,
+    setPage
   };
 };
