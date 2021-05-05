@@ -1,21 +1,19 @@
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import CryptoJS from 'crypto-js';
-import React, { Component } from 'react';
-import { Button, Card, Container, Form, Image, Row, Col, Tab, ProgressBar, Accordion } from 'react-bootstrap';
+import { Button, Card, Form, Row, Col, ProgressBar, Accordion } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane, faCamera, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
+
+import { useRedux, useReduxLoading } from '@redux';
+import { get as getPhotos } from '@redux/workOrderPhotos/actions';
+import { Add as addToast } from '@redux/toast/actions';
+import ContentLoader from 'components/ContentLoader';
 
 import ImageResizer from './ImageResizer';
 
-import { get as getPhotos } from '@redux/workOrderPhotos/actions';
-import { Add as addToast } from '@redux/toast/actions';
-import { render } from 'react-dom';
-import { useDispatch } from 'react-redux';
-import { useRedux, useReduxLoading } from '@redux';
-
 import { axios, readFileAsync } from 'helpers';
-
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
-import ContentLoader from 'components/ContentLoader';
 
 /* eslint-disable no-console */
 
@@ -33,15 +31,11 @@ const PhotoScreen = props => {
   const { category = '', won: wonId } = props?.match?.params || {};
 
   const workOrderPhotosState = useRedux('workOrderPhotos');
-  console.log('~~~~~ workorder photos state', props?.match?.params);
 
   const [uploadedCount, setUploadedCount] = React.useState(0);
   const [uploading, setUploading] = React.useState(false);
   const [files, setFiles] = React.useState([]);
-  const [previewFiles, setPreviewFiles] = React.useState([]);
   const showUploadedImageControls = useIsOpenControls();
-
-  const [page, setPage] = React.useState(1);
 
   const fileInputRef = React.useRef();
   const uploadFormRef = React.useRef();
@@ -55,11 +49,9 @@ const PhotoScreen = props => {
   }
 
   const progress = files.length ? (uploadedCount / files.length) * 100 : 0;
-  const totalPage = files.length / previewPageSize;
 
   const handleFileInputChange = e => {
     setFiles(e.target.files);
-    setPage(1);
   };
 
   const handleSubmitFile = async e => {
@@ -91,6 +83,13 @@ const PhotoScreen = props => {
       }
     }
     setUploading(false);
+    d(
+      addToast({
+        type: 'success',
+        content: 'Successfully uploaded files.'
+      })
+    );
+    setFiles([]);
   };
 
   /**
@@ -141,6 +140,7 @@ const PhotoScreen = props => {
   };
 
   const handleClickUploadImageBtn = e => {
+    // @ts-ignore
     fileInputRef.current && fileInputRef.current.click();
   };
 
@@ -187,35 +187,22 @@ const PhotoScreen = props => {
       </Form>
       {files.length ? (
         <React.Fragment>
-          <Row>
-            <Col>
-              <Button onClick={handleSubmitFile} variant="success" block disabled={uploading}>
-                Submit Photos
-                <FontAwesomeIcon className="float-right" icon={['fas', 'paper-plane']} size="lg" />
-              </Button>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <ProgressBar now={progress} label={`${progress}%`} />
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <h4>You have selected {files.length} files.</h4>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <h5>Press "Submit Photos" above to complete the upload.</h5>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              Do not close this tab until the upload is complete. You can safely open other apps. (maybe... we should
-              test this){' '}
-            </Col>
-          </Row>
+          <div className="">
+            <Button onClick={handleSubmitFile} variant="success" block disabled={uploading}>
+              Submit Photos
+              <FontAwesomeIcon className="float-right" icon={['fas', 'paper-plane']} size="lg" />
+            </Button>
+          </div>
+          <br />
+          <div>
+            <ProgressBar now={progress} label={`${progress}%`} />
+          </div>
+          <br />
+          <div className="h4">{`You have selected ${files.length} files.`}</div>
+          <div className="h5">Press "Submit Photos" above to complete the upload.</div>
+          <div>
+            {`Do not close this tab until the upload is complete. You can safely open other apps. (maybe... we should test this)`}
+          </div>
         </React.Fragment>
       ) : (
         renderPhotoControl()
