@@ -12,7 +12,7 @@ import { createStore } from '@redux';
 import 'react-datetime/css/react-datetime.css';
 import './lumen.bootstrap.css';
 
-import { ToastContainer } from 'component';
+import { ToastContainer } from 'components';
 
 library.add(fas);
 

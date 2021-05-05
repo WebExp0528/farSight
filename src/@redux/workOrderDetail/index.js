@@ -1,22 +1,11 @@
 import enhaceLocalStorage from '../enhanceReducerWithWriteLocalStorage';
-import {
-  createGetWithPaginationReducer,
-  // createCreateInArrayReducer,
-  createFlushReducer,
-  // createUpdateInArrayReducer,
-  // createDeleteInArrayReducer,
-  composeReducers,
-  createGetReducer
-} from '../@reducers';
+import { createFlushReducer, composeReducers, createGetReducer } from '../@reducers';
 import initialState from './initialState';
 
-const NAME = '@work_order_detail';
+const NAME = '@work_order_details';
 
 // reducers
 const getReducer = createGetReducer(NAME, initialState);
-// const createReducer = createCreateInArrayReducer(NAME, initialState);
-// const updateReducer = createUpdateInArrayReducer(NAME, initialState);
-// const deleteReducer = createDeleteInArrayReducer(NAME, initialState);
 const flushReducer = createFlushReducer(NAME, []);
 
 export const workOrderDetailReducer = composeReducers(initialState)(getReducer, flushReducer);

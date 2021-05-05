@@ -1,5 +1,3 @@
-import React from 'react';
-
 import CreateStatusScreen from './CreateStatusScreen';
 import Login from './Login';
 import NewLinkSent from './NewLinkSent';
@@ -12,7 +10,6 @@ import BidsDescriptionScreen from './BidsFeature/BidsDescriptionScreen';
 import WorkOrder from './WorkOrder';
 import BidsScreen from './WorkOrder/Details/BidsScreen';
 import SubmitWorkOrder from './WorkOrder/Details/SubmitWorkOrder';
-import CreateBidItem from './WorkOrder/Details/CreateBidItem';
 import Instructions from './WorkOrder/Details/Instructions';
 
 const ROUTES = [
@@ -46,13 +43,13 @@ const ROUTES = [
         component: WorkOrderDetails,
         routes: [
           { key: 'photos', type: 'route', path: 'photos/:category', component: PhotoScreen },
-          { key: 'bids_add', type: 'route', path: 'bids/add', component: CreateBidItem },
           { key: 'bids', type: 'route', path: 'bids', component: BidsScreen },
           { key: 'submit', type: 'route', path: 'submit/:surveyName', component: SubmitWorkOrder },
-          { key: 'instructions', type: 'route', path: '', component: Instructions }
+          { key: 'instructions', type: 'route', path: '', exact: true, component: Instructions },
+          { key: 'redirect_details', type: 'redirect', path: '' }
         ]
       },
-      { key: 'list', type: 'route', path: '', component: WorkOrderList },
+      { key: 'list', type: 'route', path: '', exact: true, component: WorkOrderList },
       { key: 'redirect_list', type: 'redirect', path: '' }
     ]
   },

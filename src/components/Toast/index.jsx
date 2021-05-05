@@ -18,7 +18,7 @@ const CustomToast = props => {
   const d = useDispatch();
 
   const handleClose = () => {
-    d(Delete(toast.id));
+    d(Delete(id));
   };
 
   return (

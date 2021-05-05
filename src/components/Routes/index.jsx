@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { genRandomCode } from 'helpers';
 
-const RouteWithSubRoutes = ({ path, routes = [], parentKey, component: Component, match, ...rest }) => {
+const RouteWithSubRoutes = ({ path, routes = [], parentKey, component: Component, ...rest }) => {
   const newRoutes = _.cloneDeep(routes).map(item => {
     item.key = `${_.snakeCase(parentKey)}_${_.snakeCase(item.key)}`;
     return item;
@@ -17,7 +17,7 @@ const RenderRoutes = props => {
   const { routes = [], match } = props;
   return (
     <Switch>
-      {routes.map((route, i) => {
+      {routes.map(route => {
         const { key = genRandomCode(), path = '', type = 'route', ...props } = route;
 
         const newPath = match.path === '/' ? `/${path}` : `${match.path}/${path}`;

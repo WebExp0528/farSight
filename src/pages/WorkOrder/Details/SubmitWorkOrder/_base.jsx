@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Add as addToast } from '@redux/toast/actions';
 
 class BaseWorkOrder extends Component {
@@ -32,8 +31,6 @@ class BaseWorkOrder extends Component {
 
   submitSurvey = async event => {
     event.preventDefault();
-    console.log(this.props.won);
-    console.log(this.state);
     fetch('/api/work_order/' + this.props.won + '/survey', {
       method: 'POST',
       headers: {
@@ -54,7 +51,6 @@ class BaseWorkOrder extends Component {
         window.location.href = '/';
       })
       .catch(err => {
-        console.error(err);
         const toastMessage = JSON.stringify(err);
         this.dispatch(addToast({ type: 'error', content: toastMessage }));
       });

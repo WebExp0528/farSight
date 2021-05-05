@@ -63,8 +63,9 @@ class ImageResizer {
             }
             resolve(ref.scaleImage(img, config, Orientation.value));
           } else {
-            if (config.debug)
+            if (config.debug) {
               console.log('browser-image-resizer: ignoring EXIF orientation tag because autoRotate is false...');
+            }
             resolve(ref.scaleImage(img, config));
           }
         };

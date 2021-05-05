@@ -6,11 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useRedux } from '@redux';
 import { get as getWorkOrderDetail } from '@redux/workOrderDetail/actions';
-import { AccordionToggleCaret, ContentLoader, RenderRoutes } from 'component';
+import { AccordionToggleCaret, ContentLoader, RenderRoutes } from 'components';
 import ModalUpdateStatus from '../components/ModalUpdateStatus';
 
 import { useShowScroll, useIsOpenControls } from 'hooks';
 import { getStatus, getStatusClass } from 'helpers';
+import { getWonID } from './helper';
 
 const getMenuButtons = won => [
   { path: 'photos/before', name: 'Before Photos', key: 'before_photos' },
@@ -23,7 +24,7 @@ const getMenuButtons = won => [
 
 const WorkOrderDetails = props => {
   const { match, routes = [] } = props;
-  const wonId = match?.params?.won || null;
+  const wonId = getWonID(props);
 
   const wonState = useRedux('workOrderDetail');
   const { data: won = {} } = wonState;

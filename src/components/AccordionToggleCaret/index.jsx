@@ -2,7 +2,7 @@ import React from 'react';
 import { AccordionContext, useAccordionToggle, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const AccordionToggleCaret = ({ children, eventKey, callback = key => {}, ...buttonProps }) => {
+const AccordionToggleCaret = ({ children, eventKey, callback = _key => {}, ...buttonProps }) => {
   const currentEventKey = React.useContext(AccordionContext);
 
   const decoratedOnClick = useAccordionToggle(eventKey, () => callback && callback(eventKey));
