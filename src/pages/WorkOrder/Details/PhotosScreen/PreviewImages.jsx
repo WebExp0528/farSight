@@ -1,7 +1,8 @@
 import React from 'react';
-import { Row } from 'react-bootstrap';
+import { Row, Col, Image } from 'react-bootstrap';
 
 import { Pagination } from 'components';
+import { readFile } from 'helpers/readFile';
 
 const Default_Size = 10;
 
@@ -11,26 +12,44 @@ const PreviewImages = props => {
 
   const handleChangePage = pagination => {
     const sliceIndex = Default_Size * pagination.currentPage;
-    setPreviewImages(imageData.slice(sliceIndex - 10, sliceIndex));
+    if (type === 'url') {
+      setPreviewImages(imageData.slice(sliceIndex - 10, sliceIndex));
+    } else {
+      setPreviewImages(
+        Array(Default_Size)
+          .fill(null)
+          .map(() => {
+            return {
+              data: null,
+              isLoading: true
+            };
+          })
+      );
+      imageData.slice(sliceIndex - 10, sliceIndex).map((file, index) => {
+        readFile(file).then(result => {
+          let tmp = [...previewImages];
+          tmp[index] = {
+            data: result.result,
+            isLoading: false
+          };
+          setPreviewImages(tmp);
+        });
+      });
+    }
     return;
   };
 
   return (
     <div className="">
-      {/* {data.slice().map((chunk, index) => {
-              return (
-                <Row key={index}>
-                  {chunk.map((imageSource, index) => {
-                    return (
-                      <Col key={index}>
-                        <Image src={imageSource} alt="chosen" thumbnail fluid />
-                      </Col>
-                    );
-                  })}
-                  {chunk.length === 1 ? <Col /> : null}
-                </Row>
-              );
-            } ) } */}
+      <Row>
+        {previewImages.map((file, index) => {
+          return (
+            <Col key={index}>
+              <Image src={type === 'url' ? file : file.data} alt="chosen" thumbnail fluid />
+            </Col>
+          );
+        })}
+      </Row>
       <Pagination totalItems={imageData.length} onChange={handleChangePage} defaultSize={Default_Size} />
     </div>
   );
