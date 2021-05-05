@@ -15,8 +15,6 @@ import ImageResizer from './ImageResizer';
 import { axios, readFileAsync } from 'helpers';
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
 
-/* eslint-disable no-console */
-
 const imageResizeConfig = {
   quality: 0.5,
   maxWidth: 640,
@@ -24,7 +22,7 @@ const imageResizeConfig = {
   autoRotate: true
 };
 
-const previewPageSize = 10;
+const maxUploadTasks = 1000;
 
 const PhotoScreen = props => {
   const d = useDispatch();
@@ -48,7 +46,7 @@ const PhotoScreen = props => {
     return <ContentLoader>Loading Photos...</ContentLoader>;
   }
 
-  const progress = files.length ? (uploadedCount / files.length) * 100 : 0;
+  const progress = files.length ? Math.floor((uploadedCount / files.length) * 100) : 0;
 
   const handleFileInputChange = e => {
     setFiles(e.target.files);
@@ -67,7 +65,7 @@ const PhotoScreen = props => {
       return;
     }
     setUploading(true);
-    const maxUploadTasks = 6; //Max allowed by browsers anyway.
+
     const numFileSegments = Math.min(files.length, maxUploadTasks);
 
     //Start number of tasks = numFileSegments
@@ -75,12 +73,10 @@ const PhotoScreen = props => {
       try {
         console.log('===== Uploading file', files[i], i);
         await uploadFile(files[i]);
-        setUploadedCount(uploadedCount + 1);
-        continue;
       } catch (error) {
         console.log('===== Could not upload file: error=>', error);
-        continue;
       }
+      setUploadedCount(i + 1);
     }
     setUploading(false);
     d(
@@ -90,6 +86,7 @@ const PhotoScreen = props => {
       })
     );
     setFiles([]);
+    setUploadedCount(0);
   };
 
   /**
