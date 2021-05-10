@@ -163,7 +163,7 @@ const PhotoScreen = props => {
             </Button>
           </Row>
           <Row>
-            <Col>View {uploadedImages[category].length} Uploaded Images...</Col>
+            <Col>View {(uploadedImages[category] || []).length} Uploaded Images...</Col>
           </Row>
         </Card.Header>
         <Accordion.Collapse eventKey="0">
