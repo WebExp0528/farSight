@@ -9,10 +9,9 @@ const Default_Size = 10;
 const PreviewImages = props => {
   const { data: imageData, type = 'url' } = props;
   const [previewImages, setPreviewImages] = React.useState([]);
-  console.log('~~~~~ preview Images', previewImages);
 
-  const handleChangePage = pagination => {
-    const sliceIndex = Default_Size * pagination.currentPage;
+  const handleChangePage = page => {
+    const sliceIndex = Default_Size * page;
 
     if (type === 'url') {
       setPreviewImages(imageData.slice(sliceIndex - 10, sliceIndex));

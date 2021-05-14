@@ -9,8 +9,8 @@ const CustomPagination = ({ totalItems, onChange, defaultSize = 10, defaultPage 
   const pagination = usePagination(totalItems, defaultSize, defaultPage);
 
   React.useEffect(() => {
-    onChange(pagination);
-  }, [pagination]);
+    onChange(pagination.currentPage);
+  }, [pagination.currentPage]);
 
   let minPage = pagination.currentPage - 2;
   let maxPage = pagination.currentPage + 2;
