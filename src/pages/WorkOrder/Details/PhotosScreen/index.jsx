@@ -14,6 +14,7 @@ import ImageResizer from './ImageResizer';
 
 import { axios, readFileAsync } from 'helpers';
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
+import PreviewImages from './PreviewImages';
 
 const imageResizeConfig = {
   quality: 0.5,
@@ -24,6 +25,20 @@ const imageResizeConfig = {
 
 const maxUploadTasks = 1000;
 
+const getBGByCategory = category => {
+  switch (category) {
+    case 'before':
+      return 'bg-warning';
+    case 'during':
+      return 'bg-info';
+    case 'after':
+      return 'bg-success';
+
+    default:
+      return 'bg-info';
+  }
+};
+
 const PhotoScreen = props => {
   const d = useDispatch();
   const { category = '', won: wonId } = props?.match?.params || {};
@@ -33,7 +48,7 @@ const PhotoScreen = props => {
   const [uploadedCount, setUploadedCount] = React.useState(0);
   const [uploading, setUploading] = React.useState(false);
   const [files, setFiles] = React.useState([]);
-  const showUploadedImageControls = useIsOpenControls();
+  const previewControls = useIsOpenControls();
 
   const fileInputRef = React.useRef();
   const uploadFormRef = React.useRef();
@@ -141,34 +156,38 @@ const PhotoScreen = props => {
     fileInputRef.current && fileInputRef.current.click();
   };
 
-  const uploadedImages = workOrderPhotosState.data.reduce((acc, item) => {
-    return {
-      ...acc,
-      [item.label]: [...(acc[item.label] ? acc[item.label] : []), item]
-    };
-  }, {});
+  const uploadedImages = workOrderPhotosState.data.filter(item => item.label === category);
 
   const renderPhotoControl = () => {
     return (
       <Card>
-        <Card.Header className="alert-info">
+        <Card.Header className={getBGByCategory(category)}>
           <FontAwesomeIcon icon={faCamera} size="lg" className="float-left" />
-          <h5>{category.toUpperCase()} PHOTOS</h5>
+          <h5 className="mb-0">{` ${category.toUpperCase()} PHOTOS`}</h5>
         </Card.Header>
-        <Card.Header>
+        <Card.Body>
           <Row>
-            <Button onClick={handleClickUploadImageBtn} block>
-              UPLOAD IMAGES
-              <FontAwesomeIcon icon={['fas', 'upload']} size="lg" className="float-right" />
+            <Button
+              variant="link"
+              className="col card-link text-capitalize text-center"
+              onClick={previewControls.handleToggle}
+              style={{ userSelect: 'none' }}
+            >
+              {previewControls.isOpen ? 'Hide Images' : `View ${(uploadedImages || []).length} Uploaded Images...`}
             </Button>
           </Row>
-          <Row>
-            <Col>View {(uploadedImages[category] || []).length} Uploaded Images...</Col>
-          </Row>
-        </Card.Header>
-        <Accordion.Collapse eventKey="0">
-          <Card.Footer>{/* TODO: Render preview */}</Card.Footer>
-        </Accordion.Collapse>
+          {previewControls.isOpen && (
+            <Row>
+              <PreviewImages data={uploadedImages} type="url" />
+            </Row>
+          )}
+        </Card.Body>
+        <Card.Footer>
+          <Button onClick={handleClickUploadImageBtn} block>
+            UPLOAD IMAGES
+            <FontAwesomeIcon icon={['fas', 'upload']} size="lg" className="float-right" />
+          </Button>
+        </Card.Footer>
       </Card>
     );
   };

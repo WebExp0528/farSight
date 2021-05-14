@@ -5,7 +5,7 @@ import { Pagination } from 'react-bootstrap';
 /**
  * Pagination Component
  */
-const CustomPagination = ({ totalItems, onChange, defaultSize = 10, defaultPage = 1 }) => {
+const CustomPagination = ({ totalItems, onChange, defaultSize = 10, defaultPage = 1, ...restProps }) => {
   const pagination = usePagination(totalItems, defaultSize, defaultPage);
 
   React.useEffect(() => {
@@ -24,7 +24,7 @@ const CustomPagination = ({ totalItems, onChange, defaultSize = 10, defaultPage 
   maxPage = maxPage > pagination.totalPage ? pagination.totalPage : maxPage;
 
   return (
-    <Pagination size="sm">
+    <Pagination {...restProps}>
       <Pagination.First onClick={pagination.setFirstPage} />
       <Pagination.Prev onClick={pagination.setPrevPage} />
       {minPage > 1 && <Pagination.Ellipsis />}
