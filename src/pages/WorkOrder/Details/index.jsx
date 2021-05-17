@@ -32,7 +32,7 @@ const WorkOrderDetails = props => {
   const d = useDispatch();
   const scrollControl = useIsOpenControls();
   const statusModalControl = useIsOpenControls();
-  const detailButtonRef = React.useRef();
+  const actionMenuRef = React.useRef();
 
   React.useEffect(() => {
     d(getWorkOrderDetail(wonId));
@@ -89,9 +89,9 @@ const WorkOrderDetails = props => {
           <RenderRoutes routes={routes} />
         </Col>
       </Row>
-      <Accordion defaultActiveKey="orderActions">
+      <Accordion defaultActiveKey="orderActions" ref={actionMenuRef}>
         <Card className="fixed-bottom" bg="secondary">
-          <AccordionToggleCaret block eventKey="orderActions" variant="dark-outline" ref={detailButtonRef}>
+          <AccordionToggleCaret block eventKey="orderActions" variant="dark-outline">
             Actions Menu...
           </AccordionToggleCaret>
           <Accordion.Collapse eventKey="orderActions">
@@ -119,7 +119,7 @@ const WorkOrderDetails = props => {
       </Accordion>
       <Overlay
         placement="top"
-        target={detailButtonRef}
+        target={actionMenuRef}
         show={scrollControl.isOpen}
         // onHide={() => console.log('hideNav')}
       >

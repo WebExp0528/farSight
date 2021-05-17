@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 import { useRedux, useReduxLoading } from '@redux';
-import { get as getPhotos } from '@redux/workOrderPhotos/actions';
+import { get as getPhotosAction } from '@redux/workOrderPhotos/actions';
 import { Add as addToast } from '@redux/toast/actions';
 import ContentLoader from 'components/ContentLoader';
 
@@ -53,9 +53,11 @@ const PhotoScreen = props => {
   const fileInputRef = React.useRef();
   const uploadFormRef = React.useRef();
 
-  React.useEffect(() => {
-    d(getPhotos(wonId));
-  }, []);
+  const getPhotos = () => {
+    d(getPhotosAction(wonId));
+  };
+
+  React.useEffect(getPhotos, []);
 
   if (useReduxLoading('workOrderPhotos')) {
     return <ContentLoader>Loading Photos...</ContentLoader>;
@@ -102,6 +104,7 @@ const PhotoScreen = props => {
     );
     setFiles([]);
     setUploadedCount(0);
+    getPhotos();
   };
 
   /**
