@@ -10,8 +10,9 @@ const PreviewImages = props => {
   const { data: imageData, type = 'url' } = props;
   const [previewImages, setPreviewImages] = React.useState([]);
 
-  const handleChangePage = pagination => {
-    const sliceIndex = Default_Size * pagination.currentPage;
+  const handleChangePage = page => {
+    const sliceIndex = Default_Size * page;
+
     if (type === 'url') {
       setPreviewImages(imageData.slice(sliceIndex - 10, sliceIndex));
     } else {
@@ -39,18 +40,31 @@ const PreviewImages = props => {
     return;
   };
 
+  if (!imageData.length) {
+    return null;
+  }
+
   return (
-    <div className="">
+    <div className="p-2">
       <Row>
         {previewImages.map((file, index) => {
           return (
-            <Col key={index}>
-              <Image src={type === 'url' ? file : file.data} alt="chosen" thumbnail fluid />
+            <Col key={index} xs={4}>
+              <Image src={type === 'url' ? file['image_url_full'] : file.data} alt="chosen" thumbnail fluid />
             </Col>
           );
         })}
       </Row>
-      <Pagination totalItems={imageData.length} onChange={handleChangePage} defaultSize={Default_Size} />
+      <Row>
+        <Col className="pt-2" sm={12}>
+          <Pagination
+            className="justify-content-center"
+            totalItems={imageData.length}
+            onChange={handleChangePage}
+            defaultSize={Default_Size}
+          />
+        </Col>
+      </Row>
     </div>
   );
 };

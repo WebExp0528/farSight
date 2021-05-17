@@ -26,3 +26,8 @@ object {
 body {
   padding-top: 60px;
 }
+
+*:focus,
+*:active {
+  outline: 0;
+}
