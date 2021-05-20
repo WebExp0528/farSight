@@ -1,4 +1,4 @@
-import enhaceLocalStorage from '../enhanceReducerWithWriteLocalStorage';
+import { persistentReducer } from 'redux-pouchdb';
 import { createFlushReducer, composeReducers, createGetWithPaginationReducer } from '../@reducers';
 import initialState from './initialState';
 import { ACTION_NAME } from './actions';
@@ -12,4 +12,4 @@ const flushReducer = createFlushReducer(name, []);
 
 export const workOrderBidsReducer = composeReducers(initialState)(getReducer, flushReducer);
 
-export default enhaceLocalStorage(name)(workOrderBidsReducer);
+export default persistentReducer(workOrderBidsReducer);

@@ -1,4 +1,5 @@
-import enhaceLocalStorage from '../enhanceReducerWithWriteLocalStorage';
+import { persistentReducer } from 'redux-pouchdb';
+
 import {
   createGetWithPaginationReducer,
   // createCreateInArrayReducer,
@@ -20,4 +21,4 @@ const flushReducer = createFlushReducer(NAME, []);
 
 export const formsPagesReducer = composeReducers(initialState)(getReducer, flushReducer);
 
-export default enhaceLocalStorage(NAME)(formsPagesReducer);
+export default persistentReducer(formsPagesReducer);
