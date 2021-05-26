@@ -5,6 +5,7 @@ import { createBrowserHistory } from 'history';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
 
 import Page from 'pages';
 import { createStore } from '@redux';
@@ -15,6 +16,7 @@ import './lumen.bootstrap.css';
 import { ToastContainer } from 'components';
 
 library.add(fas);
+library.add(far);
 
 const history = createBrowserHistory();
 const store = createStore(undefined, history);

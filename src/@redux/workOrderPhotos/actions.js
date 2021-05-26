@@ -8,19 +8,17 @@ const ACTION_TYPES = genActionTypes(ACTION_NAME);
  * @param {string | number} id
  * @returns
  */
-export const get =
-  id =>
-  ({ axios }) => ({
-    type: ACTION_TYPES.GET,
-    meta: {
-      toast_success: {
-        content: 'Get WorkOrder Photos'
-      },
-      toast_error: {
-        content: 'Could not get WorkOrder Photos'
-      }
+export const get = id => ({ axios }) => ({
+  type: ACTION_TYPES.GET,
+  meta: {
+    toast_success: {
+      content: 'Get WorkOrder Photos'
     },
-    payload: axios.get(`/api/work_order/${id}/photo`).then(res => {
-      return { data: res.data };
-    })
-  });
+    toast_error: {
+      content: 'Could not get WorkOrder Photos'
+    }
+  },
+  payload: axios.get(`/api/work_order/${id}/photo`).then(res => {
+    return { data: res.data };
+  })
+});

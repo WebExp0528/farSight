@@ -105,7 +105,8 @@ const WorkOrderDetails = props => {
                         {required && (
                           <FontAwesomeIcon
                             icon={['fas', 'star']}
-                            style={{ position: 'absolute', right: '10px', bottom: '10px', color: '#FFAB02' }}
+                            size="xs"
+                            style={{ position: 'absolute', right: '25px', bottom: '20px', color: 'whitesmoke' }}
                           />
                         )}
                         <Nav.Item>
