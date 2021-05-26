@@ -1,13 +1,6 @@
-import { persistentReducer } from 'redux-pouchdb';
-
-import {
-  createGetWithPaginationReducer,
-  // createCreateInArrayReducer,
-  createFlushReducer,
-  // createUpdateInArrayReducer,
-  // createDeleteInArrayReducer,
-  composeReducers
-} from '../@reducers';
+import { persistentDocumentReducer } from 'redux-pouchdb';
+import db from './../enhanceReducerWithPouchDB';
+import { createGetWithPaginationReducer, createFlushReducer, composeReducers } from '../@reducers';
 import initialState from './initialState';
 
 const NAME = '@work_orders';
@@ -21,4 +14,4 @@ const flushReducer = createFlushReducer(NAME, []);
 
 export const formsPagesReducer = composeReducers(initialState)(getReducer, flushReducer);
 
-export default persistentReducer(formsPagesReducer);
+export default persistentDocumentReducer(db, NAME)(formsPagesReducer);

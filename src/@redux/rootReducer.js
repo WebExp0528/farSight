@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+
 import { initialState } from './initialState';
 
 import toast from './toast';
