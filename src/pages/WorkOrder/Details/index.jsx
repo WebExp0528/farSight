@@ -14,12 +14,13 @@ import { getStatus, getStatusClass } from 'helpers';
 import { getWonID } from './helper';
 
 const getMenuButtons = won => [
-  { path: 'photos/before', name: 'Before Photos', key: 'before_photos' },
-  { path: `submit/${won?.survey_name || 'basic'}`, name: 'Submit Survey', key: 'submit_survey' },
+  { path: '', name: 'Read Instructions', key: 'read_instructions', required: true },
+  { path: 'bids', name: 'Create Bid', key: 'bids' },
+  { path: 'photos/before', name: 'Before Photos', key: 'before_photos', required: true },
+  { path: `submit/${won?.survey_name || 'basic'}`, name: 'Complete Survey', key: 'submit_survey', required: true },
   { path: 'photos/during', name: 'During Photos', key: 'during_photos' },
-  { path: 'bids', name: 'Add Bids', key: 'bids' },
-  { path: 'photos/after', name: 'After Photos', key: 'after_photos' },
-  { path: 'submit/final', name: 'Review & Submit', key: 'submit' }
+  { path: 'submit/final', name: 'Review & Submit', key: 'submit' },
+  { path: 'photos/after', name: 'After Photos', key: 'after_photos' }
 ];
 
 const WorkOrderDetails = props => {
@@ -99,10 +100,16 @@ const WorkOrderDetails = props => {
               <Nav justify variant="pills">
                 <Container>
                   <Row>
-                    {getMenuButtons(won).map(({ path, name }, index) => (
-                      <Col key={index} sm={6}>
+                    {getMenuButtons(won).map(({ path, name, required = false }, index) => (
+                      <Col className="p-1" key={index} xs={6} style={{ position: 'relative' }}>
+                        {required && (
+                          <FontAwesomeIcon
+                            icon={['fas', 'star']}
+                            style={{ position: 'absolute', right: '10px', bottom: '10px', color: '#FFAB02' }}
+                          />
+                        )}
                         <Nav.Item>
-                          <NavLink to={`${match.url}/${path}`}>
+                          <NavLink to={path ? `${match.url}/${path}` : match.url}>
                             <Nav.Link as={Button} size="sm" block>
                               {name}
                             </Nav.Link>
