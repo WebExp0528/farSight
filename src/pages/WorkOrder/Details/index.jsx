@@ -64,9 +64,9 @@ const WorkOrderDetails = props => {
       <Card style={{ marginBottom: '0.5em' }}>
         <Card.Img style={{ maxHeight: '200px' }} variant="top" src={won.image_url_small} />
         <Card.ImgOverlay style={{ paddingTop: '160px' }}>
-          <Badge variant="primary" onClick={statusModalControl.handleOpen}>
-            Expected on Time
-          </Badge>
+          <Button variant="primary" size="sm" onClick={statusModalControl.handleOpen}>
+            <FontAwesomeIcon icon={['fas', 'history']} flip="horizontal" /> Expected on Time
+          </Button>
           &nbsp;&nbsp;&nbsp;&nbsp;
           <Badge variant="primary">{`Due: ${new Date(won.due_date).toDateString()}`}</Badge>
           &nbsp;&nbsp;&nbsp;&nbsp;
