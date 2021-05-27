@@ -1,5 +1,3 @@
-import { persistentDocumentReducer } from 'redux-pouchdb';
-import db from './../enhanceReducerWithPouchDB';
 import { createGetWithPaginationReducer, createFlushReducer, composeReducers } from '../@reducers';
 import initialState from './initialState';
 
@@ -14,4 +12,4 @@ const flushReducer = createFlushReducer(NAME, []);
 
 export const formsPagesReducer = composeReducers(initialState)(getReducer, flushReducer);
 
-export default persistentDocumentReducer(db, NAME)(formsPagesReducer);
+export default formsPagesReducer;

@@ -1,13 +1,21 @@
 import { applyMiddleware, createStore } from 'redux';
-import { persistStore } from 'redux-pouchdb';
+// import { persistStore } from 'redux-pouchdb';
 import { createPromise as createPromiseMiddleware } from 'redux-promise-middleware';
 import createThunkerMiddleware from 'redux-thunker';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+
 import { initialState } from './initialState';
 
 import createAppReducer from './rootReducer';
 
 import axios from './@thunker/axios';
+
+const persistConfig = {
+  key: 'root',
+  storage
+};
 
 export default (preloadedState = initialState, history) => {
   const isDev = process.env.NODE_ENV !== 'production';
@@ -42,8 +50,12 @@ export default (preloadedState = initialState, history) => {
 
   const appReducer = createAppReducer(preloadedState);
 
-  const store = createStore(appReducer, preloadedState, composeWithDevTools(applyMiddleware(...middleware)));
-  persistStore(store);
+  // @ts-ignore
+  const persistedReducer = persistReducer(persistConfig, appReducer);
 
-  return store;
+  // @ts-ignore
+  const store = createStore(persistedReducer, preloadedState, composeWithDevTools(applyMiddleware(...middleware)));
+  let persistor = persistStore(store);
+
+  return { store, persistor };
 };

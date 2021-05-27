@@ -1,5 +1,3 @@
-import { persistentDocumentReducer } from 'redux-pouchdb';
-import db from './../enhanceReducerWithPouchDB';
 import { createFlushReducer, composeReducers, createGetReducer } from '../@reducers';
 import initialState from './initialState';
 
@@ -11,4 +9,4 @@ const flushReducer = createFlushReducer(NAME, {});
 
 export const workOrderDetailReducer = composeReducers(initialState)(getReducer, flushReducer);
 
-export default persistentDocumentReducer(db, NAME)(workOrderDetailReducer);
+export default workOrderDetailReducer;
