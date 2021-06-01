@@ -1,7 +1,19 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
-import { Badge, Card, Container, Row, Col, Nav, Popover, Overlay, Accordion, Button } from 'react-bootstrap';
+import {
+  Badge,
+  Card,
+  Container,
+  Row,
+  Col,
+  Nav,
+  Popover,
+  Overlay,
+  Accordion,
+  Button,
+  useAccordionToggle
+} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useRedux } from '@redux';
@@ -111,9 +123,9 @@ const WorkOrderDetails = props => {
                         )}
                         <Nav.Item>
                           <NavLink to={path ? `${match.url}/${path}` : match.url}>
-                            <Nav.Link as={Button} size="sm" block>
+                            <Accordion.Toggle as={Button} size="sm" block eventKey="orderActions">
                               {name}
-                            </Nav.Link>
+                            </Accordion.Toggle>
                           </NavLink>
                         </Nav.Item>
                       </Col>
