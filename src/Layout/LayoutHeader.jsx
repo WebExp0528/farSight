@@ -2,7 +2,7 @@ import React from 'react';
 import { Nav, Navbar, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import ButtonBack from '../components/ButtonBack';
+import BreadCrumb from 'components/BreadCrumb';
 import { axios } from 'helpers';
 
 import cls from './layout.module.scss';
@@ -28,7 +28,7 @@ const LayoutHeader = props => {
   return (
     <Navbar className={cls.navbar} bg="primary" variant="dark" fixed="top">
       <Nav className="mr-auto">
-        <ButtonBack />
+        <BreadCrumb />
       </Nav>
       <Navbar.Brand>
         <Button size="sm" variant="outline-info" onClick={handleClickDemo}>

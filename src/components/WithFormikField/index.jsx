@@ -35,3 +35,5 @@ export function withFormikField(defaultName = '') {
     return ComponentWithFormik;
   };
 }
+
+export default withFormikField;
