@@ -172,7 +172,8 @@ app.use(async function (req, res, next) {
       console.warn('NO API KEY');
       console.warn('SessionId: ', req.sessionID);
       console.warn('Session:', req.session);
-      return res.status(401).send('No Access');
+      console.log('redirecting to /requestMagicLink');
+      return res.redirect('/requestMagicLink');
     }
   } else {
     console.warn('NO SESSION AT ALL');
