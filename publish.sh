@@ -1,3 +1,5 @@
+#!/bin/bash
+set -e
 #Note to newbies: Hashes are comments. 
 
 #log docker into AWS ECR -- note in linux region is set inline, this is different from the way it is done in powershell.

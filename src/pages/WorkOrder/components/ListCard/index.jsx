@@ -86,8 +86,8 @@ const ListCard = props => {
           &nbsp;Update Status
         </Button>
         <div>
-          <span style={{ color: 'grey' }}>Work&nbsp;Order&nbsp;#{item.won}</span> &nbsp;&nbsp;&nbsp;&nbsp;
-          <Badge variant="primary">Due: {new Date(item.due_date).toDateString()}</Badge> &nbsp;&nbsp;&nbsp;&nbsp;
+          <span style={{ color: 'grey' }}>`Work Order #${item.won}`</span> &nbsp;&nbsp;&nbsp;&nbsp;
+          <Badge variant="primary">{`Due: ${new Date(item.due_date).toDateString()}`}</Badge> &nbsp;&nbsp;&nbsp;&nbsp;
           <Badge variant={getItemStatusBadgeClass(item)}>{getItemStatus(item)}</Badge>
         </div>
       </Card.Footer>

@@ -19,25 +19,22 @@ const NS_FS_API = process.env.NS_FS_API;
 /**
  * const NS_FS_API = "http://localhost:5000";//local testing only
  */
-app.use(
-  cors({
-    origin: process.env.NODE_ENV === 'development' ? ['http://localhost:3000', 'http://192.168.1.232:3000'] : true,
-    credentials: true
-  })
-);
-app.use(express.static(path.join(__dirname, 'build')));
-app.set('trust proxy', 1);
+app.use(cors({ origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : true, credentials: true }));
 
 /* -------------------------------------------------------------------------- */
 /*                         Session Store Configuration                        */
 /* -------------------------------------------------------------------------- */
 
 if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, './../build')));
+  console.warn('USING MYSQL SESSION');
   const sessionStore = new MySQLStore(databaseOptions);
   app.use(
     session({
       genid: function (req) {
-        return req.session ? req.session.id : uuid.v4();
+        console.warn('getting ID ' + req.url + ' ' + req.sessionID);
+        console.warn(req.session);
+        return req.sessionID ? req.sessionID : uuid.v4();
       },
       secret: process.env.NS_FS_SESSION_SECRET,
       store: sessionStore,
@@ -46,8 +43,6 @@ if (process.env.NODE_ENV === 'production') {
       cookie: {
         path: '/',
         httpOnly: true,
-        sameSite: 'none',
-        secure: false,
         maxAge: moment.duration(1000, 'years').asMilliseconds()
       }
     })
@@ -77,11 +72,10 @@ if (process.env.NODE_ENV === 'development') {
 /* -------------------------------------------------------------------------- */
 
 app.use('/demo', function (req, res, next) {
-  if (process.env.NODE_ENV === 'production') {
-    req.session.apiKey = process.env.DEMO_API_KEY;
-    console.warn('STARTING DEMO', req.session);
-    req.session.save();
-  }
+  req.session.apiKey = process.env.DEMO_API_KEY;
+  console.warn('STARTING DEMO', req.session);
+  req.session.save();
+
   return res.send({ message: 'Set Test Key' });
 });
 
@@ -89,12 +83,15 @@ app.use('/error', function (req, res, next) {
   res.send('Unexpected Response');
 });
 
+app.set('trust proxy', 1);
+
 /* -------------------------------------------------------------------------- */
 /*                            Request a Magic Link                            */
 /* -------------------------------------------------------------------------- */
 
 app.use('/requestMagicLink', function (req, res, next) {
   //return res.send("THIS PAGE IS A PLACEHOLDER FOR MAGIC LINK REQUEST FORM");
+  console.log('try to get magic link');
   return next();
 });
 
@@ -145,6 +142,11 @@ app.use('/auth/magicLink/:token', async function (req, res, next) {
 /* -------------------------------------------------------------------------- */
 
 app.use(async function (req, res, next) {
+  if (req.url === '/favicon.ico') {
+    return next();
+  }
+  console.log(req.url);
+  console.log(req.sessionID);
   if (req.sessionID) {
     if (req.session.apiKey) {
       //Existing Session
@@ -168,39 +170,42 @@ app.use(async function (req, res, next) {
         return next();
       }
       console.warn('NO API KEY');
-      console.warn('Session:' + req.sessionID);
-      return res.status(401).send('No Access');
+      console.warn('SessionId: ', req.sessionID);
+      console.warn('Session:', req.session);
+      console.log('redirecting to /requestMagicLink');
+      return res.redirect('/requestMagicLink');
     }
   } else {
     console.warn('NO SESSION AT ALL');
     return res.status(401).send('Missing Session');
   }
 });
-
 var proxyOptions = {
   target: NS_FS_API,
   changeOrigin: true,
   onProxyReq(proxyReq, req, res) {
     console.warn('PROXYING API CALL');
-    proxyReq.setHeader('X-USER-ID', req.session.apiKey); // add new header to response
+    if (req.session && req.session.apiKey) {
+      proxyReq.setHeader('X-USER-ID', req.session.apiKey); // add new header to response
+    }
     proxyReq.setHeader('X-APP-ID', appId);
   },
   onProxyRes(proxyRes, req, res) {
     //console.log(proxyRes);
   }
 };
-
 var proxy = createProxyMiddleware(proxyOptions);
 app.use('/api', proxy);
-
 //Pass back to client side router in the REACT app.
+console.log('APP ID ' + process.env.NS_DB_DATABASE);
+app.use(morgan('combined'));
 
 if (process.env.NODE_ENV === 'production') {
-  app.get('*', function (req, res) {
+  console.warn('RUNNING BUILD');
+
+  app.get('*', function (req, res, next) {
     res.sendFile(path.join(__dirname, './../build', 'index.html'));
   });
 }
 
-console.log('APP ID ' + process.env.NS_DB_DATABASE);
-app.use(morgan('combined'));
 app.listen(process.env.NODE_ENV === 'development' ? process.env.SERVER_PORT_DEV : process.env.SERVER_PORT_PROD);

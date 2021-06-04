@@ -23,6 +23,10 @@ const CustomPagination = ({ totalItems, onChange, defaultSize = 10, defaultPage 
   minPage = minPage < 1 ? 1 : minPage;
   maxPage = maxPage > pagination.totalPage ? pagination.totalPage : maxPage;
 
+  if (pagination.totalPage <= 1) {
+    return null;
+  }
+
   return (
     <Pagination {...restProps}>
       <Pagination.First onClick={pagination.setFirstPage} />

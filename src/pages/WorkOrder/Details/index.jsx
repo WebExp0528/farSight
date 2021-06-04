@@ -1,7 +1,19 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
-import { Badge, Card, Container, Row, Col, Nav, Popover, Overlay, Accordion, Button } from 'react-bootstrap';
+import {
+  Badge,
+  Card,
+  Container,
+  Row,
+  Col,
+  Nav,
+  Popover,
+  Overlay,
+  Accordion,
+  Button,
+  useAccordionToggle
+} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useRedux } from '@redux';
@@ -14,12 +26,13 @@ import { getStatus, getStatusClass } from 'helpers';
 import { getWonID } from './helper';
 
 const getMenuButtons = won => [
-  { path: 'photos/before', name: 'Before Photos', key: 'before_photos' },
-  { path: `submit/${won?.survey_name || 'basic'}`, name: 'Submit Survey', key: 'submit_survey' },
+  { path: '', name: 'Read Instructions', key: 'read_instructions', required: true },
+  { path: 'bids', name: 'Create Bid', key: 'bids' },
+  { path: 'photos/before', name: 'Before Photos', key: 'before_photos', required: true },
+  { path: `submit/${won?.survey_name || 'basic'}`, name: 'Complete Survey', key: 'submit_survey', required: true },
   { path: 'photos/during', name: 'During Photos', key: 'during_photos' },
-  { path: 'bids', name: 'Add Bids', key: 'bids' },
-  { path: 'photos/after', name: 'After Photos', key: 'after_photos' },
-  { path: 'submit/final', name: 'Review & Submit', key: 'submit' }
+  { path: 'submit/final', name: 'Review & Submit', key: 'submit' },
+  { path: 'photos/after', name: 'After Photos', key: 'after_photos' }
 ];
 
 const WorkOrderDetails = props => {
@@ -63,9 +76,9 @@ const WorkOrderDetails = props => {
       <Card style={{ marginBottom: '0.5em' }}>
         <Card.Img style={{ maxHeight: '200px' }} variant="top" src={won.image_url_small} />
         <Card.ImgOverlay style={{ paddingTop: '160px' }}>
-          <Badge variant="primary" onClick={statusModalControl.handleOpen}>
-            Expected on Time
-          </Badge>
+          <Button variant="primary" size="sm" onClick={statusModalControl.handleOpen}>
+            <FontAwesomeIcon icon={['fas', 'history']} flip="horizontal" /> Expected on Time
+          </Button>
           &nbsp;&nbsp;&nbsp;&nbsp;
           <Badge variant="primary">{`Due: ${new Date(won.due_date).toDateString()}`}</Badge>
           &nbsp;&nbsp;&nbsp;&nbsp;
@@ -99,13 +112,20 @@ const WorkOrderDetails = props => {
               <Nav justify variant="pills">
                 <Container>
                   <Row>
-                    {getMenuButtons(won).map(({ path, name }, index) => (
-                      <Col key={index} sm={6}>
+                    {getMenuButtons(won).map(({ path, name, required = false }, index) => (
+                      <Col className="p-1" key={index} xs={6} style={{ position: 'relative' }}>
+                        {required && (
+                          <FontAwesomeIcon
+                            icon={['fas', 'star']}
+                            size="xs"
+                            style={{ position: 'absolute', right: '25px', bottom: '20px', color: 'whitesmoke' }}
+                          />
+                        )}
                         <Nav.Item>
-                          <NavLink to={`${match.url}/${path}`}>
-                            <Nav.Link as={Button} size="sm" block>
+                          <NavLink to={path ? `${match.url}/${path}` : match.url}>
+                            <Accordion.Toggle as={Button} size="sm" block eventKey="orderActions">
                               {name}
-                            </Nav.Link>
+                            </Accordion.Toggle>
                           </NavLink>
                         </Nav.Item>
                       </Col>
