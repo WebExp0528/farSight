@@ -7,10 +7,11 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 import { useRedux, useReduxLoading } from '@redux';
 import { get as getPhotosAction } from '@redux/workOrderPhotos/actions';
+import { set as setPreUploadPhotos } from '@redux/uploadPhotos/actions';
 import { Add as addToast } from '@redux/toast/actions';
 import ContentLoader from 'components/ContentLoader';
 
-import ImageResizer from './ImageResizer';
+import ImageResizer from 'helpers/ImageResizer';
 
 import { axios, readFileAsync } from 'helpers';
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
@@ -71,40 +72,9 @@ const PhotoScreen = props => {
 
   const handleSubmitFile = async e => {
     console.log('```` submitting', e);
+
     e.preventDefault();
-    if (!files.length) {
-      d(
-        addToast({
-          type: 'error',
-          content: 'Please Select File'
-        })
-      );
-      return;
-    }
-    setUploading(true);
-
-    const numFileSegments = Math.min(files.length, maxUploadTasks);
-
-    //Start number of tasks = numFileSegments
-    for (let i = 0; i < numFileSegments; i++) {
-      try {
-        console.log('===== Uploading file', files[i], i);
-        await uploadFile(files[i]);
-      } catch (error) {
-        console.log('===== Could not upload file: error=>', error);
-      }
-      setUploadedCount(i + 1);
-    }
-    setUploading(false);
-    d(
-      addToast({
-        type: 'success',
-        content: 'Successfully uploaded files.'
-      })
-    );
-    setFiles([]);
-    setUploadedCount(0);
-    getPhotos();
+    d(setPreUploadPhotos(wonId, files));
   };
 
   /**
@@ -117,6 +87,7 @@ const PhotoScreen = props => {
     try {
       const imageResizer = new ImageResizer();
       const resizedImage = await imageResizer.readAndCompressImage(file, imageResizeConfig);
+      console.log('~~~~~ resized image', resizedImage);
 
       // read resized image file
       const imageData = await readFileAsync(resizedImage);

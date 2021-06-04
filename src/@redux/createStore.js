@@ -1,5 +1,4 @@
 import { applyMiddleware, createStore } from 'redux';
-// import { persistStore } from 'redux-pouchdb';
 import { createPromise as createPromiseMiddleware } from 'redux-promise-middleware';
 import createThunkerMiddleware from 'redux-thunker';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -7,6 +6,13 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import { createOffline } from '@redux-offline/redux-offline';
 import offlineConfig from '@redux-offline/redux-offline/lib/defaults/index';
+import PouchDBStorage from 'redux-persist-pouchdb';
+
+// the usual PouchDB stuff
+// PouchDB.plugin( require( 'pouchdb-adapter-memory' ) );
+// const pouchdb = new PouchDB( 'test', { adapter: 'memory' } );
+
+// const storage = new PouchDBStorage(pouchdb);
 
 import { initialState } from './initialState';
 import createAppReducer from './rootReducer';
@@ -23,8 +29,12 @@ const {
   enhanceReducer: offlineEnhanceReducer,
   enhanceStore: offlineEnhanceStore
 } = createOffline({
-  ...offlineConfig,
-  persist: false
+  ...offlineConfig, // @ts-ignore
+  persist: false, // @ts-ignore
+  effect: effect => {
+    console.log('~~~~~~~ effect', effect);
+    // return axios(effect).then(response => response.data);
+  }
 });
 
 export default (preloadedState = initialState, history) => {

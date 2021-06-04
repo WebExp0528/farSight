@@ -1,5 +1,12 @@
 import ExifReader from 'exifreader';
 
+export const imageResizeConfig = {
+  quality: 0.5,
+  maxWidth: 640,
+  maxHeight: 640,
+  autoRotate: true
+};
+
 class ImageResizer {
   img = null;
   canvas = null;
