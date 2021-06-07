@@ -2,26 +2,32 @@ import { applyMiddleware, createStore } from 'redux';
 import { createPromise as createPromiseMiddleware } from 'redux-promise-middleware';
 import createThunkerMiddleware from 'redux-thunker';
 import { composeWithDevTools } from 'redux-devtools-extension';
+
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import { createOffline } from '@redux-offline/redux-offline';
 import offlineConfig from '@redux-offline/redux-offline/lib/defaults/index';
+import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
 import PouchDBStorage from 'redux-persist-pouchdb';
+import PouchDB from 'pouchdb';
 
 // the usual PouchDB stuff
-// PouchDB.plugin( require( 'pouchdb-adapter-memory' ) );
-// const pouchdb = new PouchDB( 'test', { adapter: 'memory' } );
+PouchDB.plugin(require('pouchdb-adapter-idb'));
+const pouchdb = new PouchDB('far-sight', {
+  adapter: 'idb'
+});
 
-// const storage = new PouchDBStorage(pouchdb);
+const storage = new PouchDBStorage(pouchdb);
 
 import { initialState } from './initialState';
 import createAppReducer from './rootReducer';
 
 import axios from './@thunker/axios';
+import { axios as axiosInstance } from 'helpers';
 
 const persistConfig = {
   key: 'root',
   storage
+  // stateReconciler: hardSet
 };
 
 const {
@@ -32,8 +38,7 @@ const {
   ...offlineConfig, // @ts-ignore
   persist: false, // @ts-ignore
   effect: effect => {
-    console.log('~~~~~~~ effect', effect);
-    // return axios(effect).then(response => response.data);
+    return axiosInstance(effect).then(response => response.data);
   }
 });
 

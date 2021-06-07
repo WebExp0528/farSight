@@ -7,12 +7,13 @@ const NAME = genActionTypes(ACTION_NAME).NAME;
 
 // reducers
 const getReducer = (state, action) => {
+  const wonId = action.meta || '';
   switch (action.type) {
     case `${genActionTypes(ACTION_NAME).CREATE}_START`: {
-      const oldData = state.data[action.payload.id] || {};
+      const oldData = (state || {})[wonId] || {};
       return {
         ...state,
-        [action.payload.id]: {
+        [wonId]: {
           ...oldData,
           isConverting: true
         }
@@ -20,22 +21,22 @@ const getReducer = (state, action) => {
     }
 
     case `${genActionTypes(ACTION_NAME).CREATE}_SUCCESS`: {
-      const oldData = state.data[action.payload.id] || {};
+      const oldData = (state || {})[wonId] || {};
       return {
         ...state,
-        [action.payload.id]: {
+        [wonId]: {
           ...oldData,
-          photos: [...oldData.photos, ...action.payload.photos],
+          photos: [...(oldData?.photos || []), ...(action?.payload || [])],
           isConverting: false
         }
       };
     }
 
     case `${genActionTypes(ACTION_NAME).CREATE}_ERROR`: {
-      const oldData = state.data[action.payload.id] || {};
+      const oldData = (state || {})[wonId] || {};
       return {
         ...state,
-        [action.payload.id]: {
+        [wonId]: {
           ...oldData,
           isConverting: false
         }

@@ -33,6 +33,7 @@
     "node-sass": "^6.0.0",
     "nodemon": "^2.0.7",
     "pouchdb": "^7.2.2",
+    "pouchdb-adapter-idb": "^7.2.2",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.0",
     "react-burger-menu": "^3.0.6",
