@@ -13,12 +13,12 @@ const cors = require('cors');
 const databaseOptions = require('./database');
 
 const app = express(); //create the server.
-const appId = process.env.APP_ID;
+//const appId = process.env.APP_ID;
+const appId = process.env.TESTING_APP_ID;
 const NS_FS_API = process.env.NS_FS_API;
 
-/**
- * const NS_FS_API = "http://localhost:5000";//local testing only
- */
+//const NS_FS_API = 'http://172.21.32.1:5000'; //local testing only
+
 app.use(cors({ origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : true, credentials: true }));
 
 /* -------------------------------------------------------------------------- */
@@ -65,24 +65,23 @@ if (process.env.NODE_ENV === 'development') {
     }
     return next();
   });
+} else {
+  /* -------------------------------------------------------------------------- */
+  /*                            Register Demo API key                           */
+  /* -------------------------------------------------------------------------- */
+
+  app.use('/demo', function (req, res, next) {
+    req.session.apiKey = process.env.DEMO_API_KEY;
+    console.warn('STARTING DEMO', req.session);
+    req.session.save();
+
+    return res.send({ message: 'Set Test Key' });
+  });
+
+  app.use('/error', function (req, res, next) {
+    res.send('Unexpected Response');
+  });
 }
-
-/* -------------------------------------------------------------------------- */
-/*                            Register Demo API key                           */
-/* -------------------------------------------------------------------------- */
-
-app.use('/demo', function (req, res, next) {
-  req.session.apiKey = process.env.DEMO_API_KEY;
-  console.warn('STARTING DEMO', req.session);
-  req.session.save();
-
-  return res.send({ message: 'Set Test Key' });
-});
-
-app.use('/error', function (req, res, next) {
-  res.send('Unexpected Response');
-});
-
 app.set('trust proxy', 1);
 
 /* -------------------------------------------------------------------------- */
@@ -185,19 +184,22 @@ var proxyOptions = {
   changeOrigin: true,
   onProxyReq(proxyReq, req, res) {
     console.warn('PROXYING API CALL');
+    console.warn('session: ' + req.session.apiKey);
+    console.warn('appID: ' + appId);
     if (req.session && req.session.apiKey) {
       proxyReq.setHeader('X-USER-ID', req.session.apiKey); // add new header to response
     }
     proxyReq.setHeader('X-APP-ID', appId);
   },
   onProxyRes(proxyRes, req, res) {
+    //console.warn(res);
     //console.log(proxyRes);
   }
 };
 var proxy = createProxyMiddleware(proxyOptions);
 app.use('/api', proxy);
 //Pass back to client side router in the REACT app.
-console.log('APP ID ' + process.env.NS_DB_DATABASE);
+console.log('DATABASE: ' + process.env.NS_DB_DATABASE);
 app.use(morgan('combined'));
 
 if (process.env.NODE_ENV === 'production') {
