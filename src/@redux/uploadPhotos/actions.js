@@ -1,6 +1,7 @@
-import { genActionTypes, readFileAsBase64 } from 'helpers';
+import { genActionTypes, readFileAsBase64, readFileAsArrayBuffer } from 'helpers';
 import { v4 as uuidv4 } from 'uuid';
 import ImageResizer, { imageResizeConfig } from 'helpers/ImageResizer';
+import CryptoJS from 'crypto-js';
 
 export const ACTION_NAME = 'upload_photos';
 const ACTION_TYPES = genActionTypes(ACTION_NAME);
@@ -24,8 +25,12 @@ export const set =
           const resizedPhoto = await imageResizer.readAndCompressImage(file, imageResizeConfig);
           const base64Photo = await readFileAsBase64(resizedPhoto);
 
+          // read resized image file
+          const imageData = await readFileAsArrayBuffer(resizedPhoto);
           const filename = file.name;
-          let fileId = uuidv4();
+
+          let checksum = CryptoJS.MD5(imageData).toString();
+          let fileId = checksum.toString();
 
           let data = {
             evidenceType: 'photo',
@@ -42,7 +47,6 @@ export const set =
             imageLabel: category,
             file: base64Photo
           };
-
           resizedPhotos.push({ ...data });
         }
         return resizedPhotos;
@@ -57,18 +61,39 @@ export const set =
  * @returns
  */
 export const uploadPhoto =
-  (id, file) =>
+  (id, photo) =>
   ({ axios }) => {
+    // Making Form Data
+    let formData = new FormData();
+    formData.append(
+      'payload',
+      JSON.stringify({
+        evidenceType: photo.evidenceType,
+        fileExt: photo.fileExt,
+        fileName: photo.fileName,
+        fileType: photo.fileType,
+        timestamp: photo.timestamp,
+        gpsAccuracy: photo.gpsAccuracy,
+        gpsLatitude: photo.gpsLatitude,
+        gpsLongitude: photo.gpsLongitude,
+        gpsTimestamp: photo.gpsTimestamp,
+        parentUuid: photo.parentUuid,
+        uuid: photo.uuid,
+        imageLabel: photo.imageLabel
+      })
+    );
+    formData.append('file', photo.file, photo.fileName);
+
     return {
       type: ACTION_TYPES.CREATE,
       offline: {
         effect: {
           method: 'POST',
           url: `/api/work_order/${id}/photo`,
-          data: file
+          data: formData
         },
-        commit: { type: 'PHOTO_UPLOAD_SUCCESS', file },
-        rollback: { type: 'PHOTO_UPLOAD_FAILED', file }
+        commit: { type: 'PHOTO_UPLOAD_SUCCESS', photo: photo.uuid },
+        rollback: { type: 'PHOTO_UPLOAD_FAILED', photo: photo.uuid }
       }
     };
   };

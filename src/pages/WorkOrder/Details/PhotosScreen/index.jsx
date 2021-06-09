@@ -13,7 +13,7 @@ import ContentLoader from 'components/ContentLoader';
 
 import ImageResizer from 'helpers/ImageResizer';
 
-import { axios, readFileAsync } from 'helpers';
+import { axios, readFileAsArrayBuffer } from 'helpers';
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
 import PreviewImages from './PreviewImages';
 
@@ -90,7 +90,7 @@ const PhotoScreen = props => {
       console.log('~~~~~ resized image', resizedImage);
 
       // read resized image file
-      const imageData = await readFileAsync(resizedImage);
+      const imageData = await readFileAsArrayBuffer(resizedImage);
       const filename = file.name;
 
       let checksum = CryptoJS.MD5(imageData).toString();

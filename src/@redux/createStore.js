@@ -13,7 +13,9 @@ import PouchDB from 'pouchdb';
 // the usual PouchDB stuff
 PouchDB.plugin(require('pouchdb-adapter-idb'));
 const pouchdb = new PouchDB('far-sight', {
-  adapter: 'idb'
+  adapter: 'idb',
+  auto_compaction: true,
+  revs_limit: 1
 });
 
 const storage = new PouchDBStorage(pouchdb);

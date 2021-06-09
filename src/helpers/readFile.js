@@ -15,7 +15,7 @@ export const readFileAsBase64 = file => {
   });
 };
 
-export const readFileAsync = async file => {
+export const readFileAsArrayBuffer = async file => {
   return new Promise((resolve, reject) => {
     let reader = new FileReader();
 
