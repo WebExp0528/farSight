@@ -10,6 +10,8 @@ import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
 import PouchDBStorage from 'redux-persist-pouchdb';
 import PouchDB from 'pouchdb';
 
+import transforms from './transform';
+
 // the usual PouchDB stuff
 PouchDB.plugin(require('pouchdb-adapter-idb'));
 const pouchdb = new PouchDB('far-sight', {
@@ -28,8 +30,8 @@ import { axios as axiosInstance } from 'helpers';
 
 const persistConfig = {
   key: 'root',
-  storage
-  // stateReconciler: hardSet
+  storage,
+  transforms: transforms
 };
 
 const {
@@ -38,11 +40,7 @@ const {
   enhanceStore: offlineEnhanceStore
 } = createOffline({
   ...offlineConfig, // @ts-ignore
-  persist: false, // @ts-ignore
-  effect: effect => {
-    console.log('~~~~ effect', effect);
-    return axiosInstance(effect).then(response => response.data);
-  }
+  persist: false // @ts-ignore
 });
 
 export default (preloadedState = initialState, history) => {

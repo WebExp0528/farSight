@@ -15,14 +15,14 @@ const axiosClient = ({ _getState, _dispatch }) => {
 
   axiosInstance.interceptors.request.use(config => {
     /* ----------------------------- API Call Start ----------------------------- */
-    console.log('[===== Started API Call =====]');
+    // console.log('[===== Started API Call =====]');
     return config;
   });
 
   axiosInstance.interceptors.response.use(
     response => {
       /* ------------------------------ API Call End ------------------------------ */
-      console.log('[===== Ended API Call =====]');
+      // console.log('[===== Ended API Call =====]');
       return response;
     },
     error => {

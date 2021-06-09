@@ -50,7 +50,7 @@ const getReducer = (state, action) => {
 
 // reducers
 const uploadingReducer = (state, action) => {
-  console.log('~~~~~ action', action);
+  // console.log('~~~~~ action', action);
   const wonId = action?.meta || '';
   switch (action.type) {
     case `${ACTION_TYPES.UPDATE}_START`: {

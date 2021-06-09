@@ -39,7 +39,6 @@ const findRoute = (currentPath, parentPath = '', routes = []) => {
 
 const BreadCrumb = ({ location }) => {
   const breadCrumbs = _.uniq((findRoute(location.pathname, '', Routes) || []).map(({ path }) => path));
-  console.log('~~~~ breadCrumbs', breadCrumbs);
 
   const path = breadCrumbs[breadCrumbs.length - 2];
 
