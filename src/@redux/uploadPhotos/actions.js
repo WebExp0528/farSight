@@ -61,7 +61,7 @@ export const set =
  * @returns
  */
 export const uploadPhoto =
-  (id, photo) =>
+  (id, photo = {}) =>
   ({ axios }) => {
     // Making Form Data
     let formData = new FormData();

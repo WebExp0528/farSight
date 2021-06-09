@@ -45,9 +45,9 @@ const PhotoScreen = props => {
   const { category = '', won: wonId } = props?.match?.params || {};
 
   const workOrderPhotosState = useRedux('workOrderPhotos');
+  const uploadPhotoState = useRedux('uploadPhotos');
+  const uploadPhotoData = uploadPhotoState[wonId];
 
-  const [uploadedCount, setUploadedCount] = React.useState(0);
-  const [uploading, setUploading] = React.useState(false);
   const [files, setFiles] = React.useState([]);
   const previewControls = useIsOpenControls();
 
@@ -64,8 +64,6 @@ const PhotoScreen = props => {
     return <ContentLoader>Loading Photos...</ContentLoader>;
   }
 
-  const progress = files.length ? Math.floor((uploadedCount / files.length) * 100) : 0;
-
   const handleFileInputChange = e => {
     setFiles(e.target.files);
   };
@@ -75,54 +73,6 @@ const PhotoScreen = props => {
 
     e.preventDefault();
     d(setPreUploadPhotos(wonId, files));
-  };
-
-  /**
-   * Upload file
-   *
-   * @param {*} file
-   * @returns
-   */
-  const uploadFile = async file => {
-    try {
-      const imageResizer = new ImageResizer();
-      const resizedImage = await imageResizer.readAndCompressImage(file, imageResizeConfig);
-      console.log('~~~~~ resized image', resizedImage);
-
-      // read resized image file
-      const imageData = await readFileAsArrayBuffer(resizedImage);
-      const filename = file.name;
-
-      let checksum = CryptoJS.MD5(imageData).toString();
-      let fileId = checksum.toString();
-
-      let data = {
-        evidenceType: 'photo',
-        fileExt: 'jpg',
-        fileName: filename,
-        fileType: 'picture',
-        timestamp: null,
-        gpsAccuracy: null,
-        gpsLatitude: null,
-        gpsLongitude: null,
-        gpsTimestamp: null,
-        parentUuid: '',
-        uuid: fileId,
-        imageLabel: category
-      };
-
-      // Making Form Data
-      let formData = new FormData();
-      formData.append('payload', JSON.stringify(data));
-      formData.append('file', resizedImage, filename);
-
-      const res = await axios.post(`/api/work_order/${wonId}/photo`, formData);
-
-      return res;
-    } catch (err) {
-      console.log('===== Could not upload file: error=>', err);
-      throw err;
-    }
   };
 
   const handleClickUploadImageBtn = e => {
@@ -178,15 +128,23 @@ const PhotoScreen = props => {
       {files.length ? (
         <React.Fragment>
           <div className="">
-            <Button onClick={handleSubmitFile} variant="success" block disabled={uploading}>
+            <Button
+              onClick={handleSubmitFile}
+              variant="success"
+              block
+              disabled={uploadPhotoData && uploadPhotoData.isConverting}
+            >
               Submit Photos
               <FontAwesomeIcon className="float-right" icon={['fas', 'paper-plane']} size="lg" />
             </Button>
           </div>
           <br />
-          <div>
-            <ProgressBar now={progress} label={`${progress}%`} />
-          </div>
+          {uploadPhotoData && uploadPhotoData.isConverting && (
+            <div>
+              <ProgressBar animated now={100} />
+            </div>
+          )}
+
           <br />
           <div className="h4">{`You have selected ${files.length} files.`}</div>
           <div className="h5">Press "Submit Photos" above to complete the upload.</div>

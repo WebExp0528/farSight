@@ -10,13 +10,16 @@ export const usePhotoUpload = () => {
   const d = useDispatch();
 
   useEffect(() => {
-    const workOrderIds = Object.keys(storagePhotos);
-    if (!workOrderIds.length || !offlineState.online) {
+    const wonId = Object.keys(storagePhotos).find(key => {
+      const tmp = storagePhotos[key];
+      return !tmp.isConverting && !tmp.isUploading;
+    });
+
+    if (!wonId || !offlineState.online) {
       return;
     }
-    const wonId = workOrderIds[0];
     const wonData = storagePhotos[wonId];
-    if (wonData.isConverting || wonData.isUploading) {
+    if (!wonData || wonData.isConverting || wonData.isUploading || !wonData.photos || !wonData.photos.length) {
       return;
     }
 
