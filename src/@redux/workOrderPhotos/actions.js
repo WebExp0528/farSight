@@ -12,14 +12,14 @@ export const get =
   id =>
   ({ axios }) => ({
     type: ACTION_TYPES.GET,
-    meta: {
-      toast_success: {
-        content: 'Get WorkOrder Photos'
-      },
-      toast_error: {
-        content: 'Could not get WorkOrder Photos'
-      }
-    },
+    // meta: {
+    //   toast_success: {
+    //     content: 'Get WorkOrder Photos'
+    //   },
+    //   toast_error: {
+    //     content: 'Could not get WorkOrder Photos'
+    //   }
+    // },
     payload: axios.get(`/api/work_order/${id}/photo`).then(res => {
       return { data: res.data };
     })

@@ -1,4 +1,4 @@
-import { genActionTypes, readFileAsBase64, readFileAsArrayBuffer } from 'helpers';
+import { genActionTypes, readFileAsBase64, readFileAsArrayBuffer, base64ToBlob } from 'helpers';
 import { v4 as uuidv4 } from 'uuid';
 import ImageResizer, { imageResizeConfig } from 'helpers/ImageResizer';
 import CryptoJS from 'crypto-js';
@@ -45,7 +45,7 @@ export const set =
             parentUuid: '',
             uuid: fileId,
             imageLabel: category,
-            file: base64Photo
+            file: base64Photo.result
           };
           resizedPhotos.push({ ...data });
         }
@@ -82,7 +82,8 @@ export const uploadPhoto =
         imageLabel: photo.imageLabel
       })
     );
-    formData.append('file', photo.file, photo.fileName);
+    console.log(photo.file);
+    formData.append('file', base64ToBlob(photo.file), photo.fileName);
 
     return {
       type: ACTION_TYPES.CREATE,

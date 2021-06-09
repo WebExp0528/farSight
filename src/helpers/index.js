@@ -5,3 +5,4 @@ export * from './getStatus';
 export * from './getStatusClass';
 export * from './genActionTypes';
 export * from './readFile';
+export * from './base64ToBlob';

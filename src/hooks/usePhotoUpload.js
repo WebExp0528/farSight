@@ -2,9 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRedux } from '@redux';
 import { uploadPhoto } from '@redux/uploadPhotos/actions';
-import { readFileAsArrayBuffer } from 'helpers';
 
-const usePhotoUpload = () => {
+export const usePhotoUpload = () => {
   const storagePhotos = useRedux('uploadPhotos');
   const d = useDispatch();
 
