@@ -40,6 +40,7 @@ const {
   ...offlineConfig, // @ts-ignore
   persist: false, // @ts-ignore
   effect: effect => {
+    console.log('~~~~ effect', effect);
     return axiosInstance(effect).then(response => response.data);
   }
 });

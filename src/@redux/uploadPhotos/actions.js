@@ -82,19 +82,18 @@ export const uploadPhoto =
         imageLabel: photo.imageLabel
       })
     );
-    console.log(photo.file);
     formData.append('file', base64ToBlob(photo.file), photo.fileName);
 
     return {
-      type: ACTION_TYPES.CREATE,
-      offline: {
-        effect: {
-          method: 'POST',
-          url: `/api/work_order/${id}/photo`,
-          data: formData
-        },
-        commit: { type: 'PHOTO_UPLOAD_SUCCESS', photo: photo.uuid },
-        rollback: { type: 'PHOTO_UPLOAD_FAILED', photo: photo.uuid }
-      }
+      type: ACTION_TYPES.UPDATE,
+      meta: id,
+      payload: axios
+        .post(`/api/work_order/${id}/photo`, formData)
+        .then(res => {
+          return photo;
+        })
+        .catch(err => {
+          return photo;
+        })
     };
   };

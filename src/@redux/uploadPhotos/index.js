@@ -3,13 +3,13 @@ import initialState from './initialState';
 import { ACTION_NAME } from './actions';
 import { genActionTypes } from 'helpers';
 
-const NAME = genActionTypes(ACTION_NAME).NAME;
+const ACTION_TYPES = genActionTypes(ACTION_NAME);
 
 // reducers
 const getReducer = (state, action) => {
-  const wonId = action.meta || '';
+  const wonId = action?.meta || '';
   switch (action.type) {
-    case `${genActionTypes(ACTION_NAME).CREATE}_START`: {
+    case `${ACTION_TYPES.CREATE}_START`: {
       const oldData = (state || {})[wonId] || {};
       return {
         ...state,
@@ -20,7 +20,7 @@ const getReducer = (state, action) => {
       };
     }
 
-    case `${genActionTypes(ACTION_NAME).CREATE}_SUCCESS`: {
+    case `${ACTION_TYPES.CREATE}_SUCCESS`: {
       const oldData = (state || {})[wonId] || {};
       return {
         ...state,
@@ -32,7 +32,7 @@ const getReducer = (state, action) => {
       };
     }
 
-    case `${genActionTypes(ACTION_NAME).CREATE}_ERROR`: {
+    case `${ACTION_TYPES.CREATE}_ERROR`: {
       const oldData = (state || {})[wonId] || {};
       return {
         ...state,
@@ -48,8 +48,59 @@ const getReducer = (state, action) => {
   }
 };
 
-const flushReducer = createFlushReducer(NAME, []);
+// reducers
+const uploadingReducer = (state, action) => {
+  console.log('~~~~~ action', action);
+  const wonId = action?.meta || '';
+  switch (action.type) {
+    case `${ACTION_TYPES.UPDATE}_START`: {
+      const oldData = (state || {})[wonId] || {};
+      return {
+        ...state,
+        [wonId]: {
+          ...oldData,
+          isUploading: true
+        }
+      };
+    }
 
-export const workOrderBidsReducer = composeReducers(initialState)(getReducer, flushReducer);
+    case `${ACTION_TYPES.UPDATE}_SUCCESS`: {
+      const oldData = (state || {})[wonId] || {};
+      const uploadedPhotoIndex = oldData.photos.indexOf(oldData.photos.find(el => el.uuid === action.payload.uuid));
+      oldData.photos.splice(uploadedPhotoIndex, 1);
+      return {
+        ...state,
+        [wonId]: {
+          ...oldData,
+          photos: { ...oldData.photos },
+          isUploading: false,
+          success: (oldData.success || 0) + 1
+        }
+      };
+    }
+
+    case `${ACTION_TYPES.UPDATE}_ERROR`: {
+      const oldData = (state || {})[wonId] || {};
+      const uploadedPhotoIndex = oldData.photos.indexOf(oldData.photos.find(el => el.uuid === action.payload.uuid));
+      oldData.photos.splice(uploadedPhotoIndex, 1);
+      return {
+        ...state,
+        [wonId]: {
+          ...oldData,
+          photos: { ...oldData.photos },
+          isUploading: false,
+          failed: (oldData.failed || 0) + 1
+        }
+      };
+    }
+
+    default:
+      return state;
+  }
+};
+
+const flushReducer = createFlushReducer(ACTION_TYPES.NAME, []);
+
+export const workOrderBidsReducer = composeReducers(initialState)(getReducer, uploadingReducer, flushReducer);
 
 export default workOrderBidsReducer;
