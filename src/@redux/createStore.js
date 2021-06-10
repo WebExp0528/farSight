@@ -26,13 +26,11 @@ import { initialState } from './initialState';
 import createAppReducer from './rootReducer';
 
 import axios from './@thunker/axios';
-import { axios as axiosInstance } from 'helpers';
 
 const persistConfig = {
   key: 'root',
   storage,
-  transforms: transforms,
-  whitelist: ['uploadPhotos']
+  transforms: transforms
 };
 
 const {
