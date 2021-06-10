@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import CryptoJS from 'crypto-js';
 import { Button, Card, Form, Row, Col, ProgressBar, Accordion } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -72,7 +72,8 @@ const PhotoScreen = props => {
     console.log('```` submitting', e);
 
     e.preventDefault();
-    d(setPreUploadPhotos(wonId, files));
+    await props.setPreUploadPhotosAction(wonId, files);
+    setFiles([]);
   };
 
   const handleClickUploadImageBtn = e => {
@@ -159,4 +160,6 @@ const PhotoScreen = props => {
   );
 };
 
-export default PhotoScreen;
+export default connect(null, {
+  setPreUploadPhotosAction: setPreUploadPhotos
+})(PhotoScreen);

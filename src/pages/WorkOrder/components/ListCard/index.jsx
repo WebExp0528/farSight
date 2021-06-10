@@ -1,6 +1,7 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Badge, Button, Card, Image } from 'react-bootstrap';
+import { Badge, Button, Card, Image, ProgressBar } from 'react-bootstrap';
 import renderHTML from 'react-render-html';
 import { Link, withRouter } from 'react-router-dom';
 
@@ -10,6 +11,7 @@ import { useIsOpenControls } from 'hooks';
 import { genRandomCode } from 'helpers';
 
 import cls from './work-order-list-card.module.scss';
+import { useRedux } from '@redux';
 
 export const getItemStatus = item => {
   let dueDate = new Date(item.due_date);
@@ -54,8 +56,16 @@ export const getItemStatusBadgeClass = item => {
 
 const ListCard = props => {
   const { item = {}, match } = props;
+  const wonId = item.won;
+  // @ts-ignore
+  const { photos: uploadingPhotos = [], isUploading, total } = useSelector(state => state.uploadPhotos[wonId]) || {};
 
   const modalControls = useIsOpenControls();
+
+  let progress = 0;
+  if (uploadingPhotos.length) {
+    progress = Math.floor(((total - uploadingPhotos.length) / total) * 100);
+  }
 
   return (
     <Card className={cls.cardWrapper} key={`${item.won}-${genRandomCode()}`}>
@@ -78,7 +88,8 @@ const ListCard = props => {
         <Card.Subtitle className="mb-2 text-muted">
           {item.address_street} {item.address_city}, {item.address_state}
         </Card.Subtitle>
-        <Card.Text>{item.description ? renderHTML(item.description) : null}</Card.Text>
+        <Card.Text className="mb-3">{item.description ? renderHTML(item.description) : null}</Card.Text>
+        {uploadingPhotos.length > 0 && <ProgressBar animated={isUploading} now={progress} label={`${progress}%`} />}
       </Card.Body>
       <Card.Footer className={cls.footerWrapper}>
         <Button variant="link" size="sm" onClick={modalControls.handleOpen}>
