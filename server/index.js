@@ -26,7 +26,6 @@ app.use(cors({ origin: process.env.NODE_ENV === 'development' ? 'http://localhos
 /* -------------------------------------------------------------------------- */
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, './../build')));
   console.warn('USING MYSQL SESSION');
   const sessionStore = new MySQLStore(databaseOptions);
   app.use(
@@ -48,7 +47,30 @@ if (process.env.NODE_ENV === 'production') {
     })
   );
 }
+var proxyOptions = {
+  target: NS_FS_API,
+  changeOrigin: true,
+  onProxyReq(proxyReq, req, res) {
+    console.warn('PROXYING API CALL');
+    console.warn('session: ' + JSON.stringify(req.session));
+    console.warn('appID: ' + appId);
+    if (req.session && req.session.apiKey) {
+      proxyReq.setHeader('X-USER-ID', req.session.apiKey); // add new header to response
+    }
+    proxyReq.setHeader('X-APP-ID', appId);
+  },
+  onProxyRes(proxyRes, req, res) {
+    //console.warn(res);
+    //console.log(proxyRes);
+  }
+};
+var proxy = createProxyMiddleware(proxyOptions);
+app.use('/api', proxy);
+app.set('trust proxy', 1);
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, './../build')));
+}
 /* -------------------------------------------------------------------------- */
 /*                   Setup Test Session for development mode                  */
 /* -------------------------------------------------------------------------- */
@@ -82,7 +104,6 @@ if (process.env.NODE_ENV === 'development') {
     res.send('Unexpected Response');
   });
 }
-app.set('trust proxy', 1);
 
 /* -------------------------------------------------------------------------- */
 /*                            Request a Magic Link                            */
@@ -179,25 +200,7 @@ app.use(async function (req, res, next) {
     return res.status(401).send('Missing Session');
   }
 });
-var proxyOptions = {
-  target: NS_FS_API,
-  changeOrigin: true,
-  onProxyReq(proxyReq, req, res) {
-    console.warn('PROXYING API CALL');
-    console.warn('session: ' + req.session.apiKey);
-    console.warn('appID: ' + appId);
-    if (req.session && req.session.apiKey) {
-      proxyReq.setHeader('X-USER-ID', req.session.apiKey); // add new header to response
-    }
-    proxyReq.setHeader('X-APP-ID', appId);
-  },
-  onProxyRes(proxyRes, req, res) {
-    //console.warn(res);
-    //console.log(proxyRes);
-  }
-};
-var proxy = createProxyMiddleware(proxyOptions);
-app.use('/api', proxy);
+
 //Pass back to client side router in the REACT app.
 console.log('DATABASE: ' + process.env.NS_DB_DATABASE);
 app.use(morgan('combined'));
