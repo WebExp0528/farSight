@@ -16,7 +16,10 @@ export const set =
   ({ axios }) => {
     return {
       type: ACTION_TYPES.CREATE,
-      meta: id,
+      meta: {
+        id,
+        total: files.length
+      },
       payload: async () => {
         let resizedPhotos = [];
         for (let i = 0; i < files.length; i++) {

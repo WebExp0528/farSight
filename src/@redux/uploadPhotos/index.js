@@ -8,7 +8,7 @@ const ACTION_TYPES = genActionTypes(ACTION_NAME);
 
 // reducers
 const getReducer = (state, action) => {
-  const wonId = action?.meta || '';
+  const wonId = action?.meta?.id || '';
   switch (action.type) {
     case `${ACTION_TYPES.CREATE}_START`: {
       const oldData = _.get(state, wonId, {});
@@ -16,6 +16,7 @@ const getReducer = (state, action) => {
         ...state,
         [wonId]: {
           ...oldData,
+          total: action?.meta?.total || 0,
           isConverting: true
         }
       };
