@@ -7,8 +7,6 @@ import { usePhotoUpload } from 'hooks';
 import Routes from './routes';
 
 export const App = () => {
-  usePhotoUpload();
-
   return (
     <Layout>
       <RenderRoutes routes={Routes} />

@@ -12,7 +12,7 @@ export const usePhotoUpload = () => {
   useEffect(() => {
     const wonId = Object.keys(storagePhotos).find(key => {
       const tmp = storagePhotos[key];
-      return !tmp.isConverting && !tmp.isUploading;
+      return !tmp.isConverting && !tmp.isUploading && tmp.photos && tmp.photos.length;
     });
 
     if (!wonId || !offlineState.online) {

@@ -31,7 +31,8 @@ import { axios as axiosInstance } from 'helpers';
 const persistConfig = {
   key: 'root',
   storage,
-  transforms: transforms
+  transforms: transforms,
+  whitelist: ['uploadPhotos']
 };
 
 const {
