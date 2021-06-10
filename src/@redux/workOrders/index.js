@@ -1,12 +1,4 @@
-import enhaceLocalStorage from '../enhanceReducerWithWriteLocalStorage';
-import {
-  createGetWithPaginationReducer,
-  // createCreateInArrayReducer,
-  createFlushReducer,
-  // createUpdateInArrayReducer,
-  // createDeleteInArrayReducer,
-  composeReducers
-} from '../@reducers';
+import { createGetWithPaginationReducer, createFlushReducer, composeReducers } from '../@reducers';
 import initialState from './initialState';
 
 const NAME = '@work_orders';
@@ -20,4 +12,4 @@ const flushReducer = createFlushReducer(NAME, []);
 
 export const formsPagesReducer = composeReducers(initialState)(getReducer, flushReducer);
 
-export default enhaceLocalStorage(NAME)(formsPagesReducer);
+export default formsPagesReducer;

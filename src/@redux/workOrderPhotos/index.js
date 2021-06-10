@@ -1,15 +1,14 @@
-import enhaceLocalStorage from '../enhanceReducerWithWriteLocalStorage';
 import { createFlushReducer, composeReducers, createGetWithPaginationReducer } from '../@reducers';
 import initialState from './initialState';
 import { ACTION_NAME } from './actions';
 import { genActionTypes } from 'helpers';
 
-const name = genActionTypes(ACTION_NAME).NAME;
+const NAME = genActionTypes(ACTION_NAME).NAME;
 
 // reducers
-const getReducer = createGetWithPaginationReducer(name, initialState);
-const flushReducer = createFlushReducer(name, []);
+const getReducer = createGetWithPaginationReducer(NAME, initialState);
+const flushReducer = createFlushReducer(NAME, []);
 
 export const workOrderBidsReducer = composeReducers(initialState)(getReducer, flushReducer);
 
-export default enhaceLocalStorage(name)(workOrderBidsReducer);
+export default workOrderBidsReducer;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col, Image } from 'react-bootstrap';
 
 import { Pagination } from 'components';
-import { readFile } from 'helpers/readFile';
+import { readFileAsBase64 } from 'helpers/readFile';
 
 const Default_Size = 10;
 
@@ -27,7 +27,7 @@ const PreviewImages = props => {
           })
       );
       imageData.slice(sliceIndex - 10, sliceIndex).map((file, index) => {
-        readFile(file).then(result => {
+        readFileAsBase64(file).then(result => {
           let tmp = [...previewImages];
           tmp[index] = {
             data: result.result,

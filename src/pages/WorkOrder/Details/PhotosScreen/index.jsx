@@ -7,12 +7,13 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 import { useRedux, useReduxLoading } from '@redux';
 import { get as getPhotosAction } from '@redux/workOrderPhotos/actions';
+import { set as setPreUploadPhotos } from '@redux/uploadPhotos/actions';
 import { Add as addToast } from '@redux/toast/actions';
 import ContentLoader from 'components/ContentLoader';
 
-import ImageResizer from './ImageResizer';
+import ImageResizer from 'helpers/ImageResizer';
 
-import { axios, readFileAsync } from 'helpers';
+import { axios, readFileAsArrayBuffer } from 'helpers';
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
 import PreviewImages from './PreviewImages';
 
@@ -44,9 +45,9 @@ const PhotoScreen = props => {
   const { category = '', won: wonId } = props?.match?.params || {};
 
   const workOrderPhotosState = useRedux('workOrderPhotos');
+  const uploadPhotoState = useRedux('uploadPhotos');
+  const uploadPhotoData = uploadPhotoState[wonId];
 
-  const [uploadedCount, setUploadedCount] = React.useState(0);
-  const [uploading, setUploading] = React.useState(false);
   const [files, setFiles] = React.useState([]);
   const previewControls = useIsOpenControls();
 
@@ -63,95 +64,15 @@ const PhotoScreen = props => {
     return <ContentLoader>Loading Photos...</ContentLoader>;
   }
 
-  const progress = files.length ? Math.floor((uploadedCount / files.length) * 100) : 0;
-
   const handleFileInputChange = e => {
     setFiles(e.target.files);
   };
 
   const handleSubmitFile = async e => {
     console.log('```` submitting', e);
+
     e.preventDefault();
-    if (!files.length) {
-      d(
-        addToast({
-          type: 'error',
-          content: 'Please Select File'
-        })
-      );
-      return;
-    }
-    setUploading(true);
-
-    const numFileSegments = Math.min(files.length, maxUploadTasks);
-
-    //Start number of tasks = numFileSegments
-    for (let i = 0; i < numFileSegments; i++) {
-      try {
-        console.log('===== Uploading file', files[i], i);
-        await uploadFile(files[i]);
-      } catch (error) {
-        console.log('===== Could not upload file: error=>', error);
-      }
-      setUploadedCount(i + 1);
-    }
-    setUploading(false);
-    d(
-      addToast({
-        type: 'success',
-        content: 'Successfully uploaded files.'
-      })
-    );
-    setFiles([]);
-    setUploadedCount(0);
-    getPhotos();
-  };
-
-  /**
-   * Upload file
-   *
-   * @param {*} file
-   * @returns
-   */
-  const uploadFile = async file => {
-    try {
-      const imageResizer = new ImageResizer();
-      const resizedImage = await imageResizer.readAndCompressImage(file, imageResizeConfig);
-
-      // read resized image file
-      const imageData = await readFileAsync(resizedImage);
-      const filename = file.name;
-
-      let checksum = CryptoJS.MD5(imageData).toString();
-      let fileId = checksum.toString();
-
-      let data = {
-        evidenceType: 'photo',
-        fileExt: 'jpg',
-        fileName: filename,
-        fileType: 'picture',
-        timestamp: null,
-        gpsAccuracy: null,
-        gpsLatitude: null,
-        gpsLongitude: null,
-        gpsTimestamp: null,
-        parentUuid: '',
-        uuid: fileId,
-        imageLabel: category
-      };
-
-      // Making Form Data
-      let formData = new FormData();
-      formData.append('payload', JSON.stringify(data));
-      formData.append('file', resizedImage, filename);
-
-      const res = await axios.post(`/api/work_order/${wonId}/photo`, formData);
-
-      return res;
-    } catch (err) {
-      console.log('===== Could not upload file: error=>', err);
-      throw err;
-    }
+    d(setPreUploadPhotos(wonId, files));
   };
 
   const handleClickUploadImageBtn = e => {
@@ -207,15 +128,23 @@ const PhotoScreen = props => {
       {files.length ? (
         <React.Fragment>
           <div className="">
-            <Button onClick={handleSubmitFile} variant="success" block disabled={uploading}>
+            <Button
+              onClick={handleSubmitFile}
+              variant="success"
+              block
+              disabled={uploadPhotoData && uploadPhotoData.isConverting}
+            >
               Submit Photos
               <FontAwesomeIcon className="float-right" icon={['fas', 'paper-plane']} size="lg" />
             </Button>
           </div>
           <br />
-          <div>
-            <ProgressBar now={progress} label={`${progress}%`} />
-          </div>
+          {uploadPhotoData && uploadPhotoData.isConverting && (
+            <div>
+              <ProgressBar animated now={100} />
+            </div>
+          )}
+
           <br />
           <div className="h4">{`You have selected ${files.length} files.`}</div>
           <div className="h5">Press "Submit Photos" above to complete the upload.</div>

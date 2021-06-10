@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+
 import { initialState } from './initialState';
 
 import toast from './toast';
@@ -6,6 +7,7 @@ import workOrders from './workOrders';
 import workOrderDetail from './workOrderDetail';
 import workOrderBids from './workOrderBids';
 import workOrderPhotos from './workOrderPhotos';
+import uploadPhotos from './uploadPhotos';
 
 const {
   toasts: _initToast, // do not reset toast but the rest
@@ -23,7 +25,8 @@ const createAppReducer = initialState => {
     workOrders,
     workOrderDetail,
     workOrderBids,
-    workOrderPhotos
+    workOrderPhotos,
+    uploadPhotos
   });
 
   return (state = initialState, action) => {

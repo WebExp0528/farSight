@@ -1,10 +1,11 @@
 import CryptoJS from 'crypto-js';
 
 /**
+ * Read file as base 64 file type
  *
  * @param {*} file
  */
-export const readFile = file => {
+export const readFileAsBase64 = file => {
   return new Promise((resolve, reject) => {
     let reader = new FileReader();
     reader.readAsDataURL(file);
@@ -14,11 +15,12 @@ export const readFile = file => {
   });
 };
 
-export const readFileAsync = async file => {
+export const readFileAsArrayBuffer = async file => {
   return new Promise((resolve, reject) => {
     let reader = new FileReader();
 
     reader.onload = () => {
+      //@ts-ignore
       resolve(CryptoJS.lib.WordArray.create(reader.result));
     };
 

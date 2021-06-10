@@ -85,9 +85,9 @@ const ListCard = props => {
           <FontAwesomeIcon icon={['fas', 'history']} flip="horizontal" />
           &nbsp;Update Status
         </Button>
-        <div>
-          <span style={{ color: 'grey' }}>`Work Order #${item.won}`</span> &nbsp;&nbsp;&nbsp;&nbsp;
-          <Badge variant="primary">{`Due: ${new Date(item.due_date).toDateString()}`}</Badge> &nbsp;&nbsp;&nbsp;&nbsp;
+        <div className="d-flex align-items-center">
+          <span className="mr-2" style={{ color: 'grey' }}>{`Work Order #${item.won}`}</span>
+          <Badge className="mr-2" variant="primary">{`Due: ${new Date(item.due_date).toDateString()}`}</Badge>
           <Badge variant={getItemStatusBadgeClass(item)}>{getItemStatus(item)}</Badge>
         </div>
       </Card.Footer>

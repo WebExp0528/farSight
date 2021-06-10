@@ -1,7 +1,10 @@
 import React from 'react';
 import { RenderRoutes } from 'components';
-import Routes from './routes';
 import Layout from 'Layout';
+
+import { usePhotoUpload } from 'hooks';
+
+import Routes from './routes';
 
 export const App = () => {
   return (

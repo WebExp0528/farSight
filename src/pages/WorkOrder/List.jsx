@@ -22,7 +22,7 @@ class WorkOrderList extends Component {
   };
 
   render() {
-    const { data: workOrders } = this.props.workOrders;
+    const { data: workOrders = [] } = this.props.workOrders;
     console.log(this.props.workOrders.data);
     const { filter } = this.state;
     const lowercasedFilter = filter.toLowerCase();

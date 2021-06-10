@@ -1,4 +1,3 @@
-import enhaceLocalStorage from '../enhanceReducerWithWriteLocalStorage';
 import { createFlushReducer, composeReducers, createGetReducer } from '../@reducers';
 import initialState from './initialState';
 
@@ -10,4 +9,4 @@ const flushReducer = createFlushReducer(NAME, {});
 
 export const workOrderDetailReducer = composeReducers(initialState)(getReducer, flushReducer);
 
-export default enhaceLocalStorage(NAME)(workOrderDetailReducer);
+export default workOrderDetailReducer;
