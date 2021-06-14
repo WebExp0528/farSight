@@ -8,12 +8,8 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { useRedux, useReduxLoading } from '@redux';
 import { get as getPhotosAction } from '@redux/workOrderPhotos/actions';
 import { set as setPreUploadPhotos } from '@redux/uploadPhotos/actions';
-import { Add as addToast } from '@redux/toast/actions';
 import ContentLoader from 'components/ContentLoader';
 
-import ImageResizer from 'helpers/ImageResizer';
-
-import { axios, readFileAsArrayBuffer } from 'helpers';
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
 import PreviewImages from './PreviewImages';
 
