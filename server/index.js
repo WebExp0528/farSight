@@ -20,7 +20,39 @@ const NS_FS_API = process.env.NS_FS_API;
 //const NS_FS_API = 'http://172.21.32.1:5000'; //local testing only
 
 app.use(cors({ origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : true, credentials: true }));
+/* -------------------------------------------------------------------------- */
+/*                   Setup Test Session for development mode                  */
+/* -------------------------------------------------------------------------- */
 
+if (process.env.NODE_ENV === 'development') {
+  app.use((req, res, next) => {
+    if (!req.sessionID) {
+      req.sessionID = 'TEST_SESSION';
+    }
+    if (!req.session || !req.session.apiKey) {
+      req['session'] = {
+        apiKey: process.env.DEMO_API_KEY
+      };
+    }
+    return next();
+  });
+} else {
+  /* -------------------------------------------------------------------------- */
+  /*                            Register Demo API key                           */
+  /* -------------------------------------------------------------------------- */
+
+  app.use('/demo', function (req, res, next) {
+    req.session.apiKey = process.env.DEMO_API_KEY;
+    console.warn('STARTING DEMO', req.session);
+    req.session.save();
+
+    return res.send({ message: 'Set Test Key' });
+  });
+
+  app.use('/error', function (req, res, next) {
+    res.send('Unexpected Response');
+  });
+}
 /* -------------------------------------------------------------------------- */
 /*                         Session Store Configuration                        */
 /* -------------------------------------------------------------------------- */
@@ -70,39 +102,6 @@ app.set('trust proxy', 1);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, './../build')));
-}
-/* -------------------------------------------------------------------------- */
-/*                   Setup Test Session for development mode                  */
-/* -------------------------------------------------------------------------- */
-
-if (process.env.NODE_ENV === 'development') {
-  app.use((req, res, next) => {
-    if (!req.sessionID) {
-      req.sessionID = 'TEST_SESSION';
-    }
-    if (!req.session || !req.session.apiKey) {
-      req['session'] = {
-        apiKey: process.env.DEMO_API_KEY
-      };
-    }
-    return next();
-  });
-} else {
-  /* -------------------------------------------------------------------------- */
-  /*                            Register Demo API key                           */
-  /* -------------------------------------------------------------------------- */
-
-  app.use('/demo', function (req, res, next) {
-    req.session.apiKey = process.env.DEMO_API_KEY;
-    console.warn('STARTING DEMO', req.session);
-    req.session.save();
-
-    return res.send({ message: 'Set Test Key' });
-  });
-
-  app.use('/error', function (req, res, next) {
-    res.send('Unexpected Response');
-  });
 }
 
 /* -------------------------------------------------------------------------- */
