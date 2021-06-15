@@ -1,24 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
-import {
-  Badge,
-  Card,
-  Container,
-  Row,
-  Col,
-  Nav,
-  Popover,
-  Overlay,
-  Accordion,
-  Button,
-  useAccordionToggle
-} from 'react-bootstrap';
+import { Badge, Card, Container, Row, Col, Nav, Popover, Overlay, Accordion, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useRedux } from '@redux';
 import { get as getWorkOrderDetail } from '@redux/workOrderDetail/actions';
-import { AccordionToggleCaret, ContentLoader, RenderRoutes } from 'components';
+import { ContentLoader, RenderRoutes } from 'components';
 import ModalUpdateStatus from '../components/ModalUpdateStatus';
 
 import { useShowScroll, useIsOpenControls } from 'hooks';
@@ -80,9 +68,9 @@ const WorkOrderDetails = props => {
             <FontAwesomeIcon icon={['fas', 'history']} flip="horizontal" /> Expected on Time
           </Button>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <Badge variant="primary">{`Due: ${new Date(won.due_date).toDateString()}`}</Badge>
+          <Badge bg="primary">{`Due: ${new Date(won.due_date).toDateString()}`}</Badge>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <Badge variant={getStatusClass(won.due_date)}>{getItemStatus()}</Badge>
+          <Badge bg={getStatusClass(won.due_date)}>{getItemStatus()}</Badge>
         </Card.ImgOverlay>
       </Card>
       <Row>
@@ -104,15 +92,13 @@ const WorkOrderDetails = props => {
       </Row>
       <Accordion defaultActiveKey="orderActions" ref={actionMenuRef}>
         <Card className="fixed-bottom" bg="secondary">
-          <AccordionToggleCaret block eventKey="orderActions" variant="dark-outline">
-            Actions Menu...
-          </AccordionToggleCaret>
-          <Accordion.Collapse eventKey="orderActions">
+          <Accordion.Header>Actions Menu...</Accordion.Header>
+          <Accordion.Body>
             <Card.Footer>
               <Nav justify variant="pills">
                 <Container>
                   <Row>
-                    {getMenuButtons(won).map(({ path, name, required = false }, index) => (
+                    {/* {getMenuButtons(won).map(({ path, name, required = false }, index) => (
                       <Col className="p-1" key={index} xs={6} style={{ position: 'relative' }}>
                         {required && (
                           <FontAwesomeIcon
@@ -129,12 +115,12 @@ const WorkOrderDetails = props => {
                           </NavLink>
                         </Nav.Item>
                       </Col>
-                    ))}
+                    ))} */}
                   </Row>
                 </Container>
               </Nav>
             </Card.Footer>
-          </Accordion.Collapse>
+          </Accordion.Body>
         </Card>
       </Accordion>
       <Overlay

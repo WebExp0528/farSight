@@ -36,12 +36,16 @@ class WorkOrderList extends Component {
       <div>
         <Container style={{ marginTop: '0.5em', marginBottom: '0.5em' }}>
           <InputGroup>
-            <InputGroup.Prepend>
-              <InputGroup.Text>
-                <FontAwesomeIcon icon={['fas', 'search']} style={{ borderRight: 0 }} />
-              </InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control type="text" placeholder="Search Work Orders..." value={filter} onChange={this.handleChange} />
+            <InputGroup.Text id="search-work-order">
+              <FontAwesomeIcon icon={['fas', 'search']} style={{ borderRight: 0 }} />
+            </InputGroup.Text>
+            <Form.Control
+              aria-describedby="search-work-order"
+              type="text"
+              placeholder="Search Work Orders..."
+              value={filter}
+              onChange={this.handleChange}
+            />
           </InputGroup>
         </Container>
         <div style={{ backgroundColor: '#e5e5e5' }}>

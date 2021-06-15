@@ -11,7 +11,6 @@ import { useIsOpenControls } from 'hooks';
 import { genRandomCode } from 'helpers';
 
 import cls from './work-order-list-card.module.scss';
-import { useRedux } from '@redux';
 
 export const getItemStatus = item => {
   let dueDate = new Date(item.due_date);
@@ -98,8 +97,8 @@ const ListCard = props => {
         </Button>
         <div className="d-flex align-items-center">
           <span className="mr-2" style={{ color: 'grey' }}>{`Work Order #${item.won}`}</span>
-          <Badge className="mr-2" variant="primary">{`Due: ${new Date(item.due_date).toDateString()}`}</Badge>
-          <Badge variant={getItemStatusBadgeClass(item)}>{getItemStatus(item)}</Badge>
+          <Badge className="mr-2" bg="primary">{`Due: ${new Date(item.due_date).toDateString()}`}</Badge>
+          <Badge bg={getItemStatusBadgeClass(item)}>{getItemStatus(item)}</Badge>
         </div>
       </Card.Footer>
       <ModalUpdateStatus won={item} {...modalControls} />
