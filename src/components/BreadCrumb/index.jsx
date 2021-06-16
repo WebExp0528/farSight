@@ -8,7 +8,7 @@ import Routes from 'pages/routes';
 
 const findRoute = (currentPath, parentPath = '', routes = []) => {
   let breadCrumb = [];
-  routes.forEach(({ key, path, type, routes: subRoutes, ...rest }, index) => {
+  routes.forEach(({ key, path, type, routes: subRoutes, ...rest }) => {
     if (type === 'redirect') {
       return;
     }

@@ -7,7 +7,6 @@ export const get =
         method: 'GET'
       })
       .then(res => {
-        console.log(axios);
         return { data: res.data };
       })
   });

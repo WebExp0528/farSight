@@ -6,10 +6,10 @@ import CryptoJS from 'crypto-js';
  * @param {*} file
  */
 export const readFileAsBase64 = file => {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     let reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.addEventListener('loadend', event => {
+    reader.addEventListener('loadend', () => {
       resolve(reader);
     });
   });

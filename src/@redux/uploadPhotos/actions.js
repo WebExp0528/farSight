@@ -1,5 +1,4 @@
 import { genActionTypes, readFileAsBase64, readFileAsArrayBuffer, base64ToBlob } from 'helpers';
-import { v4 as uuidv4 } from 'uuid';
 import ImageResizer, { imageResizeConfig } from 'helpers/ImageResizer';
 import CryptoJS from 'crypto-js';
 
@@ -13,7 +12,7 @@ const ACTION_TYPES = genActionTypes(ACTION_NAME);
  */
 export const set =
   (id, files, category) =>
-  ({ axios }) => {
+  ({ _axios }) => {
     return {
       type: ACTION_TYPES.CREATE,
       meta: {
@@ -92,10 +91,10 @@ export const uploadPhoto =
       meta: id,
       payload: axios
         .post(`/api/work_order/${id}/photo`, formData)
-        .then(res => {
+        .then(_res => {
           return photo;
         })
-        .catch(err => {
+        .catch(_err => {
           return photo;
         })
     };

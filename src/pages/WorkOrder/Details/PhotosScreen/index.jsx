@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect, useDispatch } from 'react-redux';
-import CryptoJS from 'crypto-js';
-import { Button, Card, Form, Row, Col, ProgressBar, Accordion } from 'react-bootstrap';
+
+import { Button, Card, Form, Row, ProgressBar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,15 +12,6 @@ import ContentLoader from 'components/ContentLoader';
 
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
 import PreviewImages from './PreviewImages';
-
-const imageResizeConfig = {
-  quality: 0.5,
-  maxWidth: 640,
-  maxHeight: 640,
-  autoRotate: true
-};
-
-const maxUploadTasks = 1000;
 
 const getBGByCategory = category => {
   switch (category) {
@@ -65,14 +56,12 @@ const PhotoScreen = props => {
   };
 
   const handleSubmitFile = async e => {
-    console.log('```` submitting', e);
-
     e.preventDefault();
     await props.setPreUploadPhotosAction(wonId, files);
     setFiles([]);
   };
 
-  const handleClickUploadImageBtn = e => {
+  const handleClickUploadImageBtn = () => {
     // @ts-ignore
     fileInputRef.current && fileInputRef.current.click();
   };
@@ -128,7 +117,6 @@ const PhotoScreen = props => {
             <Button
               onClick={handleSubmitFile}
               variant="success"
-              block
               disabled={uploadPhotoData && uploadPhotoData.isConverting}
             >
               Submit Photos
@@ -144,7 +132,7 @@ const PhotoScreen = props => {
 
           <br />
           <div className="h4">{`You have selected ${files.length} files.`}</div>
-          <div className="h5">Press "Submit Photos" above to complete the upload.</div>
+          <div className="h5">{`Press "Submit Photos" above to complete the upload.`}</div>
           <div>
             {`Do not close this tab until the upload is complete. You can safely open other apps. (maybe... we should test this)`}
           </div>

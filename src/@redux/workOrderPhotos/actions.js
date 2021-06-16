@@ -30,20 +30,18 @@ export const get =
  * @param {string | number} id
  * @returns
  */
-export const uploadPhotos =
-  (id, photos) =>
-  ({ axios }) => {
-    return {
-      type: ACTION_TYPES.UPDATE,
-      meta: {
-        offline: {
-          effect: {
-            photos
-          },
-          commit: { type: 'PHOTO_UPLOAD_SUCCESS', photos },
-          rollback: { type: 'PHOTO_UPLOAD_FAILED', photos }
-        }
-      },
-      payload: photos
-    };
+export const uploadPhotos = (id, photos) => () => {
+  return {
+    type: ACTION_TYPES.UPDATE,
+    meta: {
+      offline: {
+        effect: {
+          photos
+        },
+        commit: { type: 'PHOTO_UPLOAD_SUCCESS', photos },
+        rollback: { type: 'PHOTO_UPLOAD_FAILED', photos }
+      }
+    },
+    payload: photos
   };
+};

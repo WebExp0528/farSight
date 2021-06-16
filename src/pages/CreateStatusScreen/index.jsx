@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Popup from '../../Comman/Popup';
 import { axios } from 'helpers';
 
+/* eslint-disable */
+
 class CreateStatusScreen extends Component {
   constructor() {
     super();
@@ -297,3 +299,5 @@ class CreateStatusScreen extends Component {
 }
 
 export default CreateStatusScreen;
+
+/* eslint-disable */
