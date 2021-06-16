@@ -1,7 +1,3 @@
-/*@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css");
-@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700");*/
-
 /* ==========================================================================
    Responsive images and box padding
    ========================================================================== */
@@ -23,11 +19,57 @@ object {
   -webkit-font-smoothing: antialiased;
 }
 */
+
 body {
   padding-top: 60px;
+  font-size: 0.875rem;
 }
 
 *:focus,
 *:active {
   outline: 0;
+}
+
+h1,
+.h1 {
+  font-size: 2.1875rem;
+}
+
+h2,
+.h2 {
+  font-size: 1.75rem;
+}
+
+h3,
+.h3 {
+  font-size: 1.53125rem;
+}
+
+h4,
+.h4 {
+  font-size: 1.3125rem;
+}
+
+h5,
+.h5 {
+  font-size: 1.09375rem;
+}
+
+h6,
+.h6 {
+  font-size: 0.875rem;
+}
+
+.btn {
+  font-size: 0.75rem;
+}
+
+.btn-lg,
+.btn-group-lg > .btn {
+  font-size: 1.09375rem;
+}
+
+.btn-sm,
+.btn-group-sm > .btn {
+  font-size: 0.625rem;
 }

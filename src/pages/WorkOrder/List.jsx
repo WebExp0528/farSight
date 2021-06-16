@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container, Form, InputGroup } from 'react-bootstrap';
@@ -7,71 +7,72 @@ import { get as getWorkOrders } from '@redux/workOrders/actions';
 import { ContentLoader } from 'components';
 import { ListCard } from './components';
 
-class WorkOrderList extends Component {
-  state = {
-    filter: ''
-  };
+export const WorkOrderList = ({ workOrdersState, getWorkOrders }) => {
+  const [filter, setFilter] = React.useState();
 
-  componentDidMount() {
-    console.log('mounted list component', this.props);
-    this.props.getWorkOrders();
-  }
+  React.useEffect(() => {
+    getWorkOrders();
+  }, []);
 
-  handleChange = event => {
-    this.setState({ filter: event.target.value });
-  };
+  const handleChangeFilter = React.useCallback(
+    event => {
+      setFilter((event?.target?.value || '').toLowerCase());
+    },
+    [setFilter]
+  );
 
-  render() {
-    const { data: workOrders = [] } = this.props.workOrders;
-    console.log(this.props.workOrders.data);
-    const { filter } = this.state;
-    const lowercasedFilter = filter.toLowerCase();
-    const filteredData = workOrders.filter(item => {
-      return Object.keys(item).some(
-        key => typeof item[key] === 'string' && item[key].toLowerCase().includes(lowercasedFilter)
-      );
-    });
+  const { data: workOrders = [] } = workOrdersState;
 
-    return (
-      <div>
-        <Container style={{ marginTop: '0.5em', marginBottom: '0.5em' }}>
-          <InputGroup>
-            <InputGroup.Text id="search-work-order">
-              <FontAwesomeIcon icon={['fas', 'search']} style={{ borderRight: 0 }} />
-            </InputGroup.Text>
-            <Form.Control
-              aria-describedby="search-work-order"
-              type="text"
-              placeholder="Search Work Orders..."
-              value={filter}
-              onChange={this.handleChange}
-            />
-          </InputGroup>
+  const filteredData = workOrders.filter(item => {
+    if (!filter) {
+      return true;
+    }
+    return Object.keys(item).some(key => typeof item[key] === 'string' && item[key].toLowerCase().indexOf(filter) >= 0);
+  });
+
+  return (
+    <div>
+      <Container style={{ marginTop: '0.5em', marginBottom: '0.5em' }}>
+        <InputGroup>
+          <InputGroup.Text id="search-work-order">
+            <FontAwesomeIcon icon={['fas', 'search']} style={{ borderRight: 0 }} />
+          </InputGroup.Text>
+          <Form.Control
+            aria-describedby="search-work-order"
+            type="text"
+            placeholder="Search Work Orders..."
+            value={filter}
+            onChange={handleChangeFilter}
+          />
+        </InputGroup>
+      </Container>
+      <div style={{ backgroundColor: '#e5e5e5' }}>
+        <Container>
+          {workOrdersState.isLoading ? (
+            <ContentLoader>Loading Work Order List</ContentLoader>
+          ) : (
+            <React.Fragment>
+              <div
+                style={{
+                  padding: '0.5em',
+                  fontSize: 17,
+                  color: 'grey',
+                  textAlign: 'center'
+                }}
+              >
+                Select a work order to get started
+              </div>
+              {filteredData.map((item, index) => (
+                <ListCard key={index} item={item} />
+              ))}
+            </React.Fragment>
+          )}
         </Container>
-        <div style={{ backgroundColor: '#e5e5e5' }}>
-          <Container>
-            <div
-              style={{
-                padding: '0.5em',
-                fontSize: 17,
-                color: 'grey',
-                textAlign: 'center'
-              }}
-            >
-              Select a work order to get started
-            </div>
-            {this.props.workOrders.isLoading ? (
-              <ContentLoader>Loading Work Order List</ContentLoader>
-            ) : (
-              filteredData.map((item, index) => <ListCard key={index} item={item} />)
-            )}
-          </Container>
-        </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-const mapStateToProps = state => ({ workOrders: state.workOrders });
+const mapStateToProps = state => ({ workOrdersState: state.workOrders });
 
 export default connect(mapStateToProps, { getWorkOrders })(WorkOrderList);

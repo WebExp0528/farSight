@@ -123,7 +123,7 @@ const WorkOrderDetails = props => {
           </Accordion.Body>
         </Card>
       </Accordion>
-      <Overlay
+      {/* <Overlay
         placement="top"
         target={actionMenuRef}
         show={scrollControl.isOpen}
@@ -135,7 +135,7 @@ const WorkOrderDetails = props => {
             &nbsp;&nbsp;Scroll down to read all instructions.
           </Popover.Content>
         </Popover>
-      </Overlay>
+      </Overlay> */}
       <ModalUpdateStatus won={won} {...statusModalControl} />
     </Container>
   );
