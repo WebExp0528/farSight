@@ -1,4 +1,4 @@
-import { createFlushReducer, composeReducers, createGetWithPaginationReducer } from '../@reducers';
+import { createFlushReducer, composeReducers } from '../@reducers';
 import _ from 'lodash';
 import initialState from './initialState';
 import { ACTION_NAME } from './actions';

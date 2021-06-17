@@ -1,30 +1,17 @@
 import React from 'react';
 import { connect, useDispatch } from 'react-redux';
-import CryptoJS from 'crypto-js';
-import { Button, Card, Form, Row, Col, ProgressBar, Accordion } from 'react-bootstrap';
+
+import { Button, Card, Form, Row, ProgressBar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 import { useRedux, useReduxLoading } from '@redux';
 import { get as getPhotosAction } from '@redux/workOrderPhotos/actions';
 import { set as setPreUploadPhotos } from '@redux/uploadPhotos/actions';
-import { Add as addToast } from '@redux/toast/actions';
 import ContentLoader from 'components/ContentLoader';
 
-import ImageResizer from 'helpers/ImageResizer';
-
-import { axios, readFileAsArrayBuffer } from 'helpers';
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
 import PreviewImages from './PreviewImages';
-
-const imageResizeConfig = {
-  quality: 0.5,
-  maxWidth: 640,
-  maxHeight: 640,
-  autoRotate: true
-};
-
-const maxUploadTasks = 1000;
 
 const getBGByCategory = category => {
   switch (category) {
@@ -69,14 +56,12 @@ const PhotoScreen = props => {
   };
 
   const handleSubmitFile = async e => {
-    console.log('```` submitting', e);
-
     e.preventDefault();
-    await props.setPreUploadPhotosAction(wonId, files);
+    await props.setPreUploadPhotosAction(wonId, files, category);
     setFiles([]);
   };
 
-  const handleClickUploadImageBtn = e => {
+  const handleClickUploadImageBtn = () => {
     // @ts-ignore
     fileInputRef.current && fileInputRef.current.click();
   };
@@ -87,7 +72,7 @@ const PhotoScreen = props => {
     return (
       <Card>
         <Card.Header className={getBGByCategory(category)}>
-          <FontAwesomeIcon icon={faCamera} size="lg" className="float-left" />
+          <FontAwesomeIcon icon={faCamera} size="lg" className="float-start" />
           <h5 className="mb-0">{` ${category.toUpperCase()} PHOTOS`}</h5>
         </Card.Header>
         <Card.Body>
@@ -107,10 +92,10 @@ const PhotoScreen = props => {
             </Row>
           )}
         </Card.Body>
-        <Card.Footer>
-          <Button onClick={handleClickUploadImageBtn} block>
+        <Card.Footer className="d-grid">
+          <Button onClick={handleClickUploadImageBtn}>
             UPLOAD IMAGES
-            <FontAwesomeIcon icon={['fas', 'upload']} size="lg" className="float-right" />
+            <FontAwesomeIcon icon={['fas', 'upload']} size="lg" className="float-end" />
           </Button>
         </Card.Footer>
       </Card>
@@ -118,12 +103,17 @@ const PhotoScreen = props => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <Form ref={uploadFormRef} name="before" className="form">
         <Form.Group hidden controlId="fileInput">
-          <Form.File name="image">
-            <Form.File.Input accept="image/jpeg" multiple onChange={handleFileInputChange} ref={fileInputRef} />
-          </Form.File>
+          <Form.Control
+            type="file"
+            name="image"
+            accept="image/jpeg"
+            multiple
+            onChange={handleFileInputChange}
+            ref={fileInputRef}
+          />
         </Form.Group>
       </Form>
       {files.length ? (
@@ -132,7 +122,6 @@ const PhotoScreen = props => {
             <Button
               onClick={handleSubmitFile}
               variant="success"
-              block
               disabled={uploadPhotoData && uploadPhotoData.isConverting}
             >
               Submit Photos
@@ -148,7 +137,7 @@ const PhotoScreen = props => {
 
           <br />
           <div className="h4">{`You have selected ${files.length} files.`}</div>
-          <div className="h5">Press "Submit Photos" above to complete the upload.</div>
+          <div className="h5">{`Press "Submit Photos" above to complete the upload.`}</div>
           <div>
             {`Do not close this tab until the upload is complete. You can safely open other apps. (maybe... we should test this)`}
           </div>
@@ -156,7 +145,7 @@ const PhotoScreen = props => {
       ) : (
         renderPhotoControl()
       )}
-    </>
+    </React.Fragment>
   );
 };
 

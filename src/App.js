@@ -10,9 +10,7 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 
 import Page from 'pages';
 import { createStore } from '@redux';
-
 import 'react-datetime/css/react-datetime.css';
-import './lumen.bootstrap.css';
 
 import { ToastContainer } from 'components';
 

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 
+/* eslint-disable */
+
 class StatusScreen extends Component {
   state = {
     won: this.props.won,

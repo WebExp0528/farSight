@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { Card, Container, Spinner } from 'react-bootstrap';
 
+/* eslint-disable */
 class LogIn extends Component {
   isLoading = true;
   isLoggedIn = false;

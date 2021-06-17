@@ -1,8 +1,8 @@
 import { createTransform } from 'redux-persist';
 
 const photoUploadTransform = createTransform(
-  (inboundState, key) => inboundState,
-  (outboundState, key) => {
+  (inboundState, _key) => inboundState,
+  (outboundState, _key) => {
     const transformed = Object.keys(outboundState).reduce((acc, key) => {
       const oldData = outboundState[key];
       if (oldData.isConverting || oldData.isUploading) {

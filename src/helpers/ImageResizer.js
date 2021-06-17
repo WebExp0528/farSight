@@ -1,5 +1,7 @@
 import ExifReader from 'exifreader';
 
+/* eslint-disable */
+
 export const imageResizeConfig = {
   quality: 0.5,
   maxWidth: 640,

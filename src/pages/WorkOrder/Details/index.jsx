@@ -1,39 +1,18 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
-import {
-  Badge,
-  Card,
-  Container,
-  Row,
-  Col,
-  Nav,
-  Popover,
-  Overlay,
-  Accordion,
-  Button,
-  useAccordionToggle
-} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Badge, Card, Container, Row, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useRedux } from '@redux';
 import { get as getWorkOrderDetail } from '@redux/workOrderDetail/actions';
-import { AccordionToggleCaret, ContentLoader, RenderRoutes } from 'components';
+import { ContentLoader, RenderRoutes } from 'components';
 import ModalUpdateStatus from '../components/ModalUpdateStatus';
+import ActionMenu from './ActionMenu';
 
 import { useShowScroll, useIsOpenControls } from 'hooks';
 import { getStatus, getStatusClass } from 'helpers';
 import { getWonID } from './helper';
-
-const getMenuButtons = won => [
-  { path: '', name: 'Read Instructions', key: 'read_instructions', required: true },
-  { path: 'bids', name: 'Create Bid', key: 'bids' },
-  { path: 'photos/before', name: 'Before Photos', key: 'before_photos', required: true },
-  { path: `submit/${won?.survey_name || 'basic'}`, name: 'Complete Survey', key: 'submit_survey', required: true },
-  { path: 'photos/during', name: 'During Photos', key: 'during_photos' },
-  { path: 'submit/final', name: 'Review & Submit', key: 'submit' },
-  { path: 'photos/after', name: 'After Photos', key: 'after_photos' }
-];
 
 const WorkOrderDetails = props => {
   const { match, routes = [] } = props;
@@ -56,7 +35,7 @@ const WorkOrderDetails = props => {
     scrollControl.handleOpen();
   });
 
-  const handleScroll = event => {
+  const handleScroll = () => {
     scrollControl.handleClose();
   };
 
@@ -80,9 +59,9 @@ const WorkOrderDetails = props => {
             <FontAwesomeIcon icon={['fas', 'history']} flip="horizontal" /> Expected on Time
           </Button>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <Badge variant="primary">{`Due: ${new Date(won.due_date).toDateString()}`}</Badge>
+          <Badge bg="primary">{`Due: ${new Date(won.due_date).toDateString()}`}</Badge>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <Badge variant={getStatusClass(won.due_date)}>{getItemStatus()}</Badge>
+          <Badge bg={getStatusClass(won.due_date)}>{getItemStatus()}</Badge>
         </Card.ImgOverlay>
       </Card>
       <Row>
@@ -102,42 +81,9 @@ const WorkOrderDetails = props => {
           <RenderRoutes routes={routes} />
         </Col>
       </Row>
-      <Accordion defaultActiveKey="orderActions" ref={actionMenuRef}>
-        <Card className="fixed-bottom" bg="secondary">
-          <AccordionToggleCaret block eventKey="orderActions" variant="dark-outline">
-            Actions Menu...
-          </AccordionToggleCaret>
-          <Accordion.Collapse eventKey="orderActions">
-            <Card.Footer>
-              <Nav justify variant="pills">
-                <Container>
-                  <Row>
-                    {getMenuButtons(won).map(({ path, name, required = false }, index) => (
-                      <Col className="p-1" key={index} xs={6} style={{ position: 'relative' }}>
-                        {required && (
-                          <FontAwesomeIcon
-                            icon={['fas', 'star']}
-                            size="xs"
-                            style={{ position: 'absolute', right: '25px', bottom: '20px', color: 'whitesmoke' }}
-                          />
-                        )}
-                        <Nav.Item>
-                          <NavLink to={path ? `${match.url}/${path}` : match.url}>
-                            <Accordion.Toggle as={Button} size="sm" block eventKey="orderActions">
-                              {name}
-                            </Accordion.Toggle>
-                          </NavLink>
-                        </Nav.Item>
-                      </Col>
-                    ))}
-                  </Row>
-                </Container>
-              </Nav>
-            </Card.Footer>
-          </Accordion.Collapse>
-        </Card>
-      </Accordion>
-      <Overlay
+      <ActionMenu ref={actionMenuRef} />
+
+      {/* <Overlay
         placement="top"
         target={actionMenuRef}
         show={scrollControl.isOpen}
@@ -149,7 +95,7 @@ const WorkOrderDetails = props => {
             &nbsp;&nbsp;Scroll down to read all instructions.
           </Popover.Content>
         </Popover>
-      </Overlay>
+      </Overlay> */}
       <ModalUpdateStatus won={won} {...statusModalControl} />
     </Container>
   );

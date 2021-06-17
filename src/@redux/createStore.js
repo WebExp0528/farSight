@@ -6,7 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore, persistReducer } from 'redux-persist';
 import { createOffline } from '@redux-offline/redux-offline';
 import offlineConfig from '@redux-offline/redux-offline/lib/defaults/index';
-import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
+
 import PouchDBStorage from 'redux-persist-pouchdb';
 import PouchDB from 'pouchdb';
 

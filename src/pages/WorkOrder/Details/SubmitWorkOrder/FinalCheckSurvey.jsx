@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Form, ListGroup } from 'react-bootstrap';
 import BaseWorkOrder from './_base';
 
