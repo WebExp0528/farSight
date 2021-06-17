@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const express = require('express'); //Simple Node HTML webserver
 const session = require('express-session'); //express session manager.
 const MySQLStore = require('express-mysql-session')(session);
@@ -42,6 +43,9 @@ if (process.env.NODE_ENV === 'development') {
   /* -------------------------------------------------------------------------- */
 
   app.use('/demo', function (req, res, next) {
+    if (req.session && req.session.apiKey) {
+      return next(); //ALREADY HAVE A SESSION DON'T START A DEMO
+    }
     req.session.apiKey = process.env.DEMO_API_KEY;
     console.warn('STARTING DEMO', req.session);
     req.session.save();
@@ -213,3 +217,4 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.listen(process.env.NODE_ENV === 'development' ? process.env.SERVER_PORT_DEV : process.env.SERVER_PORT_PROD);
+/* eslint-enable no-console */

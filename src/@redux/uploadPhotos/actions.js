@@ -95,6 +95,8 @@ export const uploadPhoto =
           return photo;
         })
         .catch(_err => {
+          /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
+          console.error(_err);
           return photo;
         })
     };
