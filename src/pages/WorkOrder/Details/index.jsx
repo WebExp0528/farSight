@@ -15,7 +15,7 @@ import { getStatus, getStatusClass } from 'helpers';
 import { getWonID } from './helper';
 
 const WorkOrderDetails = props => {
-  const { match, routes = [], history } = props;
+  const { match, routes = [] } = props;
   const wonId = getWonID(props);
 
   const wonState = useRedux('workOrderDetail');
@@ -81,7 +81,7 @@ const WorkOrderDetails = props => {
           <RenderRoutes routes={routes} />
         </Col>
       </Row>
-      <ActionMenu />
+      <ActionMenu ref={actionMenuRef} />
 
       {/* <Overlay
         placement="top"

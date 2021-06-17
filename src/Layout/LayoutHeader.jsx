@@ -27,7 +27,7 @@ const LayoutHeader = props => {
   };
   return (
     <Navbar className={cls.navbar} bg="primary" variant="dark" fixed="top">
-      <Container className="justify-content-between">
+      <Container fluid>
         <Nav className="mr-auto">
           <BreadCrumb />
         </Nav>
