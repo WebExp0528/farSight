@@ -38,7 +38,7 @@ export const ActionMenu = ({ won, match, history, ...props }) => {
                       style={{ position: 'absolute', right: '25px', bottom: '20px', color: 'whitesmoke' }}
                     />
                   )}
-                  <MyAccordionButton eventKey="orderActions" size="sm" onClick={e => handleClickActionMenu(path)}>
+                  <MyAccordionButton eventKey="orderActions" size="sm" onClick={() => handleClickActionMenu(path)}>
                     {name}
                   </MyAccordionButton>
                 </Col>

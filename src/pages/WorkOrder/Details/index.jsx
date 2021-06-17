@@ -35,7 +35,7 @@ const WorkOrderDetails = props => {
     scrollControl.handleOpen();
   });
 
-  const handleScroll = event => {
+  const handleScroll = () => {
     scrollControl.handleClose();
   };
 
