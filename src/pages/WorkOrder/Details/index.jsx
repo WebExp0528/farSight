@@ -1,30 +1,21 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
-import { Badge, Card, Container, Row, Col, Nav, Popover, Overlay, Accordion, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Badge, Card, Container, Row, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useRedux } from '@redux';
 import { get as getWorkOrderDetail } from '@redux/workOrderDetail/actions';
 import { ContentLoader, RenderRoutes } from 'components';
 import ModalUpdateStatus from '../components/ModalUpdateStatus';
+import ActionMenu from './ActionMenu';
 
 import { useShowScroll, useIsOpenControls } from 'hooks';
 import { getStatus, getStatusClass } from 'helpers';
 import { getWonID } from './helper';
 
-const getMenuButtons = won => [
-  { path: '', name: 'Read Instructions', key: 'read_instructions', required: true },
-  { path: 'bids', name: 'Create Bid', key: 'bids' },
-  { path: 'photos/before', name: 'Before Photos', key: 'before_photos', required: true },
-  { path: `submit/${won?.survey_name || 'basic'}`, name: 'Complete Survey', key: 'submit_survey', required: true },
-  { path: 'photos/during', name: 'During Photos', key: 'during_photos' },
-  { path: 'submit/final', name: 'Review & Submit', key: 'submit' },
-  { path: 'photos/after', name: 'After Photos', key: 'after_photos' }
-];
-
 const WorkOrderDetails = props => {
-  const { match, routes = [] } = props;
+  const { match, routes = [], history } = props;
   const wonId = getWonID(props);
 
   const wonState = useRedux('workOrderDetail');
@@ -90,39 +81,8 @@ const WorkOrderDetails = props => {
           <RenderRoutes routes={routes} />
         </Col>
       </Row>
-      <Accordion defaultActiveKey="orderActions" ref={actionMenuRef}>
-        <Card className="fixed-bottom" bg="secondary">
-          <Accordion.Header>Actions Menu...</Accordion.Header>
-          <Accordion.Body>
-            <Card.Footer>
-              <Nav justify variant="pills">
-                <Container>
-                  <Row>
-                    {/* {getMenuButtons(won).map(({ path, name, required = false }, index) => (
-                      <Col className="p-1" key={index} xs={6} style={{ position: 'relative' }}>
-                        {required && (
-                          <FontAwesomeIcon
-                            icon={['fas', 'star']}
-                            size="xs"
-                            style={{ position: 'absolute', right: '25px', bottom: '20px', color: 'whitesmoke' }}
-                          />
-                        )}
-                        <Nav.Item>
-                          <NavLink to={path ? `${match.url}/${path}` : match.url}>
-                            <Accordion.Toggle as={Button} size="sm" block eventKey="orderActions">
-                              {name}
-                            </Accordion.Toggle>
-                          </NavLink>
-                        </Nav.Item>
-                      </Col>
-                    ))} */}
-                  </Row>
-                </Container>
-              </Nav>
-            </Card.Footer>
-          </Accordion.Body>
-        </Card>
-      </Accordion>
+      <ActionMenu />
+
       {/* <Overlay
         placement="top"
         target={actionMenuRef}

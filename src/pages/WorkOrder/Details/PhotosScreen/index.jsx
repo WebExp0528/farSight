@@ -57,7 +57,7 @@ const PhotoScreen = props => {
 
   const handleSubmitFile = async e => {
     e.preventDefault();
-    await props.setPreUploadPhotosAction(wonId, files);
+    await props.setPreUploadPhotosAction(wonId, files, category);
     setFiles([]);
   };
 
@@ -72,7 +72,7 @@ const PhotoScreen = props => {
     return (
       <Card>
         <Card.Header className={getBGByCategory(category)}>
-          <FontAwesomeIcon icon={faCamera} size="lg" className="float-left" />
+          <FontAwesomeIcon icon={faCamera} size="lg" className="float-start" />
           <h5 className="mb-0">{` ${category.toUpperCase()} PHOTOS`}</h5>
         </Card.Header>
         <Card.Body>
@@ -92,10 +92,10 @@ const PhotoScreen = props => {
             </Row>
           )}
         </Card.Body>
-        <Card.Footer>
-          <Button onClick={handleClickUploadImageBtn} block>
+        <Card.Footer className="d-grid">
+          <Button onClick={handleClickUploadImageBtn}>
             UPLOAD IMAGES
-            <FontAwesomeIcon icon={['fas', 'upload']} size="lg" className="float-right" />
+            <FontAwesomeIcon icon={['fas', 'upload']} size="lg" className="float-end" />
           </Button>
         </Card.Footer>
       </Card>
@@ -103,12 +103,17 @@ const PhotoScreen = props => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <Form ref={uploadFormRef} name="before" className="form">
         <Form.Group hidden controlId="fileInput">
-          <Form.File name="image">
-            <Form.File.Input accept="image/jpeg" multiple onChange={handleFileInputChange} ref={fileInputRef} />
-          </Form.File>
+          <Form.Control
+            type="file"
+            name="image"
+            accept="image/jpeg"
+            multiple
+            onChange={handleFileInputChange}
+            ref={fileInputRef}
+          />
         </Form.Group>
       </Form>
       {files.length ? (
@@ -140,7 +145,7 @@ const PhotoScreen = props => {
       ) : (
         renderPhotoControl()
       )}
-    </>
+    </React.Fragment>
   );
 };
 

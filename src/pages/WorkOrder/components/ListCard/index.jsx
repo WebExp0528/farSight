@@ -96,8 +96,8 @@ const ListCard = props => {
           &nbsp;Update Status
         </Button>
         <div className="d-flex align-items-center">
-          <span className="mr-2" style={{ color: 'grey' }}>{`Work Order #${item.won}`}</span>
-          <Badge className="mr-2" bg="primary">{`Due: ${new Date(item.due_date).toDateString()}`}</Badge>
+          <span className="me-2" style={{ color: 'grey' }}>{`Work Order #${item.won}`}</span>
+          <Badge className="me-2" bg="primary">{`Due: ${new Date(item.due_date).toDateString()}`}</Badge>
           <Badge bg={getItemStatusBadgeClass(item)}>{getItemStatus(item)}</Badge>
         </div>
       </Card.Footer>

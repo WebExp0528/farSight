@@ -1,0 +1,14 @@
+.wrapper {
+  :global .accordion-button {
+    justify-content: center;
+  }
+
+  :global .accordion-button::after {
+    right: 15px;
+    position: absolute;
+    width: 0.8rem;
+    height: 0.8rem;
+    background-size: 0.8rem;
+    margin-left: 0;
+  }
+}
