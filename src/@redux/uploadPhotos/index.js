@@ -16,7 +16,7 @@ const getReducer = (state, action) => {
         ...state,
         [wonId]: {
           ...oldData,
-          total: action?.meta?.total || 0,
+          total: (action?.meta?.total || 0) + (oldData?.total || 0),
           isConverting: true
         }
       };
