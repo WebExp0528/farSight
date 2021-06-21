@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import cls from './button-loading.module.scss';
 
-const ButtonLoading = ({ isLoading, children, loaderMessage = '', size, ...props }) => {
+const ButtonLoading = ({ isLoading, children, loaderMessage = '', size = null, ...props }) => {
   return (
     <Button
       className={classNames(cls.btnBase, { [cls.loading]: isLoading })}
@@ -14,7 +14,7 @@ const ButtonLoading = ({ isLoading, children, loaderMessage = '', size, ...props
     >
       {isLoading && (
         <div className={cls.loader}>
-          <Spinner as="span" animation="border" size={size} role="status" aria-hidden="true" />
+          <Spinner as="span" animation="border" size={'sm'} role="status" aria-hidden="true" />
           {loaderMessage}
         </div>
       )}

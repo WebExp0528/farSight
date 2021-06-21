@@ -11,7 +11,9 @@ import { set as setPreUploadPhotos } from '@redux/uploadPhotos/actions';
 import ContentLoader from 'components/ContentLoader';
 
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
+import { createPhotoStorageInstance } from 'helpers/photoStorage';
 import PreviewImages from './PreviewImages';
+import ButtonLoading from 'components/ButtonLoading';
 
 const getBGByCategory = category => {
   switch (category) {
@@ -35,6 +37,7 @@ const PhotoScreen = props => {
   const uploadPhotoState = useRedux('uploadPhotos');
   const uploadPhotoData = uploadPhotoState[wonId];
 
+  const [isStoring, setStoring] = React.useState(false);
   const [files, setFiles] = React.useState([]);
   const previewControls = useIsOpenControls();
 
@@ -57,7 +60,10 @@ const PhotoScreen = props => {
 
   const handleSubmitFile = async e => {
     e.preventDefault();
-    await props.setPreUploadPhotosAction(wonId, files, category);
+    setStoring(true);
+    const photoStorageInstance = createPhotoStorageInstance(wonId);
+    await photoStorageInstance.setPhotos(files, category);
+    setStoring(false);
     setFiles([]);
   };
 
@@ -118,22 +124,18 @@ const PhotoScreen = props => {
       </Form>
       {files.length ? (
         <React.Fragment>
-          <div className="">
-            <Button
-              onClick={handleSubmitFile}
-              variant="success"
-              disabled={uploadPhotoData && uploadPhotoData.isConverting}
-            >
+          <div className="d-grid">
+            <ButtonLoading isLoading={isStoring} onClick={handleSubmitFile} variant="success">
               Submit Photos
               <FontAwesomeIcon className="float-right" icon={['fas', 'paper-plane']} size="lg" />
-            </Button>
+            </ButtonLoading>
           </div>
           <br />
-          {uploadPhotoData && uploadPhotoData.isConverting && (
+          {/* {uploadPhotoData && uploadPhotoData.isConverting && (
             <div>
               <ProgressBar animated now={100} />
             </div>
-          )}
+          )} */}
 
           <br />
           <div className="h4">{`You have selected ${files.length} files.`}</div>

@@ -6,30 +6,20 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore, persistReducer } from 'redux-persist';
 import { createOffline } from '@redux-offline/redux-offline';
 import offlineConfig from '@redux-offline/redux-offline/lib/defaults/index';
-
-import PouchDBStorage from 'redux-persist-pouchdb';
-import PouchDB from 'pouchdb';
+import localforage from 'localforage';
 
 import transforms from './transform';
-
-// the usual PouchDB stuff
-PouchDB.plugin(require('pouchdb-adapter-idb'));
-const pouchdb = new PouchDB('far-sight', {
-  adapter: 'idb',
-  auto_compaction: true,
-  revs_limit: 1
-});
-
-const storage = new PouchDBStorage(pouchdb);
 
 import { initialState } from './initialState';
 import createAppReducer from './rootReducer';
 
 import axios from './@thunker/axios';
 
+const storage = localforage.createInstance({ name: '@FarSightStore' });
+
 const persistConfig = {
   key: 'root',
-  storage,
+  storage: storage,
   transforms: transforms
 };
 

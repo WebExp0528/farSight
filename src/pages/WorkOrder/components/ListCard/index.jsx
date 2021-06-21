@@ -9,6 +9,7 @@ import ModalUpdateStatus from '../ModalUpdateStatus';
 import { useIsOpenControls } from 'hooks';
 
 import { genRandomCode } from 'helpers';
+import { photoStorageMetaInstance, createPhotoStorageInstance } from 'helpers/photoStorage';
 
 import cls from './work-order-list-card.module.scss';
 
@@ -56,15 +57,19 @@ export const getItemStatusBadgeClass = item => {
 const ListCard = props => {
   const { item = {}, match } = props;
   const wonId = item.won;
-  // @ts-ignore
-  const { photos: uploadingPhotos = [], isUploading, total } = useSelector(state => state.uploadPhotos[wonId]) || {};
 
   const modalControls = useIsOpenControls();
 
-  let progress = 0;
-  if (uploadingPhotos.length) {
-    progress = Math.floor(((total - uploadingPhotos.length) / total) * 100);
-  }
+  // let progress = 0;
+  // React.useEffect( () => {
+  //   const getProgress = async () => {
+  //     const photoStorage = createPhotoStorageInstance( wonId );
+  //     const total = await photoStorageMetaInstance.getPhotoMeta( wonId );
+  //     const photos = await photoStorage.getAllKeys();
+  //     progress = Math.floor( ( ( total - photos.length ) / total ) * 100 );
+  //   }
+  //   getProgress();
+  // }, [] );
 
   return (
     <Card className={cls.cardWrapper} key={`${item.won}-${genRandomCode()}`}>
@@ -88,7 +93,7 @@ const ListCard = props => {
           {item.address_street} {item.address_city}, {item.address_state}
         </Card.Subtitle>
         <Card.Text className="mb-3">{item.description ? renderHTML(item.description) : null}</Card.Text>
-        {uploadingPhotos.length > 0 && <ProgressBar animated={isUploading} now={progress} label={`${progress}%`} />}
+        {/* {uploadingPhotos.length > 0 && <ProgressBar animated={isUploading} now={progress} label={`${progress}%`} />} */}
       </Card.Body>
       <Card.Footer className={cls.footerWrapper}>
         <Button variant="link" size="sm" onClick={modalControls.handleOpen}>
