@@ -15,19 +15,19 @@ export function createUpdateReducer(baseName, initialState, options = {}) {
       case `${baseName}/UPDATE_START`:
         return {
           ...state,
-          isDeleting: true
+          isUpdating: true
         };
 
       case `${baseName}/UPDATE_ERROR`:
         return {
           ...state,
-          isDeleting: false,
+          isUpdating: false,
           data: flushOnError ? initialState.data : state.data
         };
       case `${baseName}/UPDATE_SUCCESS`: {
         return {
           ...state,
-          isDeleting: false,
+          isUpdating: false,
           data: {
             ...state.data,
             ...action.payload
