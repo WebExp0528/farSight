@@ -66,7 +66,11 @@ const WorkOrderDetails = props => {
       </Card>
       <Row>
         <h5 className="col">
-          <Link to={match.url}>{won.work_ordered}</Link>
+          <Link to={match.url}>
+            {won.work_ordered}
+            <br />
+            {`WO #${won.won}`}
+          </Link>
         </h5>
         <h6 className="col">
           <a href={`geo://${won.gps_latitude},${won.gps_longitude}`}>

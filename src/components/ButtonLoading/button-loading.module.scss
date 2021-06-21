@@ -1,0 +1,20 @@
+.btnBase {
+  position: relative;
+
+  & > .loader {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  &.loading {
+    & > * {
+      opacity: 0;
+    }
+
+    & > .loader {
+      opacity: 1;
+    }
+  }
+}
