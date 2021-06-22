@@ -1,24 +1,16 @@
-export const ACTION_NAME = '@resized_photos';
+import { photoStorageMetaInstance } from 'helpers/photoStorage';
+import { genActionTypes } from 'helpers';
+
+const ACTION_NAME = 'resized_photos';
+export const ACTION_TYPES = genActionTypes(ACTION_NAME);
 
 /**
- * Save resized photos count
+ * Sync Resized Photos Meta info with IndexedDB
  *
- * @param {boolean} status
  */
-export const resizedPhoto = (wonId, status) => {
-  if (status) {
-    return {
-      type: `${ACTION_NAME}/SUCCESS`,
-      payload: {
-        wonId
-      }
-    };
-  } else {
-    return {
-      type: `${ACTION_NAME}/FAILED`,
-      payload: {
-        wonId
-      }
-    };
-  }
+export const syncResizedPhotosWithDB = () => () => {
+  return {
+    type: ACTION_TYPES.GET,
+    payload: photoStorageMetaInstance.getAllMeta()
+  };
 };

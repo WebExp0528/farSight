@@ -5,6 +5,7 @@ import axios from './axios';
 import { readFileAsBase64, readFileAsArrayBuffer } from './readFile';
 import ImageResizer, { imageResizeConfig } from './ImageResizer';
 import { base64ToBlob } from './base64ToBlob';
+import resizedPhotos from '@redux/resizedPhotos';
 
 const PHOTO_STORE_NAME = '@PhotoStore';
 const PHOTO_META_STORE_NAME = '@PhotoStoreMeta';
@@ -31,16 +32,7 @@ class PhotoStorageMeta {
    * @param {number} total
    * @returns
    */
-  setPhotoMeta = async (wonId, total) => {
-    try {
-      const oldTotal = await this.getPhotoMeta(wonId);
-      console.log('~~~~~ get totla', oldTotal);
-      this._storage.setItem(wonId, oldTotal ? oldTotal + total : total);
-    } catch (err) {
-      console.error(`[Error in setPhotoMeta] => err`, err);
-      return err;
-    }
-  };
+  setPhotoMeta = (wonId, total) => this._storage.setItem(wonId, total);
 
   /**
    *
@@ -51,7 +43,25 @@ class PhotoStorageMeta {
 
   dropInstance = () => this._storage.dropInstance();
 
-  getAllWorkOrders = () => this._storage.keys();
+  getAllWorkOrderIds = () => this._storage.keys();
+
+  getAllMeta = () => {
+    return new Promise((resolve, reject) => {
+      let metaInfo = {};
+      this._storage
+        .iterate((value, key) => {
+          metaInfo[key] = value;
+        })
+        .then(() => {
+          resolve(metaInfo);
+        })
+        .catch(err => {
+          /* eslint-disable-next-line */
+          console.error(`[Error in getAllMeta] => `, err);
+          reject(err);
+        });
+    });
+  };
 
   removeWorkOrder = wonId => {
     this._storage.removeItem(wonId);
@@ -94,44 +104,50 @@ class PhotoStorage {
    * @returns
    */
   setPhotos = async (files, category, callback = () => {}) => {
-    photoStorageMetaInstance.setPhotoMeta(this._wonId, files.length);
-    for (let i = 0; i < files.length; i++) {
-      try {
-        const file = files[i];
-        const imageResizer = new ImageResizer();
-        const resizedPhoto = await imageResizer.readAndCompressImage(file, imageResizeConfig);
-        const base64Photo = await readFileAsBase64(resizedPhoto);
+    try {
+      for (let i = 0; i < files.length; i++) {
+        try {
+          const file = files[i];
+          const imageResizer = new ImageResizer();
+          const resizedPhoto = await imageResizer.readAndCompressImage(file, imageResizeConfig);
+          const base64Photo = await readFileAsBase64(resizedPhoto);
 
-        // read resized image file
-        const imageData = await readFileAsArrayBuffer(resizedPhoto);
-        const filename = file.name;
+          // read resized image file
+          const imageData = await readFileAsArrayBuffer(resizedPhoto);
+          const filename = file.name;
 
-        let checksum = CryptoJS.MD5(imageData).toString();
-        let fileId = checksum.toString();
+          let checksum = CryptoJS.MD5(imageData).toString();
+          let fileId = checksum.toString();
 
-        let data = {
-          evidenceType: 'photo',
-          fileExt: 'jpg',
-          fileName: filename,
-          fileType: 'picture',
-          timestamp: null,
-          gpsAccuracy: null,
-          gpsLatitude: null,
-          gpsLongitude: null,
-          gpsTimestamp: null,
-          parentUuid: '',
-          uuid: fileId,
-          imageLabel: category,
-          file: base64Photo.result
-        };
+          let data = {
+            evidenceType: 'photo',
+            fileExt: 'jpg',
+            fileName: filename,
+            fileType: 'picture',
+            timestamp: null,
+            gpsAccuracy: null,
+            gpsLatitude: null,
+            gpsLongitude: null,
+            gpsTimestamp: null,
+            parentUuid: '',
+            uuid: fileId,
+            imageLabel: category,
+            file: base64Photo.result
+          };
 
-        this._storage.setItem(this.genId(data), data);
-        callback(true);
-      } catch (err) {
-        console.error(`[Error in setPhotos] => err`, err, files[i]);
-        callback(false);
-        return err;
+          this._storage.setItem(this.genId(data), data);
+          callback(true);
+        } catch (err) {
+          /* eslint-disable-next-line */
+          console.error(`[Error in setPhotos] => err`, err, files[i]);
+          callback(false);
+        }
       }
+      const totalLength = await this._storage.length();
+      photoStorageMetaInstance.setPhotoMeta(this._wonId, totalLength);
+    } catch (error) {
+      /* eslint-disable-next-line */
+      console.error(`[Error in setPhotos] => err`, error);
     }
   };
 
@@ -147,7 +163,7 @@ class PhotoStorage {
 
   startUpload = callback => {
     this._storage
-      .iterate(async (photo, key, iterationNumber) => {
+      .iterate(async (photo, key) => {
         try {
           let formData = new FormData();
           formData.append(
@@ -185,7 +201,7 @@ class PhotoStorage {
         photoStorageMetaInstance.removeWorkOrder(this._wonId);
         this.dropInstance();
       })
-      .catch(err => {
+      .catch(_err => {
         // This code runs if there were any errors
         /* eslint no-console: ["error", { allow: ["warn", "error", "log"] }] */
         console.error('Upload has not completed for WordOrder: ', this._wonId);

@@ -16,7 +16,7 @@ export const usePhotoUpload = () => {
 
   useEffect(() => {
     const upload = async () => {
-      const workOrders = await photoStorageMetaInstance.getAllWorkOrders();
+      const workOrders = await photoStorageMetaInstance.getAllWorkOrderIds();
       workOrders.forEach(wonId => {
         // createPhotoStorageInstance(wonId).startUpload(uploadedPhoto);
       });

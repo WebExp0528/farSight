@@ -8,7 +8,7 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { useRedux, useReduxLoading } from '@redux';
 import { get as getPhotosAction } from '@redux/workOrderPhotos/actions';
 import { set as setPreUploadPhotos } from '@redux/uploadPhotos/actions';
-import { resizedPhoto } from '@redux/resizedPhotos/actions';
+import { syncResizedPhotosWithDB } from '@redux/resizedPhotos/actions';
 import ContentLoader from 'components/ContentLoader';
 
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
@@ -62,7 +62,6 @@ const PhotoScreen = props => {
   };
 
   const handleResizeCallback = status => {
-    d(resizedPhoto(wonId, status));
     setResizedCount(value => {
       if (status) {
         return {
@@ -86,6 +85,7 @@ const PhotoScreen = props => {
     setStoring(false);
     setResizedCount(ResizedCountInitialValue);
     setFiles([]);
+    d(syncResizedPhotosWithDB());
   };
 
   const handleClickUploadImageBtn = () => {
