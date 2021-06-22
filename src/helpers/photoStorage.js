@@ -1,12 +1,18 @@
+import CryptoJS from 'crypto-js';
 import localforage from 'localforage';
+
+import axios from './axios';
 import { readFileAsBase64, readFileAsArrayBuffer } from './readFile';
 import ImageResizer, { imageResizeConfig } from './ImageResizer';
-import CryptoJS from 'crypto-js';
+import { base64ToBlob } from './base64ToBlob';
 
 const PHOTO_STORE_NAME = '@PhotoStore';
 const PHOTO_META_STORE_NAME = '@PhotoStoreMeta';
 
 class PhotoStorageMeta {
+  /**
+   * @type {import('localforage')}
+   */
   _storage = null;
 
   /**
@@ -42,6 +48,14 @@ class PhotoStorageMeta {
    * @returns {Promise<number>}
    */
   getPhotoMeta = wonId => this._storage.getItem(wonId);
+
+  dropInstance = () => this._storage.dropInstance();
+
+  getAllWorkOrders = () => this._storage.keys();
+
+  removeWorkOrder = wonId => {
+    this._storage.removeItem(wonId);
+  };
 }
 
 export const photoStorageMetaInstance = new PhotoStorageMeta();
@@ -76,9 +90,10 @@ class PhotoStorage {
    *
    * @param {File[]} files
    * @param {string} category
+   * @param {Function} callback
    * @returns
    */
-  setPhotos = async (files, category) => {
+  setPhotos = async (files, category, callback = () => {}) => {
     photoStorageMetaInstance.setPhotoMeta(this._wonId, files.length);
     for (let i = 0; i < files.length; i++) {
       try {
@@ -111,8 +126,10 @@ class PhotoStorage {
         };
 
         this._storage.setItem(this.genId(data), data);
+        callback(true);
       } catch (err) {
         console.error(`[Error in setPhotos] => err`, err, files[i]);
+        callback(false);
         return err;
       }
     }
@@ -124,6 +141,55 @@ class PhotoStorage {
    */
   genId = data => {
     return `${data.imageLabel}_${data.uuid}`;
+  };
+
+  dropInstance = () => this._storage.dropInstance();
+
+  startUpload = callback => {
+    this._storage
+      .iterate(async (photo, key, iterationNumber) => {
+        try {
+          let formData = new FormData();
+          formData.append(
+            'payload',
+            JSON.stringify({
+              evidenceType: photo.evidenceType,
+              fileExt: photo.fileExt,
+              fileName: photo.fileName,
+              fileType: photo.fileType,
+              timestamp: photo.timestamp,
+              gpsAccuracy: photo.gpsAccuracy,
+              gpsLatitude: photo.gpsLatitude,
+              gpsLongitude: photo.gpsLongitude,
+              gpsTimestamp: photo.gpsTimestamp,
+              parentUuid: photo.parentUuid,
+              uuid: photo.uuid,
+              imageLabel: photo.imageLabel
+            })
+          );
+          formData.append('file', base64ToBlob(photo.file), photo.fileName);
+
+          await axios.post(`/api/work_order/${this._wonId}/photo`, formData);
+          this._storage.removeItem(key);
+          callback(key);
+        } catch (error) {
+          /* eslint no-console: ["error", { allow: ["warn", "error", "log"] }] */
+          console.error('Upload has not completed for WordOrder: ', this._wonId);
+          console.log('error', error);
+          callback(key);
+        }
+      })
+      .then(() => {
+        /* eslint no-console: ["error", { allow: ["warn", "error", "log"] }] */
+        console.log('Upload has completed for WordOrder: ', this._wonId);
+        photoStorageMetaInstance.removeWorkOrder(this._wonId);
+        this.dropInstance();
+      })
+      .catch(err => {
+        // This code runs if there were any errors
+        /* eslint no-console: ["error", { allow: ["warn", "error", "log"] }] */
+        console.error('Upload has not completed for WordOrder: ', this._wonId);
+      });
   };
 }
 

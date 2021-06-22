@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 
 import { Button, Card, Form, Row, ProgressBar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,6 +8,7 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { useRedux, useReduxLoading } from '@redux';
 import { get as getPhotosAction } from '@redux/workOrderPhotos/actions';
 import { set as setPreUploadPhotos } from '@redux/uploadPhotos/actions';
+import { resizedPhoto } from '@redux/resizedPhotos/actions';
 import ContentLoader from 'components/ContentLoader';
 
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
@@ -29,15 +30,17 @@ const getBGByCategory = category => {
   }
 };
 
+const ResizedCountInitialValue = { success: 0, failed: 0 };
+
 const PhotoScreen = props => {
   const d = useDispatch();
   const { category = '', won: wonId } = props?.match?.params || {};
 
   const workOrderPhotosState = useRedux('workOrderPhotos');
-  const uploadPhotoState = useRedux('uploadPhotos');
-  const uploadPhotoData = uploadPhotoState[wonId];
 
   const [isStoring, setStoring] = React.useState(false);
+  const [resizedCount, setResizedCount] = React.useState(ResizedCountInitialValue);
+
   const [files, setFiles] = React.useState([]);
   const previewControls = useIsOpenControls();
 
@@ -58,12 +61,30 @@ const PhotoScreen = props => {
     setFiles(e.target.files);
   };
 
+  const handleResizeCallback = status => {
+    d(resizedPhoto(wonId, status));
+    setResizedCount(value => {
+      if (status) {
+        return {
+          ...value,
+          success: value.success + 1
+        };
+      } else {
+        return {
+          ...value,
+          failed: value.failed + 1
+        };
+      }
+    });
+  };
+
   const handleSubmitFile = async e => {
     e.preventDefault();
     setStoring(true);
     const photoStorageInstance = createPhotoStorageInstance(wonId);
-    await photoStorageInstance.setPhotos(files, category);
+    await photoStorageInstance.setPhotos(files, category, handleResizeCallback);
     setStoring(false);
+    setResizedCount(ResizedCountInitialValue);
     setFiles([]);
   };
 
@@ -73,6 +94,8 @@ const PhotoScreen = props => {
   };
 
   const uploadedImages = workOrderPhotosState.data.filter(item => item.label === category);
+
+  const progress = isStoring ? ((resizedCount.success + resizedCount.failed) / files.length) * 100 : 0;
 
   const renderPhotoControl = () => {
     return (
@@ -125,17 +148,20 @@ const PhotoScreen = props => {
       {files.length ? (
         <React.Fragment>
           <div className="d-grid">
-            <ButtonLoading isLoading={isStoring} onClick={handleSubmitFile} variant="success">
+            <ButtonLoading onClick={handleSubmitFile} variant="success">
               Submit Photos
               <FontAwesomeIcon className="float-right" icon={['fas', 'paper-plane']} size="lg" />
             </ButtonLoading>
           </div>
           <br />
-          {/* {uploadPhotoData && uploadPhotoData.isConverting && (
+          {isStoring && (
             <div>
-              <ProgressBar animated now={100} />
+              <ProgressBar animated now={progress} />
+              <p>{`Resized ${resizedCount.success + resizedCount.failed}(Success: ${resizedCount.success}, Failed: ${
+                resizedCount.failed
+              }) of ${files.length} Photos`}</p>
             </div>
-          )} */}
+          )}
 
           <br />
           <div className="h4">{`You have selected ${files.length} files.`}</div>

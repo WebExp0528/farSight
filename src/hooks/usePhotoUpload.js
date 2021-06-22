@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRedux } from '@redux';
-import { uploadPhoto } from '@redux/uploadPhotos/actions';
+// import { uploadPhoto } from '@redux/uploadPhotos/actions';
+import { photoStorageMetaInstance, createPhotoStorageInstance } from 'helpers/photoStorage';
 
 export const usePhotoUpload = () => {
   const storagePhotos = useRedux('uploadPhotos');
@@ -9,20 +10,17 @@ export const usePhotoUpload = () => {
   const offlineState = useSelector(state => state.offline);
   const d = useDispatch();
 
+  const uploadedPhoto = wonId => {
+    console.log('~~~~~~~~ uploaded workorder', wonId);
+  };
+
   useEffect(() => {
-    const wonId = Object.keys(storagePhotos).find(key => {
-      const tmp = storagePhotos[key];
-      return !tmp.isConverting && !tmp.isUploading && tmp.photos && tmp.photos.length;
-    });
-
-    if (!wonId || !offlineState.online) {
-      return;
-    }
-    const wonData = storagePhotos[wonId];
-    if (!wonData || wonData.isConverting || wonData.isUploading || !wonData.photos || !wonData.photos.length) {
-      return;
-    }
-
-    d(uploadPhoto(wonId, wonData.photos[0]));
-  }, [storagePhotos]);
+    const upload = async () => {
+      const workOrders = await photoStorageMetaInstance.getAllWorkOrders();
+      workOrders.forEach(wonId => {
+        // createPhotoStorageInstance(wonId).startUpload(uploadedPhoto);
+      });
+    };
+    upload();
+  }, []);
 };
