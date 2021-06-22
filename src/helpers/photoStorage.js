@@ -135,7 +135,7 @@ class PhotoStorage {
             file: base64Photo.result
           };
 
-          this._storage.setItem(this.genId(data), data);
+          await this._storage.setItem(this.genId(data), data);
           callback(true);
         } catch (err) {
           /* eslint-disable-next-line */
