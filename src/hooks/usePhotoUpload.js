@@ -44,7 +44,7 @@ export const usePhotoUpload = () => {
       try {
         console.log('===== Existing workorders =====', photosMeta);
         Object.keys(photosMeta).forEach(wonId => {
-          if (Object.keys(uploadInstances).includes(wonId)) {
+          if (Object.keys(uploadInstances).includes(wonId) || !photosMeta[wonId]?.total) {
             return;
           }
           createUploadInstance(wonId);

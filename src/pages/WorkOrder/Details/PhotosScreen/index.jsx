@@ -141,6 +141,7 @@ const PhotoScreen = props => {
 
   return (
     <React.Fragment>
+      <UploadProgressBar wonId={wonId} />
       <Form ref={uploadFormRef} name="before" className="form">
         <Form.Group hidden controlId="fileInput">
           <Form.Control
@@ -170,8 +171,6 @@ const PhotoScreen = props => {
               }) of ${files.length} Photos`}</p>
             </div>
           )}
-          <UploadProgressBar wonId={wonId} />
-
           <br />
           <div className="h4">{`You have selected ${files.length} files.`}</div>
           <div className="h5">{`Press "Submit Photos" above to complete the upload.`}</div>

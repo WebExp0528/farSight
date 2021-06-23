@@ -5,7 +5,7 @@ import { ProgressBar } from 'react-bootstrap';
 const UploadProgressBar = ({ wonId }) => {
   //@ts-ignore
   const uploadMeta = useSelector(state => state.photosMeta[wonId]);
-  if (!uploadMeta) return null;
+  if (!uploadMeta || !uploadMeta.total) return null;
   const { total, success, failed } = uploadMeta;
 
   const progress = Math.floor(((success + failed) / total) * 100);
