@@ -2,7 +2,7 @@ import CryptoJS from 'crypto-js';
 import localforage from 'localforage';
 
 import axios from './axios';
-import { readFileAsBase64, readFileAsArrayBuffer } from './readFile';
+import { arrayBufferToBase64, readFileAsArrayBuffer } from './readFile';
 import ImageResizer, { imageResizeConfig } from './ImageResizer';
 import { base64ToBlob } from './base64ToBlob';
 import resizedPhotos from '@redux/resizedPhotos';
@@ -109,11 +109,11 @@ class PhotoStorage {
         try {
           const file = files[i];
           const imageResizer = new ImageResizer();
-          const resizedPhoto = await imageResizer.readAndCompressImage(file, imageResizeConfig);
-          const base64Photo = await readFileAsBase64(resizedPhoto);
+          const imageData = await imageResizer.readAndCompressImage(file, imageResizeConfig);
+          //const base64Photo = await readFileAsBase64(resizedPhoto);
 
           // read resized image file
-          const imageData = await readFileAsArrayBuffer(resizedPhoto);
+          const base64Photo = arrayBufferToBase64(imageData);
           const filename = file.name;
 
           let checksum = CryptoJS.MD5(imageData).toString();
