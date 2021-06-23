@@ -82,18 +82,27 @@ const PhotoScreen = props => {
     e.preventDefault();
     setStoring(true);
     const photoStorageInstance = createPhotoStorageInstance(wonId);
-    d(setTotalSavedPhotos(wonId, 0));
-    try {
-      await photoStorageInstance.setPhotos(files, category, handleResizeCallback);
+    d(setTotalSavedPhotos(wonId, 0));  
+    let myfiles = [...files];
+
+    let i,
+      j,
+      chunks = [],
+      chunkSize = myfiles.length / 8;
+    for (i = 0, j = myfiles.length; i < j; i += chunkSize) {
+      chunks.push(myfiles.slice(i, i + chunkSize));
+    }
+
+    Promise.all(chunks.map(c => photoStorageInstance.setPhotos(c, category, handleResizeCallback)))   
+    .then(() => {
       const savedPhotoCount = await photoStorageInstance.getLength();
       setStoring(false);
       setResizedCount(ResizedCountInitialValue);
       setFiles([]);
       d(setTotalSavedPhotos(wonId, savedPhotoCount));
-    } catch (err) {
+    }).error(e=>{
       /* eslint-disable-next-line */
-      console.log(`[Error in handleSubmitFile] =>`, err);
-    }
+      console.log(`[Error in handleSubmitFile] =>`, err);});
   };
 
   const handleClickUploadImageBtn = () => {

@@ -14,7 +14,15 @@ export const readFileAsBase64 = file => {
     });
   });
 };
-
+export const arrayBufferToBase64 = async buffer => {
+  var binary = '';
+  var bytes = new Uint8Array(buffer);
+  var len = bytes.byteLength;
+  for (var i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return window.btoa(binary);
+};
 export const readFileAsArrayBuffer = async file => {
   return new Promise((resolve, reject) => {
     let reader = new FileReader();

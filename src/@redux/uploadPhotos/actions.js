@@ -1,4 +1,4 @@
-import { genActionTypes, readFileAsBase64, readFileAsArrayBuffer, base64ToBlob } from 'helpers';
+import { genActionTypes, readFileAsBase64, arrayBufferToBase64, readFileAsArrayBuffer, base64ToBlob } from 'helpers';
 import ImageResizer, { imageResizeConfig } from 'helpers/ImageResizer';
 import CryptoJS from 'crypto-js';
 
@@ -25,10 +25,9 @@ export const set =
           const file = files[i];
           const imageResizer = new ImageResizer();
           const resizedPhoto = await imageResizer.readAndCompressImage(file, imageResizeConfig);
-          const base64Photo = await readFileAsBase64(resizedPhoto);
-
           // read resized image file
           const imageData = await readFileAsArrayBuffer(resizedPhoto);
+          const base64Photo = arrayBufferToBase64(imageData);
           const filename = file.name;
 
           let checksum = CryptoJS.MD5(imageData).toString();
