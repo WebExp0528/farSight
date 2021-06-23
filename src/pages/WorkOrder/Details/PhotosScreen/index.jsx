@@ -8,7 +8,7 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { useRedux, useReduxLoading } from '@redux';
 import { get as getPhotosAction } from '@redux/workOrderPhotos/actions';
 import { set as setPreUploadPhotos } from '@redux/uploadPhotos/actions';
-import { syncResizedPhotosWithDB } from '@redux/resizedPhotos/actions';
+import { setTotalSavedPhotos } from '@redux/photosMeta/actions';
 import ContentLoader from 'components/ContentLoader';
 
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
@@ -81,11 +81,18 @@ const PhotoScreen = props => {
     e.preventDefault();
     setStoring(true);
     const photoStorageInstance = createPhotoStorageInstance(wonId);
-    await photoStorageInstance.setPhotos(files, category, handleResizeCallback);
-    setStoring(false);
-    setResizedCount(ResizedCountInitialValue);
-    setFiles([]);
-    d(syncResizedPhotosWithDB());
+    d(setTotalSavedPhotos(wonId, 0));
+    try {
+      await photoStorageInstance.setPhotos(files, category, handleResizeCallback);
+      const savedPhotoCount = await photoStorageInstance.getLength();
+      setStoring(false);
+      setResizedCount(ResizedCountInitialValue);
+      setFiles([]);
+      d(setTotalSavedPhotos(wonId, savedPhotoCount));
+    } catch (err) {
+      /* eslint-disable-next-line */
+      console.log(`[Error in handleSubmitFile] =>`, err);
+    }
   };
 
   const handleClickUploadImageBtn = () => {

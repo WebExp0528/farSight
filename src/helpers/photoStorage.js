@@ -7,67 +7,6 @@ import ImageResizer, { imageResizeConfig } from './ImageResizer';
 import { base64ToBlob } from './base64ToBlob';
 
 const PHOTO_STORE_NAME = '@PhotoStore';
-const PHOTO_META_STORE_NAME = '@PhotoStoreMeta';
-
-class PhotoStorageMeta {
-  /**
-   * @type {import('localforage')}
-   */
-  _storage = null;
-
-  /**
-   *
-   */
-  constructor() {
-    this._storage = localforage.createInstance({
-      name: PHOTO_STORE_NAME,
-      storeName: PHOTO_META_STORE_NAME
-    });
-  }
-
-  /**
-   *
-   * @param {string} wonId
-   * @param {number} total
-   * @returns
-   */
-  setPhotoMeta = (wonId, total) => this._storage.setItem(wonId, total);
-
-  /**
-   *
-   * @param {string} wonId
-   * @returns {Promise<number>}
-   */
-  getPhotoMeta = wonId => this._storage.getItem(wonId);
-
-  dropInstance = () => this._storage.dropInstance();
-
-  getAllWorkOrderIds = () => this._storage.keys();
-
-  getAllMeta = () => {
-    return new Promise((resolve, reject) => {
-      let metaInfo = {};
-      this._storage
-        .iterate((value, key) => {
-          metaInfo[key] = value;
-        })
-        .then(() => {
-          resolve(metaInfo);
-        })
-        .catch(err => {
-          /* eslint-disable-next-line */
-          console.error(`[Error in getAllMeta] => `, err);
-          reject(err);
-        });
-    });
-  };
-
-  removeWorkOrder = wonId => {
-    this._storage.removeItem(wonId);
-  };
-}
-
-export const photoStorageMetaInstance = new PhotoStorageMeta();
 
 /**
  * @typedef {{evidenceType: string, fileExt: string, fileName: string, fileType: string, timestamp: number, gpsAccuracy: string,  gpsLatitude: number,gpsLongitude: number,gpsTimestamp: number,parentUuid: string,uuid: string,imageLabel: string, file: string}} Photo
@@ -93,6 +32,8 @@ class PhotoStorage {
   }
 
   getAllKeys = () => this._storage.keys();
+
+  getLength = () => this._storage.length();
 
   /**
    * Set photos into storage
@@ -142,8 +83,6 @@ class PhotoStorage {
           callback(false);
         }
       }
-      const totalLength = await this._storage.length();
-      photoStorageMetaInstance.setPhotoMeta(this._wonId, totalLength);
     } catch (error) {
       /* eslint-disable-next-line */
       console.error(`[Error in setPhotos] => err`, error);
