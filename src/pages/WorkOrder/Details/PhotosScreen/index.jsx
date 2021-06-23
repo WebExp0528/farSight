@@ -101,7 +101,7 @@ const PhotoScreen = props => {
         setFiles([]);
         d(setTotalSavedPhotos(wonId, savedPhotoCount));
       })
-      .catch(e => {
+      .catch(err => {
         /* eslint-disable-next-line */
         console.log(`[Error in handleSubmitFile] =>`, err);
       });
