@@ -82,7 +82,7 @@ const PhotoScreen = props => {
     e.preventDefault();
     setStoring(true);
     const photoStorageInstance = createPhotoStorageInstance(wonId);
-    d(setTotalSavedPhotos(wonId, 0));  
+    d(setTotalSavedPhotos(wonId, 0));
     let myfiles = [...files];
 
     let i,
@@ -93,16 +93,18 @@ const PhotoScreen = props => {
       chunks.push(myfiles.slice(i, i + chunkSize));
     }
 
-    Promise.all(chunks.map(c => photoStorageInstance.setPhotos(c, category, handleResizeCallback)))   
-    .then(() => {
-      const savedPhotoCount = await photoStorageInstance.getLength();
-      setStoring(false);
-      setResizedCount(ResizedCountInitialValue);
-      setFiles([]);
-      d(setTotalSavedPhotos(wonId, savedPhotoCount));
-    }).error(e=>{
-      /* eslint-disable-next-line */
-      console.log(`[Error in handleSubmitFile] =>`, err);});
+    Promise.all(chunks.map(c => photoStorageInstance.setPhotos(c, category, handleResizeCallback)))
+      .then(() => {
+        const savedPhotoCount = photoStorageInstance.getLength();
+        setStoring(false);
+        setResizedCount(ResizedCountInitialValue);
+        setFiles([]);
+        d(setTotalSavedPhotos(wonId, savedPhotoCount));
+      })
+      .catch(e => {
+        /* eslint-disable-next-line */
+        console.log(`[Error in handleSubmitFile] =>`, err);
+      });
   };
 
   const handleClickUploadImageBtn = () => {
