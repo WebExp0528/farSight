@@ -94,8 +94,8 @@ const PhotoScreen = props => {
     }
 
     Promise.all(chunks.map(c => photoStorageInstance.setPhotos(c, category, handleResizeCallback)))
-      .then(() => {
-        const savedPhotoCount = photoStorageInstance.getLength();
+      .then(async () => {
+        const savedPhotoCount = await photoStorageInstance.getLength();
         setStoring(false);
         setResizedCount(ResizedCountInitialValue);
         setFiles([]);
