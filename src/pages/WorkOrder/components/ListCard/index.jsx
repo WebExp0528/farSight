@@ -9,9 +9,9 @@ import ModalUpdateStatus from '../ModalUpdateStatus';
 import { useIsOpenControls } from 'hooks';
 
 import { genRandomCode } from 'helpers';
-import { photoStorageMetaInstance, createPhotoStorageInstance } from 'helpers/photoStorage';
 
 import cls from './work-order-list-card.module.scss';
+import UploadProgressBar from '../UploadProgressBar';
 
 export const getItemStatus = item => {
   let dueDate = new Date(item.due_date);
@@ -93,7 +93,7 @@ const ListCard = props => {
           {item.address_street} {item.address_city}, {item.address_state}
         </Card.Subtitle>
         <Card.Text className="mb-3">{item.description ? renderHTML(item.description) : null}</Card.Text>
-        {/* {uploadingPhotos.length > 0 && <ProgressBar animated={isUploading} now={progress} label={`${progress}%`} />} */}
+        <UploadProgressBar wonId={wonId} />
       </Card.Body>
       <Card.Footer className={cls.footerWrapper}>
         <Button variant="link" size="sm" onClick={modalControls.handleOpen}>

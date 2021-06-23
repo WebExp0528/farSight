@@ -15,6 +15,7 @@ import { useIsOpenControls } from 'hooks/useIsOpenControl';
 import { createPhotoStorageInstance } from 'helpers/photoStorage';
 import PreviewImages from './PreviewImages';
 import ButtonLoading from 'components/ButtonLoading';
+import { UploadProgressBar } from 'pages/WorkOrder/components';
 
 const getBGByCategory = category => {
   switch (category) {
@@ -169,6 +170,7 @@ const PhotoScreen = props => {
               }) of ${files.length} Photos`}</p>
             </div>
           )}
+          <UploadProgressBar wonId={wonId} />
 
           <br />
           <div className="h4">{`You have selected ${files.length} files.`}</div>

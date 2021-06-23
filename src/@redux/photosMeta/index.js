@@ -13,7 +13,9 @@ const getReducer = (state, action) => {
         ...state,
         [wonId]: {
           ...oldData,
-          total: total
+          total: total,
+          success: 0,
+          failed: 0
         }
       };
     }
