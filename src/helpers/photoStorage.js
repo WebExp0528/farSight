@@ -5,7 +5,6 @@ import axios from './axios';
 import { readFileAsBase64, readFileAsArrayBuffer } from './readFile';
 import ImageResizer, { imageResizeConfig } from './ImageResizer';
 import { base64ToBlob } from './base64ToBlob';
-import resizedPhotos from '@redux/resizedPhotos';
 
 const PHOTO_STORE_NAME = '@PhotoStore';
 const PHOTO_META_STORE_NAME = '@PhotoStoreMeta';
@@ -161,51 +160,96 @@ class PhotoStorage {
 
   dropInstance = () => this._storage.dropInstance();
 
-  startUpload = callback => {
-    this._storage
-      .iterate(async (photo, key) => {
-        try {
-          let formData = new FormData();
-          formData.append(
-            'payload',
-            JSON.stringify({
-              evidenceType: photo.evidenceType,
-              fileExt: photo.fileExt,
-              fileName: photo.fileName,
-              fileType: photo.fileType,
-              timestamp: photo.timestamp,
-              gpsAccuracy: photo.gpsAccuracy,
-              gpsLatitude: photo.gpsLatitude,
-              gpsLongitude: photo.gpsLongitude,
-              gpsTimestamp: photo.gpsTimestamp,
-              parentUuid: photo.parentUuid,
-              uuid: photo.uuid,
-              imageLabel: photo.imageLabel
-            })
-          );
-          formData.append('file', base64ToBlob(photo.file), photo.fileName);
+  /**
+   * Start Uploading
+   *
+   * @param {number} chunkSize Upload File Number
+   * @param {(wonId:string, result)=>void} callback
+   * @param {(wonId:string,status:boolean)=>void} done
+   */
+  startUpload = async (chunkSize = 2, callback = () => {}, done = () => {}) => {
+    try {
+      let total = await this._storage.length();
+      while (total) {
+        const photos = await this.getChunkPhotos(chunkSize);
 
-          await axios.post(`/api/work_order/${this._wonId}/photo`, formData);
-          this._storage.removeItem(key);
-          callback(key);
-        } catch (error) {
-          /* eslint no-console: ["error", { allow: ["warn", "error", "log"] }] */
-          console.error('Upload has not completed for WordOrder: ', this._wonId);
-          console.log('error', error);
-          callback(key);
-        }
-      })
-      .then(() => {
-        /* eslint no-console: ["error", { allow: ["warn", "error", "log"] }] */
-        console.log('Upload has completed for WordOrder: ', this._wonId);
-        photoStorageMetaInstance.removeWorkOrder(this._wonId);
-        this.dropInstance();
-      })
-      .catch(_err => {
-        // This code runs if there were any errors
-        /* eslint no-console: ["error", { allow: ["warn", "error", "log"] }] */
-        console.error('Upload has not completed for WordOrder: ', this._wonId);
-      });
+        const result = await Promise.allSettled(Object.keys(photos).map(key => this.uploadPhoto(key, photos[key])));
+        callback(this._wonId, result);
+        total = await this._storage.length();
+      }
+      await this.dropInstance();
+      done(this._wonId, true);
+      return;
+    } catch (error) {
+      /* eslint-disable-next-line */
+      console.error(`[Error in startUpload] => `, error);
+      done(this._wonId, false);
+      return;
+    }
+  };
+
+  /**
+   * Upload single photo file
+   *
+   * @param {string} key
+   * @param {Photo} photo
+   */
+  uploadPhoto = async (key, photo) => {
+    try {
+      let formData = new FormData();
+      formData.append(
+        'payload',
+        JSON.stringify({
+          evidenceType: photo.evidenceType,
+          fileExt: photo.fileExt,
+          fileName: photo.fileName,
+          fileType: photo.fileType,
+          timestamp: photo.timestamp,
+          gpsAccuracy: photo.gpsAccuracy,
+          gpsLatitude: photo.gpsLatitude,
+          gpsLongitude: photo.gpsLongitude,
+          gpsTimestamp: photo.gpsTimestamp,
+          parentUuid: photo.parentUuid,
+          uuid: photo.uuid,
+          imageLabel: photo.imageLabel
+        })
+      );
+      formData.append('file', base64ToBlob(photo.file), photo.fileName);
+
+      await axios.post(`/api/work_order/${this._wonId}/photo`, formData);
+      await this._storage.removeItem(key);
+    } catch (error) {
+      /* eslint-disable-next-line */
+      console.error(`[Error in photo upload] => `, error);
+      throw error;
+    }
+  };
+
+  /**
+   * get photos from database
+   *
+   * @param {number} chunkSize
+   * @returns {Promise<{[index:string]:Photo}|{}>}
+   */
+  getChunkPhotos = async chunkSize => {
+    return new Promise((resolve, reject) => {
+      let photos = {};
+      this._storage
+        .iterate((photo, key, i) => {
+          if (i > chunkSize) {
+            return photos;
+          }
+          photos[key] = photo;
+        })
+        .then(() => {
+          resolve(photos);
+        })
+        .catch(error => {
+          /* eslint-disable-next-line */
+          console.error(`[Error in getChunkPhotos] => `, error);
+          resolve(photos);
+        });
+    });
   };
 }
 

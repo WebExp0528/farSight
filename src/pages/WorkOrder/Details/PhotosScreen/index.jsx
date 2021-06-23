@@ -148,7 +148,7 @@ const PhotoScreen = props => {
       {files.length ? (
         <React.Fragment>
           <div className="d-grid">
-            <ButtonLoading onClick={handleSubmitFile} variant="success">
+            <ButtonLoading onClick={handleSubmitFile} variant="success" isLoading={isStoring}>
               Submit Photos
               <FontAwesomeIcon className="float-right" icon={['fas', 'paper-plane']} size="lg" />
             </ButtonLoading>
