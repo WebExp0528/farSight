@@ -179,10 +179,12 @@ class PhotoStorage {
         .removeItem(key)
         .then(function () {
           // Run this code once the key has been removed.
+          /* eslint-disable-next-line */
           console.log('removed key from local storage : ', key);
         })
         .catch(function (err) {
           // This code runs if there were any errors
+          /* eslint-disable-next-line */
           console.error(err);
         });
     }
@@ -195,7 +197,7 @@ class PhotoStorage {
    * @returns {Promise<{[index:string]:Photo}|{}>}
    */
   getChunkPhotos = async chunkSize => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
       let photos = {};
       this._storage
         .iterate((photo, key, i) => {
