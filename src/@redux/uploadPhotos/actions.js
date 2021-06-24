@@ -33,7 +33,7 @@ export const set =
 
           const filename = file.name;
 
-          let checksum = CryptoJS.MD5(resizedPhoto.arrayBuffer()).toString();
+          let checksum = CryptoJS.MD5(imageData).toString();
           let fileId = checksum.toString();
 
           let data = {
