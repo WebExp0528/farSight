@@ -50,13 +50,14 @@ class PhotoStorage {
           const file = files[i];
           const imageResizer = new ImageResizer();
           const resizedPhoto = await imageResizer.readAndCompressImage(file, imageResizeConfig);
+          const imageData = await readFileAsArrayBuffer(resizedPhoto);
           const base64Photo = await readFileAsBase64(resizedPhoto);
 
           // read resized image file
 
           const filename = file.name;
 
-          let checksum = CryptoJS.MD5(resizedPhoto.arrayBuffer()).toString();
+          let checksum = CryptoJS.MD5(imageData).toString();
           let fileId = checksum.toString();
 
           let data = {
@@ -161,6 +162,18 @@ class PhotoStorage {
       /* eslint-disable-next-line */
       console.error(`[Error in photo upload] => `, error);
       throw error;
+    } finally {
+      //can we check if this exists first?
+      this._storage
+        .removeItem(key)
+        .then(function () {
+          // Run this code once the key has been removed.
+          console.log('removed key from local storage : ', key);
+        })
+        .catch(function (err) {
+          // This code runs if there were any errors
+          console.error(err);
+        });
     }
   };
 
