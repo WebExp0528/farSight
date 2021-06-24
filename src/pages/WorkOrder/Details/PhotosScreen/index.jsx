@@ -83,28 +83,28 @@ const PhotoScreen = props => {
     setStoring(true);
     const photoStorageInstance = createPhotoStorageInstance(wonId);
     d(setTotalSavedPhotos(wonId, 0));
+
+    // Split files
     let myfiles = [...files];
 
-    let i,
-      j,
-      chunks = [],
+    let chunks = [],
       chunkSize = myfiles.length / 8;
-    for (i = 0, j = myfiles.length; i < j; i += chunkSize) {
+    for (let i = 0; i < myfiles.length; i += chunkSize) {
       chunks.push(myfiles.slice(i, i + chunkSize));
     }
+    console.log('~~~~~ chunks', chunks);
 
-    Promise.all(chunks.map(c => photoStorageInstance.setPhotos(c, category, handleResizeCallback)))
-      .then(async () => {
-        const savedPhotoCount = await photoStorageInstance.getLength();
-        setStoring(false);
-        setResizedCount(ResizedCountInitialValue);
-        setFiles([]);
-        d(setTotalSavedPhotos(wonId, savedPhotoCount));
-      })
-      .catch(err => {
-        /* eslint-disable-next-line */
-        console.log(`[Error in handleSubmitFile] =>`, err);
-      });
+    try {
+      await Promise.all(chunks.map(c => photoStorageInstance.setPhotos(c, category, handleResizeCallback)));
+      const savedPhotoCount = await photoStorageInstance.getLength();
+      setStoring(false);
+      setResizedCount(ResizedCountInitialValue);
+      setFiles([]);
+      d(setTotalSavedPhotos(wonId, savedPhotoCount));
+    } catch (error) {
+      /* eslint-disable-next-line */
+      console.log(`[Error in handleSubmitFile] =>`, error);
+    }
   };
 
   const handleClickUploadImageBtn = () => {

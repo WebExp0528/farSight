@@ -2,7 +2,7 @@ import CryptoJS from 'crypto-js';
 import localforage from 'localforage';
 
 import axios from './axios';
-import { arrayBufferToBase64, readFileAsArrayBuffer, readFileAsBase64 } from './readFile';
+import { readFileAsBase64 } from './readFile';
 import ImageResizer, { imageResizeConfig } from './ImageResizer';
 import { base64ToBlob } from './base64ToBlob';
 
@@ -46,46 +46,58 @@ class PhotoStorage {
   setPhotos = async (files, category, callback = () => {}) => {
     try {
       for (let i = 0; i < files.length; i++) {
-        try {
-          const file = files[i];
-          const imageResizer = new ImageResizer();
-          const resizedPhoto = await imageResizer.readAndCompressImage(file, imageResizeConfig);
-          const base64Photo = await readFileAsBase64(resizedPhoto);
-
-          // read resized image file
-
-          const filename = file.name;
-
-          let checksum = CryptoJS.MD5(resizedPhoto.arrayBuffer()).toString();
-          let fileId = checksum.toString();
-
-          let data = {
-            evidenceType: 'photo',
-            fileExt: 'jpg',
-            fileName: filename,
-            fileType: 'picture',
-            timestamp: null,
-            gpsAccuracy: null,
-            gpsLatitude: null,
-            gpsLongitude: null,
-            gpsTimestamp: null,
-            parentUuid: '',
-            uuid: fileId,
-            imageLabel: category,
-            file: base64Photo.result
-          };
-
-          await this._storage.setItem(this.genId(data), data);
-          callback(true);
-        } catch (err) {
-          /* eslint-disable-next-line */
-          console.error(`[Error in setPhotos] => err`, err, files[i]);
-          callback(false);
-        }
+        await this.savePhoto(files[i], category, callback);
       }
     } catch (error) {
       /* eslint-disable-next-line */
       console.error(`[Error in setPhotos] => err`, error);
+    }
+  };
+
+  /**
+   * Resize and save photo into storage
+   *
+   * @param {File} file
+   * @param {string} category
+   * @param {Function} callback
+   * @returns
+   */
+  savePhoto = async (file, category, callback) => {
+    try {
+      const imageResizer = new ImageResizer();
+      const resizedPhoto = await imageResizer.readAndCompressImage(file, imageResizeConfig);
+      const base64Photo = await readFileAsBase64(resizedPhoto);
+
+      // read resized image file
+
+      const filename = file.name;
+
+      let checksum = CryptoJS.MD5(resizedPhoto.arrayBuffer()).toString();
+      console.log('~~~~~~ checksum', checksum, file.name, resizedPhoto);
+      let fileId = checksum.toString();
+
+      let data = {
+        evidenceType: 'photo',
+        fileExt: 'jpg',
+        fileName: filename,
+        fileType: 'picture',
+        timestamp: null,
+        gpsAccuracy: null,
+        gpsLatitude: null,
+        gpsLongitude: null,
+        gpsTimestamp: null,
+        parentUuid: '',
+        uuid: fileId,
+        imageLabel: category,
+        file: base64Photo.result
+      };
+
+      await this._storage.setItem(this.genId(data), data);
+      callback(true);
+    } catch (err) {
+      /* eslint-disable-next-line */
+      console.error(`[Error in savePhoto] => err`, err, file);
+      callback(false);
     }
   };
 

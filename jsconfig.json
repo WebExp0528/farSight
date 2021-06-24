@@ -5,6 +5,7 @@
     "jsx": "preserve",
     "checkJs": true,
     "baseUrl": "src",
+    "lib": ["es2020", "dom", "es2015"],
     "paths": {
       "@redux/*": ["./@redux/*"],
       "components/*": ["./components/*"],

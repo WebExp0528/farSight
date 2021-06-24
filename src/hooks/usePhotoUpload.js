@@ -56,7 +56,7 @@ export const usePhotoUpload = () => {
     };
 
     if (offlineState.online) {
-      upload();
+      // upload();
     }
   }, [photosMeta, offlineState]);
 };
