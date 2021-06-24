@@ -4,6 +4,7 @@ import workOrderDetail from './workOrderDetail/initialState';
 import workOrderBids from './workOrderBids/initialState';
 import workOrderPhotos from './workOrderPhotos/initialState';
 import uploadPhotos from './uploadPhotos/initialState';
+import photosMeta from './photosMeta/initialState';
 
 export const initialState = {
   toast,
@@ -11,5 +12,6 @@ export const initialState = {
   workOrderDetail,
   workOrderBids,
   workOrderPhotos,
-  uploadPhotos
+  uploadPhotos,
+  photosMeta
 };

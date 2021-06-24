@@ -1,4 +1,6 @@
 import ExifReader from 'exifreader';
+import ImageBlobReduce from 'image-blob-reduce';
+const reduce = ImageBlobReduce({});
 
 /* eslint-disable */
 
@@ -47,6 +49,10 @@ class ImageResizer {
     return this.canvas;
   };
 
+  async readAndCompressImage_BAD(file, userConfig) {
+    return reduce.toBlob(file, { max: 640 });
+  }
+
   readAndCompressImage = (file, userConfig) => {
     let ref = this;
     return new Promise(resolve => {
@@ -54,7 +60,7 @@ class ImageResizer {
       let reader = new FileReader();
       let config = Object.assign({}, ref.DEFAULT_CONFIG, userConfig);
 
-      reader.onload = function (e) {
+      reader.onload = async function (e) {
         img.src = e.target.result;
         img.onload = function () {
           if (config.autoRotate) {
@@ -96,13 +102,13 @@ class ImageResizer {
 
     let maxWidth = this.findMaxWidth(config, canvas);
 
-    while (canvas.width >= 2 * maxWidth) {
-      canvas = this.getHalfScaleCanvas(canvas);
-    }
+    //while (canvas.width >= 2 * maxWidth) {
+    canvas = this.getDownscaledCanvas(canvas, maxWidth);
+    //}
 
-    if (canvas.width > maxWidth) {
-      canvas = this.scaleCanvasWithAlgorithm(canvas, Object.assign(config, { outputWidth: maxWidth }));
-    }
+    //if (canvas.width > maxWidth) {
+    // canvas = this.scaleCanvasWithAlgorithm(canvas, Object.assign(config, { outputWidth: maxWidth }));
+    //}
 
     let imageData = canvas.toDataURL(config.mimeType, config.quality);
     if (typeof config.onScale === 'function') config.onScale(imageData);
@@ -229,6 +235,16 @@ class ImageResizer {
     scaledCanvas.getContext('2d').putImageData(destImgData, 0, 0);
 
     return scaledCanvas;
+  };
+  getDownscaledCanvas = (canvas, maxWidth) => {
+    let newCanvas = document.createElement('canvas');
+    let scale = maxWidth / canvas.width;
+    newCanvas.width = canvas.width * scale;
+    newCanvas.height = canvas.height * scale;
+
+    newCanvas.getContext('2d').drawImage(canvas, 0, 0, newCanvas.width, newCanvas.height);
+
+    return newCanvas;
   };
 
   getHalfScaleCanvas = canvas => {

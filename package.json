@@ -24,6 +24,8 @@
     "formik": "^2.2.8",
     "history": "^5.0.0",
     "http-proxy-middleware": "^2.0.0",
+    "image-blob-reduce": "^3.0.1",
+    "localforage": "^1.9.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "morgan": "^1.10.0",

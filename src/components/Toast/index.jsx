@@ -22,6 +22,7 @@ const CustomToast = props => {
   };
 
   return (
+    //@ts-ignore
     <Toast className={classnames(cls.toastWrapper, { [cls[type]]: type })} onClose={handleClose} {...restToastProps}>
       <Toast.Header className={cls.header}>
         <strong className="mr-auto">{type}</strong>
