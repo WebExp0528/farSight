@@ -27,10 +27,13 @@ export const set =
           const resizedPhoto = await imageResizer.readAndCompressImage(file, imageResizeConfig);
           // read resized image file
           const imageData = await readFileAsArrayBuffer(resizedPhoto);
-          const base64Photo = arrayBufferToBase64(imageData);
+          const base64Photo = await readFileAsBase64(resizedPhoto);
+
+          // read resized image file
+
           const filename = file.name;
 
-          let checksum = CryptoJS.MD5(imageData).toString();
+          let checksum = CryptoJS.MD5(resizedPhoto.arrayBuffer()).toString();
           let fileId = checksum.toString();
 
           let data = {
