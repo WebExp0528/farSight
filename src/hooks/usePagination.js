@@ -12,11 +12,11 @@ export const usePagination = (total, defaultSize = 10, defaultPage = 1) => {
   };
 
   const setNextPage = () => {
-    if (currentPage < total) setCurrentPage(currentPage + 1);
+    if (currentPage < totalPage) setCurrentPage(currentPage + 1);
   };
 
   const setPrevPage = () => {
-    if (currentPage > total) setCurrentPage(currentPage - 1);
+    if (currentPage > totalPage) setCurrentPage(currentPage - 1);
   };
 
   const setPage = number => {

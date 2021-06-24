@@ -2,13 +2,19 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { ProgressBar } from 'react-bootstrap';
 
-const UploadProgressBar = ({ wonId }) => {
+const UploadProgressBar = ({ wonId, onCompleted = () => {} }) => {
   //@ts-ignore
   const uploadMeta = useSelector(state => state.photosMeta[wonId]);
-  if (!uploadMeta || !uploadMeta.total) return null;
-  const { total, success, failed } = uploadMeta;
-
+  const { total = 0, success = 0, failed = 0 } = uploadMeta || {};
   const progress = Math.floor(((success + failed) / total) * 100);
+
+  React.useEffect(() => {
+    if (progress === 100) {
+      onCompleted();
+    }
+  }, [progress]);
+
+  if (!uploadMeta || !uploadMeta.total) return null;
 
   return (
     <div>

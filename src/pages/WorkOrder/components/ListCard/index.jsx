@@ -1,7 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Badge, Button, Card, Image, ProgressBar } from 'react-bootstrap';
+import { Badge, Button, Card, Image } from 'react-bootstrap';
 import renderHTML from 'react-render-html';
 import { Link, withRouter } from 'react-router-dom';
 

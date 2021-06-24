@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 import { Button, Card, Form, Row, ProgressBar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -92,7 +92,6 @@ const PhotoScreen = props => {
     for (let i = 0; i < myfiles.length; i += chunkSize) {
       chunks.push(myfiles.slice(i, i + chunkSize));
     }
-    console.log('~~~~~ chunks', chunks);
 
     try {
       await Promise.all(chunks.map(c => photoStorageInstance.setPhotos(c, category, handleResizeCallback)));
@@ -110,6 +109,10 @@ const PhotoScreen = props => {
   const handleClickUploadImageBtn = () => {
     // @ts-ignore
     fileInputRef.current && fileInputRef.current.click();
+  };
+
+  const handleUploadingCompleted = () => {
+    window.location.reload();
   };
 
   const uploadedImages = workOrderPhotosState.data.filter(item => item.label === category);
@@ -152,7 +155,7 @@ const PhotoScreen = props => {
 
   return (
     <React.Fragment>
-      <UploadProgressBar wonId={wonId} />
+      <UploadProgressBar wonId={wonId} onCompleted={handleUploadingCompleted} />
       <Form ref={uploadFormRef} name="before" className="form">
         <Form.Group hidden controlId="fileInput">
           <Form.Control

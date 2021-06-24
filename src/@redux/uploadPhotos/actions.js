@@ -1,4 +1,4 @@
-import { genActionTypes, readFileAsBase64, arrayBufferToBase64, readFileAsArrayBuffer, base64ToBlob } from 'helpers';
+import { genActionTypes, readFileAsBase64, readFileAsArrayBuffer, base64ToBlob } from 'helpers';
 import ImageResizer, { imageResizeConfig } from 'helpers/ImageResizer';
 import CryptoJS from 'crypto-js';
 

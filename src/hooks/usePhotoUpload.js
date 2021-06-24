@@ -15,7 +15,6 @@ export const usePhotoUpload = () => {
   const [uploadInstances, setUploadInstances] = useState({});
 
   const endedUpload = (key, status) => {
-    console.log('===== Upload Ended =====', status);
     if (status) {
       d(removePhotoMeta(key));
     }
@@ -27,7 +26,6 @@ export const usePhotoUpload = () => {
 
   const uploading = (key, result) => {
     d(uploadingPhotos(key, result));
-    console.log('===== Uploading now =====', result);
   };
 
   const createUploadInstance = wonId => {
@@ -42,7 +40,6 @@ export const usePhotoUpload = () => {
   useEffect(() => {
     const upload = async () => {
       try {
-        console.log('===== Existing workorders =====', photosMeta);
         Object.keys(photosMeta).forEach(wonId => {
           if (Object.keys(uploadInstances).includes(wonId) || !photosMeta[wonId]?.total) {
             return;
