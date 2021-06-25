@@ -22,14 +22,16 @@ const { store, persistor } = createStore(undefined, history);
 
 export const App = () => {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Router>
-          <Page />
-        </Router>
-        <ToastContainer />
-      </PersistGate>
-    </Provider>
+    <div>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Router>
+            <Page />
+          </Router>
+          <ToastContainer />
+        </PersistGate>
+      </Provider>
+    </div>
   );
 };
 
