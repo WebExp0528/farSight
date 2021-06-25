@@ -97,10 +97,12 @@ const ListCard = props => {
       <Card.Footer className={cls.footerWrapper}>
         <Button variant="link" size="sm" onClick={modalControls.handleOpen}>
           <FontAwesomeIcon icon={['fas', 'history']} flip="horizontal" />
-          &nbsp;Update Status
+          &nbsp;Update&nbsp;Status
         </Button>
         <div className="d-flex align-items-center">
-          <span className="me-2" style={{ color: 'grey' }}>{`Work Order #${item.won}`}</span>
+          <span className="me-2" style={{ color: 'grey' }}>
+            Work&nbsp;Order&nbsp;#{item.won}
+          </span>
           <Badge className="me-2" bg="primary">{`Due: ${new Date(item.due_date).toDateString()}`}</Badge>
           <Badge bg={getItemStatusBadgeClass(item)}>{getItemStatus(item)}</Badge>
         </div>

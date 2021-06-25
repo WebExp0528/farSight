@@ -5,10 +5,10 @@ import { usePhotoUpload } from 'hooks/usePhotoUpload';
 const Layout = ({ children }) => {
   usePhotoUpload();
   return (
-    <div>
+    <React.Fragment>
       <LayoutHeader />
       {children}
-    </div>
+    </React.Fragment>
   );
 };
 
