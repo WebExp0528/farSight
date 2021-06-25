@@ -33,9 +33,6 @@ const LayoutHeader = _props => {
           <BreadCrumb />
         </Nav>
         <Nav>
-          <Navbar.Brand className={classNames('d-flex align-items-center', cls.platformTitle)}>
-            {navigator.platform}
-          </Navbar.Brand>
           <div className={cls.logoWrapper}>
             <FontAwesomeIcon icon={['fas', 'eye']} size="lg" style={{ margin: 0, padding: 0, color: 'white' }} />
             <FontAwesomeIcon icon={['fas', 'chess-rook']} size="2x" style={{ margin: 0, padding: 0, color: 'white' }} />
@@ -43,6 +40,7 @@ const LayoutHeader = _props => {
           <Navbar.Brand className={cls.brandWrapper}>
             FarSight™
             <div className={cls.brandText}>by Northsight</div>
+            <div className={cls.platformTitle}>{navigator.platform}</div>
           </Navbar.Brand>
         </Nav>
       </Container>
