@@ -72,35 +72,40 @@ const ListCard = props => {
 
   return (
     <Card className={cls.cardWrapper} key={`${item.won}-${genRandomCode()}`}>
-      <Card.Body style={{ padding: '0.25em' }}>
-        <Image
-          src={item.image_url_small}
+      <Card.Body className="d-flex flex-row align-items-center" style={{ padding: '0.25em' }}>
+        <div
+          className="d-flex flex-grow-0 flex-shrink-0"
           style={{
-            float: 'left',
             width: '20%',
             height: '100%',
             margin: '0.25em',
             marginRight: '2em'
           }}
-          thumbnail
-          roundedCircle
-        />
-        <Card.Title>
-          <Link to={`${match.url}/${item.won}`}>{item.work_ordered}</Link>
-        </Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">
-          {item.address_street} {item.address_city}, {item.address_state}
-        </Card.Subtitle>
-        <Card.Text className="mb-3">{item.description ? renderHTML(item.description) : null}</Card.Text>
-        <UploadProgressBar wonId={wonId} />
+        >
+          <Image src={item.image_url_small} thumbnail roundedCircle />
+        </div>
+        <div className="d-flex flex-column flex-grow-1 ">
+          <Card.Title>
+            <Link to={`${match.url}/${item.won}`}>{item.work_ordered}</Link>
+          </Card.Title>
+          <Card.Subtitle className="mb-2 text-muted">
+            {item.address_street} {item.address_city}, {item.address_state}
+          </Card.Subtitle>
+          <Card.Text className="mb-3">{item.description ? renderHTML(item.description) : null}</Card.Text>
+          <UploadProgressBar wonId={wonId} />
+        </div>
       </Card.Body>
       <Card.Footer className={cls.footerWrapper}>
-        <Button variant="link" size="sm" onClick={modalControls.handleOpen}>
-          <FontAwesomeIcon icon={['fas', 'history']} flip="horizontal" />
-          &nbsp;Update Status
-        </Button>
-        <div className="d-flex align-items-center">
-          <span className="me-2" style={{ color: 'grey' }}>{`Work Order #${item.won}`}</span>
+        <div className="d-flex align-items-center flex-grow-1 flex-wrap justify-content-between">
+          <Button variant="link" size="sm" onClick={modalControls.handleOpen}>
+            <FontAwesomeIcon icon={['fas', 'history']} flip="horizontal" />
+            &nbsp;Update&nbsp;Status
+          </Button>
+          <span className="ms-2 me-2" style={{ color: 'grey' }}>
+            Work&nbsp;Order&nbsp;#{item.won}
+          </span>
+        </div>
+        <div className="d-flex align-items-center flex-grow-0 flex-wrap">
           <Badge className="me-2" bg="primary">{`Due: ${new Date(item.due_date).toDateString()}`}</Badge>
           <Badge bg={getItemStatusBadgeClass(item)}>{getItemStatus(item)}</Badge>
         </div>

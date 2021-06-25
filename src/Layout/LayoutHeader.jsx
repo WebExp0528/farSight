@@ -7,7 +7,6 @@ import BreadCrumb from 'components/BreadCrumb';
 
 import cls from './layout.module.scss';
 import { withRouter } from 'react-router';
-import classNames from 'classnames';
 
 const LayoutHeader = _props => {
   // const { history } = props;
