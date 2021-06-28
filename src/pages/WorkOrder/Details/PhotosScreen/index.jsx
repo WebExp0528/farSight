@@ -112,7 +112,9 @@ const PhotoScreen = props => {
   };
 
   const handleUploadingCompleted = () => {
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   const uploadedImages = workOrderPhotosState.data.filter(item => item.label === category);
