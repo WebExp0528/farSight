@@ -24,7 +24,7 @@ const WorkOrderDetails = props => {
   const d = useDispatch();
   const scrollControl = useIsOpenControls();
   const statusModalControl = useIsOpenControls();
-  const actionMenuRef = React.useRef();
+  // const actionMenuRef = React.useRef();
 
   React.useEffect(() => {
     d(getWorkOrderDetail(wonId));
@@ -85,7 +85,7 @@ const WorkOrderDetails = props => {
           <RenderRoutes routes={routes} />
         </Col>
       </Row>
-      <ActionMenu ref={actionMenuRef} />
+      <ActionMenu />
 
       {/* <Overlay
         placement="top"

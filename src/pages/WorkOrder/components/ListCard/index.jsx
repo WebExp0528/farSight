@@ -82,7 +82,15 @@ const ListCard = props => {
             marginRight: '2em'
           }}
         >
-          <Image src={item.image_url_small} thumbnail roundedCircle />
+          <Image
+            src={item.image_url_small}
+            thumbnail
+            roundedCircle
+            style={{
+              width: '100%',
+              height: '100%'
+            }}
+          />
         </div>
         <div className="d-flex flex-column flex-grow-1 ">
           <Card.Title>

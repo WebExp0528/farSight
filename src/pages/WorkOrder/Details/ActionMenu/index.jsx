@@ -17,7 +17,7 @@ const getMenuButtons = won => [
   { path: 'photos/after', name: 'After Photos', key: 'after_photos' }
 ];
 
-export const ActionMenu = ({ won, match, history, ...props }) => {
+export const ActionMenu = ({ won, match, history, staticContext: _staticContext, ...props }) => {
   const handleClickActionMenu = path => {
     history.push(path ? `${match.url}/${path}` : match.url);
   };
