@@ -60,7 +60,8 @@ export const WorkOrderList = ({ workOrdersState, getWorkOrders }) => {
                   textAlign: 'center'
                 }}
               >
-                Select a work order to get started
+                <p>Hello John, You are viewing 126 of 400 open work orders.</p>
+                <p>Select a work order to get started</p>
               </div>
               {filteredData.map((item, index) => (
                 <ListCard key={index} item={item} />

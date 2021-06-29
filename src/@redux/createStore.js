@@ -56,6 +56,7 @@ export default (preloadedState = initialState, history) => {
   const middleware = [thunkerMiddleware, promiseMiddleware, offlineMiddleware];
 
   if (isDev && !isServer) {
+    //@ts-ignore
     const createLogger = require('redux-logger').createLogger;
     const logger = createLogger({
       collapsed: true
