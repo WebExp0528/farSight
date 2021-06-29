@@ -23,7 +23,7 @@ export const ActionMenu = ({ won, match, history, staticContext: _staticContext,
   };
 
   return (
-    <Accordion className="fixed-bottom" defaultActiveKey="orderActions" {...props}>
+    <Accordion className="fixed-bottom" {...props}>
       <Accordion.Item eventKey="orderActions" className={cls.wrapper}>
         <Accordion.Header>Actions Menu...</Accordion.Header>
         <Accordion.Body>
