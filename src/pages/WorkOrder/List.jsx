@@ -6,8 +6,10 @@ import { Container, Form, InputGroup } from 'react-bootstrap';
 import { get as getWorkOrders } from '@redux/workOrders/actions';
 import { ContentLoader } from 'components';
 import { ListCard } from './components';
+import { useRedux } from '@redux';
 
 export const WorkOrderList = ({ workOrdersState, getWorkOrders }) => {
+  const userState = useRedux('user');
   const [filter, setFilter] = React.useState();
 
   React.useEffect(() => {
@@ -55,12 +57,20 @@ export const WorkOrderList = ({ workOrdersState, getWorkOrders }) => {
               <div
                 style={{
                   padding: '0.5em',
-                  fontSize: 17,
+                  fontSize: '12px',
                   color: 'grey',
                   textAlign: 'center'
                 }}
               >
-                Select a work order to get started
+                <p style={{ marginBottom: '3px' }}>
+                  Hello&nbsp;
+                  <span className="link-primary">{userState?.name || ''}</span>, You&nbsp;are&nbsp;viewing&nbsp;
+                  <span className="link-primary">
+                    {filteredData.length}&nbsp;of&nbsp;{(workOrdersState.data || []).length}
+                  </span>
+                  &nbsp;open&nbsp;work&nbsp;orders.
+                </p>
+                <p style={{ marginBottom: '3px' }}>Select a work order to get started</p>
               </div>
               {filteredData.map((item, index) => (
                 <ListCard key={index} item={item} />

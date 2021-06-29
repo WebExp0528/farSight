@@ -20,7 +20,13 @@ const NS_FS_API = process.env.NS_FS_API;
 
 //const NS_FS_API = 'http://172.21.32.1:5000'; //local testing only
 
-app.use(cors({ origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : true, credentials: true }));
+app.use(
+  cors({
+    origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : true,
+    credentials: true,
+    exposedHeaders: 'X-VENDOR-NAME'
+  })
+);
 /* -------------------------------------------------------------------------- */
 /*                   Setup Test Session for development mode                  */
 /* -------------------------------------------------------------------------- */
