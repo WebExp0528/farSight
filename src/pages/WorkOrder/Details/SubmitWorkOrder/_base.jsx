@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Add as addToast } from '@redux/toast/actions';
+import { axios } from 'helpers';
 
 class BaseWorkOrder extends Component {
   dispatch = null;
   state = {
-    survey: { answers: [] }
+    survey: { answers: [] },
+    isLoading: false
   };
 
   getAnswerFromState = id => {
@@ -31,28 +33,41 @@ class BaseWorkOrder extends Component {
 
   submitSurvey = async event => {
     event.preventDefault();
-    fetch('/api/work_order/' + this.props.won + '/survey', {
+    if (!this?.props?.won?.won) {
+      addToast({ content: 'Could not find work order id!', type: 'error' });
+      return;
+    }
+    this.setState({
+      isLoading: true
+    });
+    axios(`/api/work_order/${this.props.won.won}/survey`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
-      },
-      body: JSON.stringify(this.state)
+      data: this.state
     })
-      .then(res => res.json())
       .then(data => {
         let toastMSG = '';
+        //@ts-ignore
         if (data.ERRORS && data.ERRORS.length > 0) {
+          //@ts-ignore
           toastMSG = JSON.stringify(data.ERRORS);
         } else {
           toastMSG = 'Submission Recieved.  Thank You.';
         }
         this.dispatch(addToast({ type: 'success', content: toastMSG }));
-        window.location.href = '/';
+        this.setState({
+          isLoading: false
+        });
+
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 2000);
       })
       .catch(err => {
         const toastMessage = JSON.stringify(err);
         this.dispatch(addToast({ type: 'error', content: toastMessage }));
+        this.setState({
+          isLoading: false
+        });
       });
   };
 
