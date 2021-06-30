@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
+
+import ButtonLoading from 'components/ButtonLoading';
 import BaseWorkOrder from './_base';
 
 const Survey = {
@@ -46,7 +48,7 @@ class BasicSurvey extends BaseWorkOrder {
           <Form.Label>Date Serviced:</Form.Label>
           <Form.Control
             type="date"
-            value={this.getAnswerFromState('Date_Serviced__c')}
+            value={this.getAnswerFromState('Date_Serviced__c') || ''}
             id="Date_Serviced__c"
             min="1900-01-01"
             max={new Date().toISOString().slice(0, 10)}
@@ -60,11 +62,12 @@ class BasicSurvey extends BaseWorkOrder {
             rows={3}
             id="Vendor_Notes_To_Staff__c"
             onChange={this.updateAnswer}
+            value={this.getAnswerFromState('Vendor_Notes_To_Staff__c') || ''}
           ></Form.Control>
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <ButtonLoading isLoading={this.state.isLoading} variant="primary" type="submit">
           Submit
-        </Button>
+        </ButtonLoading>
       </Form>
     );
   }
