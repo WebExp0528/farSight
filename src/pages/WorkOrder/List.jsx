@@ -14,7 +14,7 @@ export const WorkOrderList = ({ workOrdersState, getWorkOrders }) => {
 
   const userState = useRedux('user');
   const [filter, setFilter] = React.useState('');
-  const [filteredWorkOrders, setFilteredWorkOrders] = React.useState(workOrders.splice(0, 10));
+  const [filteredWorkOrders, setFilteredWorkOrders] = React.useState([]);
 
   React.useEffect(() => {
     getWorkOrders();
@@ -29,27 +29,28 @@ export const WorkOrderList = ({ workOrdersState, getWorkOrders }) => {
     ) {
       filterWorkOrders(filter);
     }
-  }, [workOrders]);
+  }, [workOrders, filter]);
 
-  const filterWorkOrders = React.useCallback(
-    debounce(keyword => {
-      const tmpFiltered = workOrders.filter(item => {
-        if (!keyword) {
-          return true;
-        }
-        return Object.keys(item).some(
-          key => typeof item[key] === 'string' && item[key].toLowerCase().indexOf(keyword) >= 0
-        );
-      });
-      setFilteredWorkOrders(tmpFiltered);
-    }, 500),
-    [workOrders]
+  const filterWorkOrders = React.useCallback(keyword => {
+    const tmpFiltered = workOrders.filter(item => {
+      if (!keyword) {
+        return true;
+      }
+      return Object.keys(item).some(
+        key => typeof item[key] === 'string' && item[key].toLowerCase().indexOf(keyword) >= 0
+      );
+    });
+    setFilteredWorkOrders(tmpFiltered);
+  }, []);
+
+  const handleChangeFilter = debounce(
+    event => {
+      setFilter(event.target.value);
+      filterWorkOrders((event?.target?.value || '').toLowerCase());
+    },
+    250,
+    { leading: false, maxWait: 3000, trailing: true }
   );
-
-  const handleChangeFilter = event => {
-    setFilter(event.target.value);
-    filterWorkOrders((event?.target?.value || '').toLowerCase());
-  };
 
   return (
     <div>
@@ -62,7 +63,6 @@ export const WorkOrderList = ({ workOrdersState, getWorkOrders }) => {
             aria-describedby="search-work-order"
             type="text"
             placeholder="Search Work Orders..."
-            value={filter}
             onChange={handleChangeFilter}
           />
         </InputGroup>
