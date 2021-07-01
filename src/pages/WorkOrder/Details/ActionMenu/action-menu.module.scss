@@ -1,6 +1,10 @@
 .wrapper {
   :global .accordion-button {
     justify-content: center;
+    color: #fff;
+    background-color: #158cba;
+    border-color: #158cba;
+    font-size: 1.25rem;
   }
 
   :global .accordion-button::after {
@@ -10,5 +14,6 @@
     height: 0.8rem;
     background-size: 0.8rem;
     margin-left: 0;
+    background-image: none;
   }
 }

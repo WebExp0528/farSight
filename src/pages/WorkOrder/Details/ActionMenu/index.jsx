@@ -8,13 +8,13 @@ import { MyAccordionButton } from 'components';
 import cls from './action-menu.module.scss';
 
 const getMenuButtons = won => [
-  { path: '', name: 'Read Instructions', key: 'read_instructions', required: true },
-  { path: 'bids', name: 'Create Bid', key: 'bids' },
   { path: 'photos/before', name: 'Before Photos', key: 'before_photos', required: true },
-  { path: `submit/${won?.survey_name || 'basic'}`, name: 'Complete Survey', key: 'submit_survey', required: true },
+  { path: '', name: 'Read Instructions', key: 'read_instructions', required: true },
   { path: 'photos/during', name: 'During Photos', key: 'during_photos' },
-  { path: 'submit/final', name: 'Review & Submit', key: 'submit' },
-  { path: 'photos/after', name: 'After Photos', key: 'after_photos' }
+  { path: `submit/${won?.survey_name || 'basic'}`, name: 'Complete Survey', key: 'submit_survey', required: true },
+  { path: 'photos/after', name: 'After Photos', key: 'after_photos' },
+  //{ path: 'submit/final', name: 'Review & Submit', key: 'submit' },
+  { path: 'bids', name: 'Create Bid', key: 'bids' }
 ];
 
 export const ActionMenu = ({ won, match, history, staticContext: _staticContext, ...props }) => {
@@ -25,7 +25,14 @@ export const ActionMenu = ({ won, match, history, staticContext: _staticContext,
   return (
     <Accordion className="fixed-bottom" {...props}>
       <Accordion.Item eventKey="orderActions" className={cls.wrapper}>
-        <Accordion.Header>Actions Menu...</Accordion.Header>
+        <Accordion.Header>
+          Actions Menu
+          <FontAwesomeIcon
+            icon={['fas', 'bars']}
+            size="md"
+            style={{ position: 'absolute', left: '105px', bottom: '17px', color: 'whitesmoke' }}
+          />
+        </Accordion.Header>
         <Accordion.Body>
           <Container>
             <Row>
@@ -35,7 +42,7 @@ export const ActionMenu = ({ won, match, history, staticContext: _staticContext,
                     <FontAwesomeIcon
                       icon={['fas', 'star']}
                       size="xs"
-                      style={{ position: 'absolute', right: '25px', bottom: '20px', color: 'whitesmoke' }}
+                      style={{ position: 'absolute', right: '12px', bottom: '14px', color: 'whitesmoke' }}
                     />
                   )}
                   <MyAccordionButton eventKey="orderActions" size="sm" onClick={() => handleClickActionMenu(path)}>
