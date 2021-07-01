@@ -8,67 +8,16 @@ import ModalUpdateStatus from '../ModalUpdateStatus';
 import { useIsOpenControls } from 'hooks';
 
 import { genRandomCode } from 'helpers';
+import UploadProgressBar from '../UploadProgressBar';
+import { getItemStatus, getItemStatusBadgeClass } from '../helper';
 
 import cls from './work-order-list-card.module.scss';
-import UploadProgressBar from '../UploadProgressBar';
-
-export const getItemStatus = item => {
-  let dueDate = new Date(item.due_date);
-  let today = new Date();
-  let statusMessage = 'Unknown';
-  if (item.approval_status === 'Pre-Pending' || item.approval_status === 'Pending') {
-    statusMessage = 'Pending';
-    return statusMessage;
-  }
-  if (dueDate > today) {
-    statusMessage = 'On Time';
-  }
-  if (dueDate === today) {
-    statusMessage = 'Due Today';
-  }
-  if (dueDate < today) {
-    statusMessage = 'Past Due';
-  }
-  return statusMessage;
-};
-
-export const getItemStatusBadgeClass = item => {
-  let status = getItemStatus(item);
-  let itemClass = 'primary';
-  switch (status) {
-    case 'On Time':
-      itemClass = 'success';
-      break;
-    case 'Due Today':
-      itemClass = 'warning';
-      break;
-    case 'Past Due':
-      itemClass = 'danger';
-      break;
-    default:
-      itemClass = 'secondary';
-      break;
-  }
-
-  return itemClass;
-};
 
 const ListCard = props => {
   const { item = {}, match } = props;
   const wonId = item.won;
 
   const modalControls = useIsOpenControls();
-
-  // let progress = 0;
-  // React.useEffect( () => {
-  //   const getProgress = async () => {
-  //     const photoStorage = createPhotoStorageInstance( wonId );
-  //     const total = await photoStorageMetaInstance.getPhotoMeta( wonId );
-  //     const photos = await photoStorage.getAllKeys();
-  //     progress = Math.floor( ( ( total - photos.length ) / total ) * 100 );
-  //   }
-  //   getProgress();
-  // }, [] );
 
   return (
     <Card className={cls.cardWrapper} key={`${item.won}-${genRandomCode()}`}>
