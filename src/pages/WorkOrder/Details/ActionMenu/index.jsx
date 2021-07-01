@@ -29,7 +29,6 @@ export const ActionMenu = ({ won, match, history, staticContext: _staticContext,
           Actions Menu
           <FontAwesomeIcon
             icon={['fas', 'bars']}
-            size="md"
             style={{ position: 'absolute', left: '105px', bottom: '17px', color: 'whitesmoke' }}
           />
         </Accordion.Header>
