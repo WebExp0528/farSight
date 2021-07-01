@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container, Form, InputGroup } from 'react-bootstrap';
-import { debounce, throttle } from 'lodash';
+import { debounce } from 'lodash';
 
 import { get as getWorkOrders } from '@redux/workOrders/actions';
 import { ContentLoader } from 'components';
