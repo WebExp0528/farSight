@@ -2,19 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Badge } from 'react-bootstrap';
 import { Formik, Form as FormikForm } from 'formik';
-import DateTime from 'react-datetime';
 import _ from 'lodash';
 import moment from 'moment';
 
 import { updateStatus, get as getWorkOrderDetails } from '@redux/workOrderDetail/actions';
-import { FormControlFormik, withFormikField, ButtonLoading } from 'components';
+import { FormControlFormik, ButtonLoading, DateTimeFormik } from 'components';
 import { validationSchema } from './validationSchema';
 import { useRedux } from '@redux';
 import { getItemStatus, getItemStatusBadgeClass } from '../helper';
 
 import cls from './modal-update-status.module.scss';
-
-const DateTimeFormik = withFormikField('')(DateTime);
 
 const ModalUpdateStatus = ({ isOpen, handleClose, won, updateStatusAction, getWorkOrderDetailsAction }) => {
   const wordOrderDetailState = useRedux('workOrderDetail');
