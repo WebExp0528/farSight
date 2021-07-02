@@ -6238,3 +6238,4 @@ aws/dist/botocore/data/dms/2016-01-01/examples-1.json
 .vscode/settings.json
 .vscode/settings.json
 .vscode/settings.json
+utils/image_generator/output/*
