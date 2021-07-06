@@ -13,8 +13,8 @@ let totalPage = 1;
  */
 export const usePagination = (total, defaultSize = 10, defaultPage = 1) => {
   const [currentPage, setCurrentPage] = React.useState(defaultPage);
-  totalPage = Math.floor(total / defaultSize) + 1;
-  console.log('~~~asdasdfasds~~ changed currentpage', currentPage, total, totalPage);
+  totalPage = Math.floor(total / defaultSize) + (total % defaultSize ? 1 : 0);
+  totalPage = totalPage === 0 ? 1 : totalPage;
 
   const setFirstPage = () => {
     setCurrentPage(1);
@@ -28,7 +28,7 @@ export const usePagination = (total, defaultSize = 10, defaultPage = 1) => {
   };
 
   const setPrevPage = () => {
-    setCurrentPage(oldCurrentPage => (oldCurrentPage > totalPage ? oldCurrentPage - 1 : oldCurrentPage));
+    setCurrentPage(oldCurrentPage => (oldCurrentPage > 1 ? oldCurrentPage - 1 : oldCurrentPage));
   };
 
   const setPage = number => {
