@@ -9,12 +9,11 @@ import { useRedux, useReduxLoading } from '@redux';
 import { get as getPhotosAction } from '@redux/workOrderPhotos/actions';
 import { set as setPreUploadPhotos } from '@redux/uploadPhotos/actions';
 import { setTotalSavedPhotos } from '@redux/photosMeta/actions';
-import ContentLoader from 'components/ContentLoader';
+import { ContentLoader, ButtonLoading, NavigationBlocker } from 'components';
 
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
 import { createPhotoStorageInstance } from 'helpers/photoStorage';
 import PreviewImages from './PreviewImages';
-import ButtonLoading from 'components/ButtonLoading';
 import { UploadProgressBar } from 'pages/WorkOrder/components';
 
 const getBGByCategory = category => {
@@ -80,6 +79,7 @@ const PhotoScreen = props => {
 
   const handleSubmitFile = async e => {
     e.preventDefault();
+
     setStoring(true);
     const photoStorageInstance = createPhotoStorageInstance(wonId);
     d(setTotalSavedPhotos(wonId, 0));
@@ -96,10 +96,11 @@ const PhotoScreen = props => {
     try {
       await Promise.all(chunks.map(c => photoStorageInstance.setPhotos(c, category, handleResizeCallback)));
       const savedPhotoCount = await photoStorageInstance.getLength();
-      setStoring(false);
+
       setResizedCount(ResizedCountInitialValue);
       setFiles([]);
       d(setTotalSavedPhotos(wonId, savedPhotoCount));
+      setStoring(false);
     } catch (error) {
       /* eslint-disable-next-line */
       console.log(`[Error in handleSubmitFile] =>`, error);
@@ -157,6 +158,7 @@ const PhotoScreen = props => {
 
   return (
     <React.Fragment>
+      <NavigationBlocker navigationBlocked={isStoring} />
       <UploadProgressBar wonId={wonId} onCompleted={handleUploadingCompleted} />
       <Form ref={uploadFormRef} name="before" className="form">
         <Form.Group hidden controlId="fileInput">
