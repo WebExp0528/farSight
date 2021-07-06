@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const { createCanvas, loadImage } = require('canvas');
 
 var imageCount = new Number(process.argv[3]);
@@ -9,7 +10,7 @@ const height = 630;
 const canvas = createCanvas(width, height);
 const context = canvas.getContext('2d');
 
-loadImage('./resources/TESTBACKDROP.png').then(image => {
+loadImage(path.join(__dirname, 'resources/TESTBACKDROP.png')).then(image => {
   for (var i = 1; i <= imageCount; i++) {
     context.drawImage(image, 0, 0, width, height);
 
@@ -32,7 +33,7 @@ loadImage('./resources/TESTBACKDROP.png').then(image => {
     const dataURL = canvas.toDataURL('image/jpeg', 0.5);
     var data = dataURL.replace(/^data:image\/\w+;base64,/, '');
 
-    let filename = './output/FS_TEST_' + won + '_' + i + '.jpg';
+    let filename = path.join(__dirname, `output/FS_TEST_${won}_${i}.jpg`);
     console.log(dataURL);
     fs.writeFileSync(filename, data, { encoding: 'base64' });
   }
