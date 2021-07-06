@@ -1,8 +1,20 @@
 import React from 'react';
 
+let totalPage = 1;
+
+/**
+ * Pagination Hook
+ *
+ * @param {number} total
+ * @param {number} defaultSize
+ * @param {number} defaultPage
+ *
+ * @returns
+ */
 export const usePagination = (total, defaultSize = 10, defaultPage = 1) => {
   const [currentPage, setCurrentPage] = React.useState(defaultPage);
-  const totalPage = Math.floor(total / defaultSize) + 1;
+  totalPage = Math.floor(total / defaultSize) + 1;
+  console.log('~~~asdasdfasds~~ changed currentpage', currentPage, total, totalPage);
 
   const setFirstPage = () => {
     setCurrentPage(1);
@@ -12,11 +24,11 @@ export const usePagination = (total, defaultSize = 10, defaultPage = 1) => {
   };
 
   const setNextPage = () => {
-    if (currentPage < totalPage) setCurrentPage(currentPage + 1);
+    setCurrentPage(oldCurrentPage => (oldCurrentPage < totalPage ? oldCurrentPage + 1 : oldCurrentPage));
   };
 
   const setPrevPage = () => {
-    if (currentPage > totalPage) setCurrentPage(currentPage - 1);
+    setCurrentPage(oldCurrentPage => (oldCurrentPage > totalPage ? oldCurrentPage - 1 : oldCurrentPage));
   };
 
   const setPage = number => {
@@ -33,6 +45,7 @@ export const usePagination = (total, defaultSize = 10, defaultPage = 1) => {
     setPrevPage,
     setLastPage,
     setFirstPage,
-    setPage
+    setPage,
+    countPerPage: defaultSize
   };
 };
