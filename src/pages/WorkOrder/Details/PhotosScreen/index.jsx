@@ -114,7 +114,7 @@ const PhotoScreen = props => {
 
   const handleUploadingCompleted = () => {
     setTimeout(() => {
-      window.location.reload();
+      getPhotos();
     }, 1000);
   };
 
