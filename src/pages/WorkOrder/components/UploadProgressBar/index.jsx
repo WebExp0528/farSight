@@ -2,19 +2,23 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { ProgressBar } from 'react-bootstrap';
 
+import { usePreviousState } from 'hooks/usePreviousState';
+
 const UploadProgressBar = ({ wonId, onCompleted = () => {} }) => {
   //@ts-ignore
   const uploadMeta = useSelector(state => state.photosMeta[wonId]);
+  const previousUploadMeta = usePreviousState(uploadMeta);
+
   const { total = 0, success = 0, failed = 0 } = uploadMeta || {};
   const progress = Math.floor(((success + failed) / total) * 100);
 
   React.useEffect(() => {
-    if (progress === 100) {
+    if (!uploadMeta && previousUploadMeta && !previousUploadMeta.isResizing) {
       onCompleted();
     }
-  }, [progress]);
+  }, [uploadMeta]);
 
-  if (!uploadMeta || !uploadMeta.total) return null;
+  if (!uploadMeta || uploadMeta.isResizing || progress === 0 || progress > 100) return null;
 
   return (
     <div>

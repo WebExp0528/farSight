@@ -5,16 +5,15 @@ const photoUploadTransform = createTransform(
   (outboundState, _key) => {
     const transformed = Object.keys(outboundState).reduce((acc, key) => {
       const oldData = outboundState[key];
-      if (oldData.isConverting || oldData.isUploading) {
-        oldData.isConverting = false;
-        oldData.isUploading = false;
+      if (oldData.isResizing) {
+        oldData.isResizing = false;
       }
       acc[key] = { ...oldData };
       return acc;
     }, {});
     return { ...transformed };
   },
-  { whitelist: ['uploadPhotos'] }
+  { whitelist: ['photosMeta'] }
 );
 
 export default [photoUploadTransform];

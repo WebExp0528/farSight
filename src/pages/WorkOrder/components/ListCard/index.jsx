@@ -1,10 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Badge, Button, Card, Image } from 'react-bootstrap';
 import renderHTML from 'react-render-html';
 import { Link, withRouter } from 'react-router-dom';
 
-import ModalUpdateStatus from '../ModalUpdateStatus';
+import { get as getWorkOrdersAction } from '@redux/workOrders/actions';
+import { updateStatus } from '@redux/workOrderDetail/actions';
+import { ModalUpdateStatusBase } from '../ModalUpdateStatus';
 import { useIsOpenControls } from 'hooks';
 
 import { genRandomCode } from 'helpers';
@@ -12,6 +15,11 @@ import UploadProgressBar from '../UploadProgressBar';
 import { getItemStatus, getItemStatusBadgeClass } from '../helper';
 
 import cls from './work-order-list-card.module.scss';
+
+const ModalUpdateStatus = connect(null, {
+  updateStatusAction: updateStatus,
+  getWorkOrderDetailsAction: getWorkOrdersAction
+})(ModalUpdateStatusBase);
 
 const ListCard = props => {
   const { item = {}, match } = props;

@@ -8,10 +8,11 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { useRedux, useReduxLoading } from '@redux';
 import { get as getPhotosAction } from '@redux/workOrderPhotos/actions';
 import { set as setPreUploadPhotos } from '@redux/uploadPhotos/actions';
-import { setTotalSavedPhotos } from '@redux/photosMeta/actions';
+import { startResize, endResize, resizedPhoto } from '@redux/photosMeta/actions';
 import { ContentLoader, ButtonLoading, NavigationBlocker } from 'components';
 
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
+
 import { createPhotoStorageInstance } from 'helpers/photoStorage';
 import PreviewImages from './PreviewImages';
 import { UploadProgressBar } from 'pages/WorkOrder/components';
@@ -64,6 +65,7 @@ const PhotoScreen = props => {
   const handleResizeCallback = status => {
     setResizedCount(value => {
       if (status) {
+        d(resizedPhoto(wonId));
         return {
           ...value,
           success: value.success + 1
@@ -81,8 +83,8 @@ const PhotoScreen = props => {
     e.preventDefault();
 
     setStoring(true);
+    d(startResize(wonId));
     const photoStorageInstance = createPhotoStorageInstance(wonId);
-    d(setTotalSavedPhotos(wonId, 0));
 
     // Split files
     let myfiles = [...files];
@@ -95,12 +97,12 @@ const PhotoScreen = props => {
 
     try {
       await Promise.all(chunks.map(c => photoStorageInstance.setPhotos(c, category, handleResizeCallback)));
-      const savedPhotoCount = await photoStorageInstance.getLength();
 
       setResizedCount(ResizedCountInitialValue);
       setFiles([]);
-      d(setTotalSavedPhotos(wonId, savedPhotoCount));
+
       setStoring(false);
+      d(endResize(wonId));
     } catch (error) {
       /* eslint-disable-next-line */
       console.log(`[Error in handleSubmitFile] =>`, error);
