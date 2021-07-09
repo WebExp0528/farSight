@@ -19,11 +19,19 @@ export function withFormikField(defaultName = '') {
       let { label, labelProps, name = defaultName, helperProps, helperType = 'invalid', ...rest } = props;
 
       const [field, meta] = useField(name);
+      console.log('~~~~~ meta', meta);
 
       return (
         <Form.Group>
           {label && <Form.Label {...labelProps}>{label}</Form.Label>}
-          <Component name={name} value={field.value} onChange={field.onChange} onBlur={field.onBlur} {...rest} />
+          <Component
+            name={name}
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+            isInvalid={meta.touched && meta.error}
+            {...rest}
+          />
           {meta.touched && meta.error && (
             <Form.Control.Feedback type={helperType} {...helperProps}>
               {meta.error}

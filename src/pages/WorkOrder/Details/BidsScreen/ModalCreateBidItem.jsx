@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 
 import { useRedux } from '@redux';
 import { create as createBid } from '@redux/workOrderBids/actions';
-import { ButtonLoading, ContentLoader, FormControlFormik } from 'components';
+import { ButtonLoading, FormControlFormik } from 'components';
 
 import { getWonID } from './../helper';
 import { withRouter } from 'react-router';
@@ -15,7 +15,12 @@ import { withRouter } from 'react-router';
 /**
  * TODO: Add Validation Schema
  */
-const validationSchema = Yup.object().shape({}, []);
+const validationSchema = Yup.object().shape(
+  {
+    item_description: Yup.string().required('Please input item description')
+  },
+  []
+);
 
 const ModalCreateBitItem = props => {
   const { isOpen, handleClose, onRefresh } = props;
@@ -39,10 +44,11 @@ const ModalCreateBitItem = props => {
   };
 
   const renderForm = formikProps => {
+    console.log('~~~~ formikProps', formikProps);
     return (
       <FormikForm>
         <Modal.Header closeButton>
-          <Modal.Title>Update Status</Modal.Title>
+          <Modal.Title>Add Bid Item</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <FormControlFormik name="item_description" label="Item Description" />
