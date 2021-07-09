@@ -55,7 +55,7 @@ export const BidsScreen = props => {
           <Button className="col mx-2" variant="success" onClick={createBitItemModalControl.handleOpen}>
             Add Bid Item
           </Button>
-          <Button className="col mx-2">Finish and Submit</Button>
+          {/* <Button className="col mx-2">Finish and Submit</Button> */}
         </Card.Footer>
       </Card>
       <ModalCreateBidItem onRefresh={refreshWorkOrderBids} {...createBitItemModalControl} />
