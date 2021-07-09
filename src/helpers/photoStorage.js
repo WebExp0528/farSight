@@ -106,7 +106,7 @@ class PhotoStorage {
    * @param {Photo} data
    */
   genId = data => {
-    return `${data.uuid}`;
+    return `${data.imageLabel}_${data.uuid}`;
   };
 
   dropInstance = () => this._storage.dropInstance();
