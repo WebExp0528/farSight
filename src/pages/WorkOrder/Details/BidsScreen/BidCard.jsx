@@ -6,7 +6,7 @@ import { useIsOpenControls } from 'hooks/useIsOpenControl';
 import ModalDeleteBidItem from './ModalDeleteBidItem';
 const BidCard = ({ item, onRefresh, ...rest }) => {
   const {
-    bid_item_number = '',
+    // bid_item_number = '',
     item_description = '',
     number_of_units = 0,
     total_price = 0,

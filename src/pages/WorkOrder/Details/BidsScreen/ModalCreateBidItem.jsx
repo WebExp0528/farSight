@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 
 import { useRedux } from '@redux';
 import { create as createBid } from '@redux/workOrderBids/actions';
-import { ButtonLoading, FormControlFormik } from 'components';
+import { ButtonLoading, FormControlFormik, InputUSDFormik } from 'components';
 
 import { getWonID } from './../helper';
 import { withRouter } from 'react-router';
@@ -17,7 +17,9 @@ import { withRouter } from 'react-router';
  */
 const validationSchema = Yup.object().shape(
   {
-    item_description: Yup.string().required('Please input item description')
+    item_description: Yup.string().required('Please input item description'),
+    usd_unit_price: Yup.number().min(1, 'Must be greater than 0'),
+    number_of_units: Yup.number().min(1, 'Must be greater than 0')
   },
   []
 );
@@ -31,8 +33,8 @@ const ModalCreateBitItem = props => {
   const initialValues = {
     bid_item_number: 'new',
     item_description: '',
-    usd_unit_price: 0,
-    number_of_units: 0,
+    usd_unit_price: 1,
+    number_of_units: 1,
     unit_of_measure: 'EA',
     status: ''
   };
@@ -44,14 +46,17 @@ const ModalCreateBitItem = props => {
   };
 
   const renderForm = formikProps => {
-    console.log('~~~~ formikProps', formikProps);
     return (
       <FormikForm>
         <Modal.Header closeButton>
           <Modal.Title>Add Bid Item</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FormControlFormik name="item_description" label="Item Description" />
+          <FormControlFormik
+            name="item_description"
+            placeholder="Enter description of the work or item..."
+            label="Item Description"
+          />
           <FormControlFormik label="Quantity" type="number" name="number_of_units" />
           <FormControlFormik label="Unit of Measure" as="select" name="unit_of_measure">
             <option>EA</option>
@@ -63,7 +68,7 @@ const ModalCreateBitItem = props => {
             <option>SQ</option>
             <option>GAL</option>
           </FormControlFormik>
-          <FormControlFormik label="Price Per Unit" type="number" name="usd_unit_price" />
+          <InputUSDFormik label="Price Per Unit" type="number" name="usd_unit_price" />
           <ButtonLoading
             variant="primary"
             type="submit"
