@@ -22,7 +22,7 @@ const NS_FS_API = process.env.NS_FS_API;
 
 app.use(
   cors({
-    origin: process.env.NODE_ENV === 'development' ? ['http://localhost:3000', 'http://192.168.1.232:3000'] : true,
+    origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : true,
     credentials: true,
     exposedHeaders: 'X-VENDOR-NAME'
   })
