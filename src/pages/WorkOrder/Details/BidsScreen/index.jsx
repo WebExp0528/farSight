@@ -15,6 +15,7 @@ export const BidsScreen = props => {
   const wonId = getWonID(props);
 
   const createBitItemModalControl = useIsOpenControls();
+
   const d = useDispatch();
   const workOrderBidsState = useRedux('workOrderBids');
 
@@ -33,6 +34,7 @@ export const BidsScreen = props => {
     totalPrice += item.total_price;
     return item;
   });
+  let currentItem = {};
   return (
     <React.Fragment>
       <Card className="border border-primary">
@@ -42,7 +44,7 @@ export const BidsScreen = props => {
         </Card.Header>
         <Card.Body>
           {bidsData.map((item, index) => {
-            return <BidCard key={index} item={{ ...item }} />;
+            return <BidCard key={index} item={item} />;
           })}
         </Card.Body>
         <Card.Footer className="d-flex flex-row">
