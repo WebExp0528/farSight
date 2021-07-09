@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import cls from './bids-screen.module.scss';
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
 import ModalDeleteBidItem from './ModalDeleteBidItem';
-const BidCard = ({ item, ...rest }) => {
+const BidCard = ({ item, onRefresh, ...rest }) => {
   const {
     bid_item_number = '',
     item_description = '',
@@ -13,8 +13,9 @@ const BidCard = ({ item, ...rest }) => {
     unit_of_measure = '',
     usd_unit_price = 0
   } = item || {};
+
   const deleteBidItemModalControl = useIsOpenControls();
-  deleteBidItemModalControl.item = item;
+
   return (
     <React.Fragment>
       <div className={classnames('d-flex flex-column p-2', cls.bidCardWrapper)} {...rest}>
@@ -27,7 +28,7 @@ const BidCard = ({ item, ...rest }) => {
         </div>
       </div>
       <br />
-      <ModalDeleteBidItem {...deleteBidItemModalControl} />
+      <ModalDeleteBidItem onRefresh={onRefresh} item={item} {...deleteBidItemModalControl} />
     </React.Fragment>
   );
 };

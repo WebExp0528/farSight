@@ -20,8 +20,12 @@ export const BidsScreen = props => {
   const workOrderBidsState = useRedux('workOrderBids');
 
   React.useEffect(() => {
-    d(getWorkOrderBids(wonId));
+    refreshWorkOrderBids();
   }, [wonId]);
+
+  const refreshWorkOrderBids = () => {
+    d(getWorkOrderBids(wonId));
+  };
 
   if (useReduxLoading('workOrderBids')) {
     return <ContentLoader>Loading Bid Items...</ContentLoader>;
@@ -34,7 +38,7 @@ export const BidsScreen = props => {
     totalPrice += item.total_price;
     return item;
   });
-  let currentItem = {};
+
   return (
     <React.Fragment>
       <Card className="border border-primary">
@@ -44,7 +48,7 @@ export const BidsScreen = props => {
         </Card.Header>
         <Card.Body>
           {bidsData.map((item, index) => {
-            return <BidCard key={index} item={item} />;
+            return <BidCard key={index} item={item} onRefresh={refreshWorkOrderBids} />;
           })}
         </Card.Body>
         <Card.Footer className="d-flex flex-row">
@@ -54,7 +58,7 @@ export const BidsScreen = props => {
           <Button className="col mx-2">Finish and Submit</Button>
         </Card.Footer>
       </Card>
-      <ModalCreateBidItem {...createBitItemModalControl} />
+      <ModalCreateBidItem onRefresh={refreshWorkOrderBids} {...createBitItemModalControl} />
     </React.Fragment>
   );
 };

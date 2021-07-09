@@ -30,12 +30,10 @@ export const cancel =
   (id, bidItem) =>
   ({ axios }) => ({
     type: ACTION_TYPES.DELETE,
-    payload: axios
-      .request({
-        url: `/api/work_order/${id}/bid/${bidItem.bid_item_number}`,
-        method: 'delete'
-      })
-      .then(res => {
-        return res.data;
-      })
+    payload: axios({
+      url: `/api/work_order/${id}/bid/${bidItem.bid_item_number}`,
+      method: 'delete'
+    }).then(res => {
+      return res.data;
+    })
   });
