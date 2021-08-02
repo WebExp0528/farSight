@@ -13,7 +13,7 @@ import { getItemStatus, getItemStatusBadgeClass } from '../helper';
 
 import cls from './modal-update-status.module.scss';
 
-const ModalUpdateStatus = ({ isOpen, handleClose, won, updateStatusAction, getWorkOrderDetailsAction }) => {
+export const ModalUpdateStatusBase = ({ isOpen, handleClose, won, updateStatusAction, getWorkOrderDetailsAction }) => {
   const wordOrderDetailState = useRedux('workOrderDetail');
 
   const initialValues = {
@@ -28,10 +28,8 @@ const ModalUpdateStatus = ({ isOpen, handleClose, won, updateStatusAction, getWo
       delay_reason: 'Not Delayed',
       order_status: 'On Time'
     });
-
-    await getWorkOrderDetailsAction(won.won);
-
     handleClose();
+    await getWorkOrderDetailsAction(won.won);
   };
 
   const handleValidDate = current => {
@@ -89,5 +87,5 @@ const ModalUpdateStatus = ({ isOpen, handleClose, won, updateStatusAction, getWo
 };
 
 export default connect(null, { updateStatusAction: updateStatus, getWorkOrderDetailsAction: getWorkOrderDetails })(
-  ModalUpdateStatus
+  ModalUpdateStatusBase
 );
