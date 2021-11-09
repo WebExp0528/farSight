@@ -111,6 +111,12 @@ class ImageResizer {
     //}
 
     let imageData = canvas.toDataURL(config.mimeType, config.quality);
+    /*CLEAR CANVAS AND RESIZE TO 0,0 to free memory*/
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.width = 0;
+    canvas.height = 0;
+    canvas = null;
+    this.canvas = null;
     if (typeof config.onScale === 'function') config.onScale(imageData);
     return this.dataURIToBlob(imageData);
   };

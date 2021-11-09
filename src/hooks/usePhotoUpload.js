@@ -4,7 +4,7 @@ import { useRedux } from '@redux';
 // import { uploadPhoto } from '@redux/uploadPhotos/actions';
 import { createPhotoStorageInstance } from 'helpers/photoStorage';
 
-import { removePhotoMeta, uploadingPhotos } from '@redux/photosMeta/actions';
+import { removePhotoMeta, uploadedPhotos } from '@redux/photosMeta/actions';
 
 export const usePhotoUpload = () => {
   const photosMeta = useRedux('photosMeta'); //@ts-ignore
@@ -25,7 +25,7 @@ export const usePhotoUpload = () => {
   };
 
   const uploading = (key, result) => {
-    d(uploadingPhotos(key, result));
+    d(uploadedPhotos(key, result));
   };
 
   const createUploadInstance = wonId => {
@@ -41,7 +41,7 @@ export const usePhotoUpload = () => {
     const upload = async () => {
       try {
         Object.keys(photosMeta).forEach(wonId => {
-          if (Object.keys(uploadInstances).includes(wonId) || !photosMeta[wonId]?.total) {
+          if (Object.keys(uploadInstances).includes(wonId) || photosMeta[wonId]?.isResizing) {
             return;
           }
           createUploadInstance(wonId);

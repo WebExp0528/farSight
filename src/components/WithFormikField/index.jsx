@@ -21,9 +21,16 @@ export function withFormikField(defaultName = '') {
       const [field, meta] = useField(name);
 
       return (
-        <Form.Group>
+        <Form.Group className="my-2">
           {label && <Form.Label {...labelProps}>{label}</Form.Label>}
-          <Component name={name} value={field.value} onChange={field.onChange} onBlur={field.onBlur} {...rest} />
+          <Component
+            name={name}
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+            isInvalid={meta.touched && meta.error}
+            {...rest}
+          />
           {meta.touched && meta.error && (
             <Form.Control.Feedback type={helperType} {...helperProps}>
               {meta.error}

@@ -9,6 +9,7 @@ import workOrderBids from './workOrderBids';
 import workOrderPhotos from './workOrderPhotos';
 import uploadPhotos from './uploadPhotos';
 import photosMeta from './photosMeta';
+import user from './user';
 
 const {
   toasts: _initToast, // do not reset toast but the rest
@@ -28,7 +29,8 @@ const createAppReducer = initialState => {
     workOrderBids,
     workOrderPhotos,
     uploadPhotos,
-    photosMeta
+    photosMeta,
+    user
   });
 
   return (state = initialState, action) => {

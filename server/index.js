@@ -20,7 +20,13 @@ const NS_FS_API = process.env.NS_FS_API;
 
 //const NS_FS_API = 'http://172.21.32.1:5000'; //local testing only
 
-app.use(cors({ origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : true, credentials: true }));
+app.use(
+  cors({
+    origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : true,
+    credentials: true,
+    exposedHeaders: 'X-VENDOR-NAME'
+  })
+);
 /* -------------------------------------------------------------------------- */
 /*                   Setup Test Session for development mode                  */
 /* -------------------------------------------------------------------------- */
@@ -36,25 +42,6 @@ if (process.env.NODE_ENV === 'development') {
       };
     }
     return next();
-  });
-} else {
-  /* -------------------------------------------------------------------------- */
-  /*                            Register Demo API key                           */
-  /* -------------------------------------------------------------------------- */
-
-  app.use('/demo', function (req, res, next) {
-    if (req.session && req.session.apiKey) {
-      return next(); //ALREADY HAVE A SESSION DON'T START A DEMO
-    }
-    req.session.apiKey = process.env.DEMO_API_KEY;
-    console.warn('STARTING DEMO', req.session);
-    req.session.save();
-
-    return res.send({ message: 'Set Test Key' });
-  });
-
-  app.use('/error', function (req, res, next) {
-    res.send('Unexpected Response');
   });
 }
 /* -------------------------------------------------------------------------- */
@@ -137,7 +124,7 @@ app.use('/auth/magicLink/:token', async function (req, res, next) {
           return response.json();
         })
         .catch(err => {
-          return res.status(500).send(err);
+          res.status(500).send(err);
         });
       if (data) {
         console.warn('FETCHED API KEY');
@@ -200,7 +187,7 @@ app.use(async function (req, res, next) {
     }
   } else {
     console.warn('NO SESSION AT ALL');
-    return res.status(401).send('Missing Session');
+    return res.status(500).send('Missing Session');
   }
 });
 

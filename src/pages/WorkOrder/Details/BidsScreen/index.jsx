@@ -15,12 +15,17 @@ export const BidsScreen = props => {
   const wonId = getWonID(props);
 
   const createBitItemModalControl = useIsOpenControls();
+
   const d = useDispatch();
   const workOrderBidsState = useRedux('workOrderBids');
 
   React.useEffect(() => {
-    d(getWorkOrderBids(wonId));
+    refreshWorkOrderBids();
   }, [wonId]);
+
+  const refreshWorkOrderBids = () => {
+    d(getWorkOrderBids(wonId));
+  };
 
   if (useReduxLoading('workOrderBids')) {
     return <ContentLoader>Loading Bid Items...</ContentLoader>;
@@ -33,6 +38,7 @@ export const BidsScreen = props => {
     totalPrice += item.total_price;
     return item;
   });
+
   return (
     <React.Fragment>
       <Card className="border border-primary">
@@ -42,17 +48,17 @@ export const BidsScreen = props => {
         </Card.Header>
         <Card.Body>
           {bidsData.map((item, index) => {
-            return <BidCard key={index} item={{ ...item }} />;
+            return <BidCard key={index} item={item} onRefresh={refreshWorkOrderBids} />;
           })}
         </Card.Body>
         <Card.Footer className="d-flex flex-row">
           <Button className="col mx-2" variant="success" onClick={createBitItemModalControl.handleOpen}>
             Add Bid Item
           </Button>
-          <Button className="col mx-2">Finish and Submit</Button>
+          {/* <Button className="col mx-2">Finish and Submit</Button> */}
         </Card.Footer>
       </Card>
-      <ModalCreateBidItem {...createBitItemModalControl} />
+      <ModalCreateBidItem onRefresh={refreshWorkOrderBids} {...createBitItemModalControl} />
     </React.Fragment>
   );
 };

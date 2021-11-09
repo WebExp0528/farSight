@@ -45,14 +45,15 @@ const BreadCrumb = ({ location }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
       <NavLink to="/">
-        <Button>
-          <FontAwesomeIcon icon={['fas', 'home']} />
+        <Button variant="primary" size="lg" style={{ fontSize: '1rem' }}>
+          <FontAwesomeIcon icon={['fas', 'home']} size="lg" />
         </Button>
       </NavLink>
+      &nbsp;
       {path && (
         <NavLink to={path}>
-          <Button>
-            <FontAwesomeIcon icon={['fas', 'arrow-alt-circle-left']} style={{ color: 'white' }} />
+          <Button variant="primary" size="lg" style={{ fontSize: '1rem' }}>
+            <FontAwesomeIcon icon={['fas', 'arrow-alt-circle-left']} size="lg" />
           </Button>
         </NavLink>
       )}

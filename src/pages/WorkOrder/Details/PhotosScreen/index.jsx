@@ -8,13 +8,13 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { useRedux, useReduxLoading } from '@redux';
 import { get as getPhotosAction } from '@redux/workOrderPhotos/actions';
 import { set as setPreUploadPhotos } from '@redux/uploadPhotos/actions';
-import { setTotalSavedPhotos } from '@redux/photosMeta/actions';
-import ContentLoader from 'components/ContentLoader';
+import { startResize, endResize, resizedPhoto } from '@redux/photosMeta/actions';
+import { ContentLoader, ButtonLoading, NavigationBlocker } from 'components';
 
 import { useIsOpenControls } from 'hooks/useIsOpenControl';
+
 import { createPhotoStorageInstance } from 'helpers/photoStorage';
 import PreviewImages from './PreviewImages';
-import ButtonLoading from 'components/ButtonLoading';
 import { UploadProgressBar } from 'pages/WorkOrder/components';
 
 const getBGByCategory = category => {
@@ -65,6 +65,7 @@ const PhotoScreen = props => {
   const handleResizeCallback = status => {
     setResizedCount(value => {
       if (status) {
+        d(resizedPhoto(wonId));
         return {
           ...value,
           success: value.success + 1
@@ -80,9 +81,10 @@ const PhotoScreen = props => {
 
   const handleSubmitFile = async e => {
     e.preventDefault();
+
     setStoring(true);
+    d(startResize(wonId));
     const photoStorageInstance = createPhotoStorageInstance(wonId);
-    d(setTotalSavedPhotos(wonId, 0));
 
     // Split files
     let myfiles = [...files];
@@ -95,11 +97,12 @@ const PhotoScreen = props => {
 
     try {
       await Promise.all(chunks.map(c => photoStorageInstance.setPhotos(c, category, handleResizeCallback)));
-      const savedPhotoCount = await photoStorageInstance.getLength();
-      setStoring(false);
+
       setResizedCount(ResizedCountInitialValue);
       setFiles([]);
-      d(setTotalSavedPhotos(wonId, savedPhotoCount));
+
+      setStoring(false);
+      d(endResize(wonId));
     } catch (error) {
       /* eslint-disable-next-line */
       console.log(`[Error in handleSubmitFile] =>`, error);
@@ -112,7 +115,9 @@ const PhotoScreen = props => {
   };
 
   const handleUploadingCompleted = () => {
-    window.location.reload();
+    setTimeout(() => {
+      getPhotos();
+    }, 1000);
   };
 
   const uploadedImages = workOrderPhotosState.data.filter(item => item.label === category);
@@ -155,6 +160,7 @@ const PhotoScreen = props => {
 
   return (
     <React.Fragment>
+      <NavigationBlocker navigationBlocked={isStoring} />
       <UploadProgressBar wonId={wonId} onCompleted={handleUploadingCompleted} />
       <Form ref={uploadFormRef} name="before" className="form">
         <Form.Group hidden controlId="fileInput">

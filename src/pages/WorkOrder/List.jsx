@@ -2,33 +2,55 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container, Form, InputGroup } from 'react-bootstrap';
+import { debounce } from 'lodash';
 
 import { get as getWorkOrders } from '@redux/workOrders/actions';
 import { ContentLoader } from 'components';
 import { ListCard } from './components';
+import { useRedux } from '@redux';
 
 export const WorkOrderList = ({ workOrdersState, getWorkOrders }) => {
-  const [filter, setFilter] = React.useState();
+  const { data: workOrders = [] } = workOrdersState;
+
+  const userState = useRedux('user');
+  const [filter, setFilter] = React.useState('');
+  const [filteredWorkOrders, setFilteredWorkOrders] = React.useState([]);
 
   React.useEffect(() => {
     getWorkOrders();
   }, []);
 
-  const handleChangeFilter = React.useCallback(
-    event => {
-      setFilter((event?.target?.value || '').toLowerCase());
-    },
-    [setFilter]
-  );
-
-  const { data: workOrders = [] } = workOrdersState;
-
-  const filteredData = workOrders.filter(item => {
-    if (!filter) {
-      return true;
+  React.useEffect(() => {
+    if (
+      !workOrdersState.isLoading ||
+      !workOrdersState.isUpdating ||
+      !workOrdersState.isDeleting ||
+      !workOrdersState.isCreating
+    ) {
+      filterWorkOrders(filter);
     }
-    return Object.keys(item).some(key => typeof item[key] === 'string' && item[key].toLowerCase().indexOf(filter) >= 0);
-  });
+  }, [workOrders, filter]);
+
+  const filterWorkOrders = React.useCallback(keyword => {
+    const tmpFiltered = workOrders.filter(item => {
+      if (!keyword) {
+        return true;
+      }
+      return Object.keys(item).some(
+        key => typeof item[key] === 'string' && item[key].toLowerCase().indexOf(keyword) >= 0
+      );
+    });
+    setFilteredWorkOrders(tmpFiltered);
+  }, []);
+
+  const handleChangeFilter = debounce(
+    event => {
+      setFilter(event.target.value);
+      filterWorkOrders((event?.target?.value || '').toLowerCase());
+    },
+    250,
+    { leading: false, maxWait: 3000, trailing: true }
+  );
 
   return (
     <div>
@@ -41,7 +63,6 @@ export const WorkOrderList = ({ workOrdersState, getWorkOrders }) => {
             aria-describedby="search-work-order"
             type="text"
             placeholder="Search Work Orders..."
-            value={filter}
             onChange={handleChangeFilter}
           />
         </InputGroup>
@@ -55,15 +76,23 @@ export const WorkOrderList = ({ workOrdersState, getWorkOrders }) => {
               <div
                 style={{
                   padding: '0.5em',
-                  fontSize: 17,
+                  fontSize: '12px',
                   color: 'grey',
                   textAlign: 'center'
                 }}
               >
-                Select a work order to get started
+                <p style={{ marginBottom: '3px' }}>
+                  Hello&nbsp;
+                  <span className="link-primary">{userState?.name || ''}</span>, You&nbsp;are&nbsp;viewing&nbsp;
+                  <span className="link-primary">
+                    {filteredWorkOrders.length}&nbsp;of&nbsp;{(workOrdersState.data || []).length}
+                  </span>
+                  &nbsp;open&nbsp;work&nbsp;orders.
+                </p>
+                <p style={{ marginBottom: '3px' }}>Select a work order to get started</p>
               </div>
-              {filteredData.map((item, index) => (
-                <ListCard key={index} item={item} />
+              {filteredWorkOrders.map((item, index) => (
+                <ListCard key={`${item.wonId}_${index}`} item={item} />
               ))}
             </React.Fragment>
           )}

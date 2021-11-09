@@ -4,7 +4,7 @@ import { Row, Col, Image } from 'react-bootstrap';
 import { Pagination } from 'components';
 import { readFileAsBase64 } from 'helpers/readFile';
 
-const Default_Size = 10;
+const Default_Size = 12;
 
 const PreviewImages = props => {
   const { data: imageData, type = 'url' } = props;
@@ -14,7 +14,7 @@ const PreviewImages = props => {
     const sliceIndex = Default_Size * page;
 
     if (type === 'url') {
-      setPreviewImages(imageData.slice(sliceIndex - 10, sliceIndex));
+      setPreviewImages(imageData.slice(sliceIndex - Default_Size, sliceIndex));
     } else {
       setPreviewImages(
         Array(Default_Size)
@@ -26,7 +26,7 @@ const PreviewImages = props => {
             };
           })
       );
-      imageData.slice(sliceIndex - 10, sliceIndex).map((file, index) => {
+      imageData.slice(sliceIndex - Default_Size, sliceIndex).map((file, index) => {
         readFileAsBase64(file).then(result => {
           let tmp = [...previewImages];
           tmp[index] = {

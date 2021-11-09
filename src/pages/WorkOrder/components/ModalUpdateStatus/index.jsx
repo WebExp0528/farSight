@@ -1,24 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal } from 'react-bootstrap';
+import { Modal, Badge } from 'react-bootstrap';
 import { Formik, Form as FormikForm } from 'formik';
-import DateTime from 'react-datetime';
 import _ from 'lodash';
+import moment from 'moment';
 
 import { updateStatus, get as getWorkOrderDetails } from '@redux/workOrderDetail/actions';
-import { FormControlFormik, withFormikField, ButtonLoading } from 'components';
+import { FormControlFormik, ButtonLoading, DateTimeFormik } from 'components';
 import { validationSchema } from './validationSchema';
+import { useRedux } from '@redux';
+import { getItemStatus, getItemStatusBadgeClass } from '../helper';
 
 import cls from './modal-update-status.module.scss';
-import { useRedux } from '@redux';
 
-const DateTimeFormik = withFormikField('')(DateTime);
-
-const ModalUpdateStatus = ({ isOpen, handleClose, won, updateStatusAction, getWorkOrderDetailsAction }) => {
+export const ModalUpdateStatusBase = ({ isOpen, handleClose, won, updateStatusAction, getWorkOrderDetailsAction }) => {
   const wordOrderDetailState = useRedux('workOrderDetail');
 
   const initialValues = {
-    expected_completion_date: '',
+    expected_completion_date: moment(),
     notes: ''
   };
 
@@ -29,14 +28,23 @@ const ModalUpdateStatus = ({ isOpen, handleClose, won, updateStatusAction, getWo
       delay_reason: 'Not Delayed',
       order_status: 'On Time'
     });
-
-    await getWorkOrderDetailsAction(won.won);
-
     handleClose();
+    await getWorkOrderDetailsAction(won.won);
+  };
+
+  const handleValidDate = current => {
+    const min = moment().startOf('day');
+    return current.isSame(min) || current.isAfter(min);
   };
 
   const renderForm = formikProps => {
     const handleChange = name => value => {
+      if (name === 'expected_completion_date') {
+        const min = moment();
+        if (!(value.isSame(min) || value.isAfter(min))) {
+          return;
+        }
+      }
       const newValues = _.set(formikProps.values, name, value);
       formikProps.setValues(newValues);
       formikProps.setTouched(_.set(formikProps.touched, name, true));
@@ -45,13 +53,18 @@ const ModalUpdateStatus = ({ isOpen, handleClose, won, updateStatusAction, getWo
     return (
       <FormikForm>
         <Modal.Header className={cls.modalHeader} closeButton>
-          <Modal.Title>Update Status</Modal.Title>
+          <Modal.Title>
+            Update Status
+            <Badge bg={getItemStatusBadgeClass(won)}>{getItemStatus(won)}</Badge>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body className={cls.modalBody}>
           <DateTimeFormik
             label="Expected Completion Date"
             name="expected_completion_date"
             onChange={handleChange('expected_completion_date')}
+            isValidDate={handleValidDate}
+            closeOnSelect
           />
           <FormControlFormik label="Notes" name="notes" as="textarea" rows={3} />
         </Modal.Body>
@@ -74,5 +87,5 @@ const ModalUpdateStatus = ({ isOpen, handleClose, won, updateStatusAction, getWo
 };
 
 export default connect(null, { updateStatusAction: updateStatus, getWorkOrderDetailsAction: getWorkOrderDetails })(
-  ModalUpdateStatus
+  ModalUpdateStatusBase
 );

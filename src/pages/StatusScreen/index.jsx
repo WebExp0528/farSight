@@ -12,7 +12,7 @@ class StatusScreen extends Component {
     order_status: 'On Time'
   };
   componentDidMount = () => {
-    this.setState((state, props) => {
+    this.setState((_state, props) => {
       return { won: props.won, expected_upload_date: props.dueDate };
     });
   };
@@ -47,14 +47,13 @@ class StatusScreen extends Component {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.ERRORS && data.ERRORS.length > 0) {
           alert(JSON.stringify(data.ERRORS));
           return;
         }
         window.location.reload();
       })
-      .catch(err => console.error(err));
+      .catch(_err => {});
   };
   render() {
     return (

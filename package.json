@@ -56,6 +56,7 @@
     "save": "^2.4.0",
     "semantic-ui-react": "^2.0.3",
     "styled-components": "^5.3.0",
+    "text-to-image": "^4.0.0",
     "uuid": "^8.3.2",
     "yup": "^0.32.9"
   },
@@ -71,19 +72,12 @@
     "lint:fix": "eslint --fix --ext .jsx --ext .js src/.",
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md)\"",
     "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "generate:image": "node utils/image_generator/genTestImages.js"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
@@ -100,15 +94,8 @@
     "prettier": "^2.3.0"
   },
   "lint-staged": {
-    "src/**/*.+(js|jsx)": [
-      "npm run lint:fix"
-    ],
-    "src/**/*.+(json|yml|yaml|css|md)": "npm run format"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "post-merge": "./.husky/post-merge"
-    }
+    "src/**/*.+(js|jsx)": ["npm run lint:fix"],
+    "src/**/*.+(json|yml|yaml|css|md)": "npm run format",
+    "*.{jsx,js}": "eslint --cache --fix"
   }
 }

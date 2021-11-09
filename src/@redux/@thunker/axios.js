@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { set as setUser } from '../user/actions';
+
 /* eslint-disable no-console */
-const axiosClient = ({ _getState, _dispatch }) => {
+const axiosClient = ({ _getState, dispatch }) => {
   /**
    * Create Axios Instance
    */
@@ -23,6 +25,14 @@ const axiosClient = ({ _getState, _dispatch }) => {
     response => {
       /* ------------------------------ API Call End ------------------------------ */
       // console.log('[===== Ended API Call =====]');
+
+      const { headers = {} } = response;
+      const userName = headers['x-vendor-name'];
+      dispatch(
+        setUser({
+          name: userName
+        })
+      );
       return response;
     },
     error => {
